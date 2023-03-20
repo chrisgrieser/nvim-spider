@@ -73,6 +73,13 @@ configured.)
 
   **Note** vim’s `iskeyword` option is ignored by this plugin.
 
+TEXT OBJECT ~
+
+For an alternative `iw` text object that considers CamelCase word parts, check
+out the "subword" text object of nvim-various-textobjs
+<https://github.com/chrisgrieser/nvim-various-textobjs>.
+
+
 INSTALLATION                                 *spider-nvim-spider-installation*
 
 >lua
