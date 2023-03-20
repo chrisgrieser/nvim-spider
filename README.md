@@ -7,6 +7,7 @@ Considers camelCase and skips insignificant punctuation characters.
 - [Features](#features)
 	- [CamelCaseMotion](#camelcasemotion)
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
+	- [Text Object](#text-object)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Limitations](#limitations)
@@ -42,7 +43,7 @@ if foo:find("%d") then print("foo has digit") end
 -- ^   ^   ^      ^    ^      ^   ^   ^       ^   -> 9
 ```
 
-Insignificant punctuations like `:` or `")` are skipped. `("%`, however, is not skipped, since it has the threshold of 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
+Insignificant punctuations like `:` or `")` are skipped. `("%`, however, is not skipped, since it has 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
 
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
@@ -76,9 +77,7 @@ vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") en
 ## Configuration
 
 ```lua
--- Default values
-
--- = 2 or fewer consecutive punctuation characters are ignored
+-- default
 vim.g.spider_minimum_punctuation = 3
 
 -- set to 1 to not skip any punctuation
@@ -88,7 +87,7 @@ vim.g.spider_minimum_punctuation = 1
 ## Limitations
 - Counts are not yet implemented.
 - Movements to the next line are not yet implemented.
-- Dot repeats are not implemented.[Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900)
+- Dot repeats are not implemented. [Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900)
 
 ## Credits
 __Thanks__  
