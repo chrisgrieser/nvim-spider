@@ -1,0 +1,16 @@
+name: Linting and style checking
+
+on: [pull_request]
+
+jobs:
+  stylua:
+    name: stylua
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: JohnnyMorganz/stylua-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          # CLI arguments
+          args: --color always --check lua/
