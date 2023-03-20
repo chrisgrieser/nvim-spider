@@ -21,6 +21,7 @@ Considers camelCase and skips insignificant punctuation characters.
 - |spider-features|
     - |spider-camelcasemotion|
     - |spider-skipping-insignificant-punctuation|
+    - |spider-text-object|
 - |spider-installation|
 - |spider-configuration|
 - |spider-limitations|
@@ -66,9 +67,8 @@ keypresses needed.
 <
 
 Insignificant punctuations like `:` or `")` are skipped. `("%`, however, is not
-skipped, since it has the threshold of 3 consecutive punctuation characters.
-(The minimum number of punctuation characters to not be skipped can be
-configured.)
+skipped, since it has 3 consecutive punctuation characters. (The minimum number
+of punctuation characters to not be skipped can be configured.)
 
 
   **Note** vim’s `iskeyword` option is ignored by this plugin.
@@ -109,9 +109,7 @@ this plugin’s version of them.
 CONFIGURATION                               *spider-nvim-spider-configuration*
 
 >lua
-    -- Default values
-    
-    -- = 2 or fewer consecutive punctuation characters are ignored
+    -- default
     vim.g.spider_minimum_punctuation = 3
     
     -- set to 1 to not skip any punctuation
@@ -124,7 +122,7 @@ LIMITATIONS                                   *spider-nvim-spider-limitations*
 
 - Counts are not yet implemented.
 - Movements to the next line are not yet implemented.
-- Dot repeats are not implemented.Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>
+- Dot repeats are not implemented. Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>
 
 
 CREDITS                                           *spider-nvim-spider-credits*
