@@ -42,13 +42,13 @@ if foo:find("%d") then print("foo has digit") end
 -- ^   ^   ^      ^    ^      ^   ^   ^       ^   -> 9
 ```
 
-Insignificant punctuations like `:` or `")` are skipped. `("%`, however,
-is not skipped, since it has the threshold of 3 consecutive punctuation characters.
-(The minimum number of punctuation characters to not be skipped can be 
-configured.)
+Insignificant punctuations like `:` or `")` are skipped. `("%`, however, is not skipped, since it has the threshold of 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
 
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
+
+### Text Object
+For an alternative `iw` text object that considers CamelCase word parts, check out the "subword" text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 ## Installation
 
