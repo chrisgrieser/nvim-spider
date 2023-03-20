@@ -17,7 +17,7 @@ end
 ---@return number|nil returns nil of all numbers are nil, and also sends notification
 local function minimum(pos1, pos2, pos3)
 	if not (pos1 or pos2 or pos3) then 
-		vim.notify("None found in this line.", vim.log.levels.WARN)
+		-- vim.notify("None found in this line.", vim.log.levels.WARN)
 		return nil
 	end
 	pos1 = pos1 or math.huge -- math.huge will never be the smallest number
