@@ -1,7 +1,7 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. 
 
-Considers camelCase and also skip insignificant punctuation characters.
+Considers camelCase and skips insignificant punctuation characters.
 
 <!--toc:start-->
 - [Features](#features)
