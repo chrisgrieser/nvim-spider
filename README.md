@@ -1,7 +1,5 @@
 # nvim-spider
-Use the `w`, `e`, `b` motions like a spider. 
-
-Considers camelCase and skips insignificant punctuation characters.
+Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
 
 <!--toc:start-->
 - [Features](#features)
@@ -35,15 +33,15 @@ This speeds up the movement across the line by reducing the number of keypresses
 
 ```lua
 -- positions vim's `w` will move to
-if foo:find("%d") then print("foo has digit") end
--- ^  ^^   ^  ^^  ^    ^    ^ ^   ^   ^    ^  ^   -> 14
+if foo:find("%d") then print("[foo] has" .. "digit") end
+-- ^  ^^   ^  ^^  ^    ^    ^  ^    ^  ^ ^  ^^    ^  ^   -> 17
 
 -- positions spider's `w` will move to
-if foo:find("%d") then print("foo has digit") end
--- ^   ^   ^      ^    ^      ^   ^   ^       ^   -> 9
+if foo:find("%d") then print("[foo] has" .. "digit") end
+-- ^   ^   ^  ^   ^    ^    ^  ^    ^        ^       ^   -> 11
 ```
 
-Insignificant punctuations like `:` or `")` are skipped. `("%`, however, is not skipped, since it has 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
+Insignificant punctuation like `:` or `")` are skipped. `("%` or `("[`, however, are not skipped, since they consist of 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
 
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
@@ -55,7 +53,9 @@ For an alternative `iw` text object that considers CamelCase word parts, check o
 
 ```lua
 -- packer
-use { "chrisgrieser/nvim-spider" },
+use { 
+	"chrisgrieser/nvim-spider" 
+}
 
 -- lazy.nvim
 {
