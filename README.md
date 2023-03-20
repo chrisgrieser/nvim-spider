@@ -5,6 +5,8 @@ Considers camelCase and also skip insignificant punctuation characters.
 
 <!--toc:start-->
 - [Features](#features)
+	- [CamelCaseMotion](#camelcasemotion)
+	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Limitations](#limitations)
@@ -44,7 +46,6 @@ Insignificant punctuations like `:` or `")` are skipped. `("%`, however,
 is not skipped, since it has the threshold of 3 consecutive punctuation characters.
 (The minimum number of punctuation characters to not be skipped can be 
 configured.)
-
 
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
@@ -92,7 +93,6 @@ vim.g.spider_minimum_punctuation = 1
 ## Credits
 __Thanks__  
 This is basically a port of the [CamelCaseMotion](https://github.com/bkad/CamelCaseMotion), written in lua, and with some minor improvements.
-
 
 <!-- vale Google.FirstPerson = NO -->
 __About Me__  
