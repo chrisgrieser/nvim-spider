@@ -13,6 +13,7 @@ jobs:
         uses: kdheepak/panvimdoc@main
         with:
           vimdoc: spider
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto generate docs"
