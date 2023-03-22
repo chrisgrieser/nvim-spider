@@ -13,8 +13,7 @@ end
 ---@param startFrom number position to start looking from
 ---@param whichEnd? string start|end whether to return the start or the end of
 ---where the pattern was found, defaults to "start"
----@param reversed? any whether the input string is reversed, meaning that the
----start should be reversed as well patterns have to be reversed as well
+---@param reversed? any whether the search should take place backwards
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function nextWordPosition(str, startFrom, whichEnd, reversed)
 	-- INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`
@@ -27,7 +26,7 @@ local function nextWordPosition(str, startFrom, whichEnd, reversed)
 		-- (the other patterns are "symmetric" and therefore do not require reversal)
 		lowerWord = "[%l%d]+%u?"
 		-- cut string to before cursor as `:find` cannot take an end location
-		str = str:sub(1, startFrom)
+		str = str:sub(1, startFrom):reverse()
 		startFrom = 1
 	end
 
@@ -74,24 +73,23 @@ function M.motion(key)
 	local target
 	if key == "e" then
 		col = col + 2 -- 1 for next position, 1 for lua's 1-based indexing
-		local endOfWord = nextWordPosition(line, col, "end")
-		target = endOfWord
+		target = nextWordPosition(line, col, "end")
 	elseif key == "w" then
 		col = col + 1 -- one less, because the endOfWord cursor is standing on should be found
 		local endOfWord = nextWordPosition(line, col, "end")
 		if not endOfWord then return end
 		endOfWord = endOfWord + 1 -- next position
-		local startOfNextWord = nextWordPosition(line, endOfWord, "start")
-		target = startOfNextWord
+		target = nextWordPosition(line, endOfWord, "start")
 	elseif key == "b" then
-		local startOfWord = nextWordPosition(line:reverse(), col, "end", "reversed")
-		target = startOfWord
+		target = nextWordPosition(line, col, "end", "reversed")
 	end
 
 	-- move to new location
 	if not target then return end -- not found in this line
-	print(vim.v.event)
-	target = target - 1 -- lua string indices different from vim columns
+
+	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
+	if not isOperatorPending then target = target - 1 end -- lua string indices different
+
 	vim.api.nvim_win_set_cursor(0, { row, target })
 end
 
