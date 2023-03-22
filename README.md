@@ -1,14 +1,16 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
 
+> __Warning__  
+> This plugin is still WIP and as such missing a few features still. It is also subject to change without warning.
+
 <!--toc:start-->
 - [Features](#features)
 	- [CamelCaseMotion](#camelcasemotion)
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 	- [Text Object](#text-object)
 - [Installation](#installation)
-- [Configuration](#configuration)
-- [Limitations](#limitations)
+- [Roadmap](#roadmap)
 - [Credits](#credits)
 <!--toc:end-->
 
@@ -25,23 +27,29 @@ local myVariableName = FOO_BAR_BAZ
 
 -- positions spider's `w` will move to
 local myVariableName = FOO_BAR_BAZ
---    ^ ^       ^      ^   ^   ^
+--    ^ ^       ^    ^ ^   ^   ^
 ```
 
 ### Skipping Insignificant Punctuation
-This speeds up the movement across the line by reducing the number of keypresses needed.
+A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not includes any non-punctuation characters. This speeds up the movement across the line by reducing the number of mostly unnecessary stops.
+
+```lua
+foo == bar
+--  ^    significant punctuation
+
+foo:find("a")
+-- ^    ^  ^  insignificant punctuation
+```
 
 ```lua
 -- positions vim's `w` will move to
-if foo:find("%d") then print("[foo] has" .. "digit") end
--- ^  ^^   ^  ^^  ^    ^    ^  ^    ^  ^ ^  ^^    ^  ^   -> 17
+if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
+-- ^  ^^   ^  ^^  ^   ^   ^  ^   ^    ^    ^  ^  ^ ^  ^ ^  ^  ^ ^  -> 21
 
 -- positions spider's `w` will move to
-if foo:find("%d") then print("[foo] has" .. "digit") end
--- ^   ^   ^  ^   ^    ^    ^  ^    ^        ^       ^   -> 11
+if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
+-- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 ```
-
-Insignificant punctuation like `:` or `")` are skipped. `("%` or `("[`, however, are not skipped, since they consist of 3 consecutive punctuation characters. (The minimum number of punctuation characters to not be skipped can be configured.)
 
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
@@ -53,16 +61,10 @@ For an alternative `iw` text object that considers CamelCase word parts, check o
 
 ```lua
 -- packer
-use { 
-	"chrisgrieser/nvim-spider" 
-}
+use { "chrisgrieser/nvim-spider" }
 
 -- lazy.nvim
-{
-	"chrisgrieser/nvim-spider",
-	lazy = true,
-	init = function() vim.g.spider_minimum_punctuation = 3 end,
-},
+{ "chrisgrieser/nvim-spider" },
 ```
 
 No `.setup()` function is required. No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
@@ -74,20 +76,12 @@ vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") en
 vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
 ```
 
-## Configuration
 
-```lua
--- default
-vim.g.spider_minimum_punctuation = 3
-
--- set to 1 to not skip any punctuation
-vim.g.spider_minimum_punctuation = 1
-```
-
-## Limitations
-- Counts are not yet implemented.
-- Movements to the next line are not yet implemented.
-- Dot repeats are not implemented. [Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900)
+## Roadmap
+- [ ] Counts
+- [ ] Movements to the next/previous line
+- [ ] `ge`
+- [ ] Dot repeats ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
 
 ## Credits
 __Thanks__  

@@ -16,10 +16,7 @@ end
 ---@param pos3 number|nil
 ---@return number|nil returns nil of all numbers are nil, and also sends notification
 local function minimum(pos1, pos2, pos3)
-	if not (pos1 or pos2 or pos3) then 
-		-- vim.notify("None found in this line.", vim.log.levels.WARN)
-		return nil
-	end
+	if not (pos1 or pos2 or pos3) then return nil end
 	pos1 = pos1 or math.huge -- math.huge will never be the smallest number
 	pos2 = pos2 or math.huge
 	pos3 = pos3 or math.huge
@@ -31,14 +28,7 @@ end
 -- PATTERNS
 local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
 local upperWord = "[%u%d][%u%d]+" -- at least two, needed for SCREAMING_SNAKE_CASE
-
----minimum punctuation configurable by user, default is 3
----@return string lua pattern for finding punctuation
-local function getPunctuationPattern()
-	local default = 3
-	local minimum_punctuation = vim.g.spider_minimum_punctuation or default
-	return ("[%p]"):rep(minimum_punctuation) .. "+"
-end
+local punctuation = "%f[^%s]%p+%f[%s]" -- only standalone punctuation
 
 --------------------------------------------------------------------------------
 
@@ -49,7 +39,6 @@ function M.motion(key)
 		vim.notify("Invalid key: " .. key .. "\nOnly w, e, and b are supported.", vim.log.levels.ERROR)
 		return
 	end
-	local punctuation = getPunctuationPattern()
 	local closestPos, lowerPos, upperPos, punctPos
 
 	-- get line content to search
