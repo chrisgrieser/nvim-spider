@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 21
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 22
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -6,8 +6,7 @@ Table of Contents                                   *spider-table-of-contents*
 1. nvim-spider                                            |spider-nvim-spider|
   - Features                                     |spider-nvim-spider-features|
   - Installation                             |spider-nvim-spider-installation|
-  - Configuration                           |spider-nvim-spider-configuration|
-  - Limitations                               |spider-nvim-spider-limitations|
+  - Roadmap                                       |spider-nvim-spider-roadmap|
   - Credits                                       |spider-nvim-spider-credits|
 
 ==============================================================================
@@ -17,13 +16,15 @@ Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips
 insignificant punctuation.
 
 
+  **Warning** This plugin is still WIP and as such missing a few features still.
+  It is also subject to change without warning.
+
 - |spider-features|
     - |spider-camelcasemotion|
     - |spider-skipping-insignificant-punctuation|
     - |spider-text-object|
 - |spider-installation|
-- |spider-configuration|
-- |spider-limitations|
+- |spider-roadmap|
 - |spider-credits|
 
 
@@ -46,29 +47,34 @@ words.
     
     -- positions spider's `w` will move to
     local myVariableName = FOO_BAR_BAZ
-    --    ^ ^       ^      ^   ^   ^
+    --    ^ ^       ^    ^ ^   ^   ^
 <
 
 
 SKIPPING INSIGNIFICANT PUNCTUATION ~
 
-This speeds up the movement across the line by reducing the number of
-keypresses needed.
+A sequence of one or more punctuation characters is considered significant if
+it is surrounded by whitespace and does not includes any non-punctuation
+characters. This speeds up the movement across the line by reducing the number
+of mostly unnecessary stops.
+
+>lua
+    foo == bar
+    --  ^    significant punctuation
+    
+    foo:find("a")
+    -- ^    ^  ^  insignificant punctuation
+<
 
 >lua
     -- positions vim's `w` will move to
-    if foo:find("%d") then print("[foo] has" .. "digit") end
-    -- ^  ^^   ^  ^^  ^    ^    ^  ^    ^  ^ ^  ^^    ^  ^   -> 17
+    if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
+    -- ^  ^^   ^  ^^  ^   ^   ^  ^   ^    ^    ^  ^  ^ ^  ^ ^  ^  ^ ^  -> 21
     
     -- positions spider's `w` will move to
-    if foo:find("%d") then print("[foo] has" .. "digit") end
-    -- ^   ^   ^  ^   ^    ^    ^  ^    ^        ^       ^   -> 11
+    if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
+    -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 <
-
-Insignificant punctuation like `:` or `")` are skipped. `("%` or `("[`,
-however, are not skipped, since they consist of 3 consecutive punctuation
-characters. (The minimum number of punctuation characters to not be skipped can
-be configured.)
 
 
   **Note** vim’s `iskeyword` option is ignored by this plugin.
@@ -84,16 +90,10 @@ INSTALLATION                                 *spider-nvim-spider-installation*
 
 >lua
     -- packer
-    use { 
-        "chrisgrieser/nvim-spider" 
-    }
+    use { "chrisgrieser/nvim-spider" }
     
     -- lazy.nvim
-    {
-        "chrisgrieser/nvim-spider",
-        lazy = true,
-        init = function() vim.g.spider_minimum_punctuation = 3 end,
-    },
+    { "chrisgrieser/nvim-spider" },
 <
 
 No `.setup()` function is required. No keybindings are created by default.
@@ -108,23 +108,13 @@ this plugin’s version of them.
 <
 
 
-CONFIGURATION                               *spider-nvim-spider-configuration*
-
->lua
-    -- default
-    vim.g.spider_minimum_punctuation = 3
-    
-    -- set to 1 to not skip any punctuation
-    vim.g.spider_minimum_punctuation = 1
-<
+ROADMAP                                           *spider-nvim-spider-roadmap*
 
 
-LIMITATIONS                                   *spider-nvim-spider-limitations*
-
-
-- Counts are not yet implemented.
-- Movements to the next line are not yet implemented.
-- Dot repeats are not implemented. Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>
+- ☐ Counts
+- ☐ Movements to the next/previous line
+- ☐ `ge`
+- ☐ Dot repeats (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
 
 
 CREDITS                                           *spider-nvim-spider-credits*
