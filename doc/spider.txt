@@ -96,7 +96,7 @@ INSTALLATION                                 *spider-nvim-spider-installation*
     { "chrisgrieser/nvim-spider" },
 <
 
-No `.setup()` function is required. No keybindings are created by default.
+No `.setup()` function is required, and no keybindings are created by default.
 Below are the mappings to replace the default `w`, `e`, and `b` motions with
 this plugin’s version of them.
 
@@ -113,7 +113,6 @@ ROADMAP                                           *spider-nvim-spider-roadmap*
 
 - ☐ Counts
 - ☐ Movements to the next/previous line
-- ☐ `ge`
 - ☐ Dot repeats (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
 
 
