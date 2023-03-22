@@ -16,8 +16,7 @@ Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips
 insignificant punctuation.
 
 
-  **Warning** This plugin is still WIP and as such missing a few features still.
-  It is also subject to change without warning.
+  **Warning** This plugin is still WIP and subject to change without warning.
 
 - |spider-features|
     - |spider-camelcasemotion|
