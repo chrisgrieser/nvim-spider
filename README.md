@@ -2,7 +2,7 @@
 Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
 
 > __Warning__  
-> This plugin is still WIP and as such missing a few features still. It is also subject to change without warning.
+> This plugin is still WIP and subject to change without warning.
 
 <!--toc:start-->
 - [Features](#features)
