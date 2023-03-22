@@ -15,11 +15,16 @@ end
 ---where the pattern was found, defaults to "start"
 ---@param reversed? any whether the search should take place backwards
 ---@return number|nil pattern position, returns nil if no pattern was found
-local function nextWordPosition(str, startFrom, whichEnd, reversed)
-	-- INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`
+local function getNextPosition(str, startFrom, whichEnd, reversed)
+	-- INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`, but
+	-- does not match ^ or $
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
-	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- uppercase for SCREAMING_SNAKE_CASE
-	local punctuation = "%f[^%s]%p+%f[%s]" -- standalone punctuation
+	local upperWord = "%f[%w][%u%d]+" -- uppercase for SCREAMING_SNAKE_CASE
+	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
+	-- BUG when already standing on punctuation, `b` and `e` do not move to the
+	-- end of the punctuation, e.g. `[=]=` does not move to the second
+	-- punctuation. this consequently also affects `ge` skipping words after the
+	-- punctuation
 
 	if reversed then
 		-- pattern needs to be reversed of input string for `b` and `ge`
@@ -27,6 +32,7 @@ local function nextWordPosition(str, startFrom, whichEnd, reversed)
 		lowerWord = "[%l%d]+%u?"
 		-- cut string to before cursor as `:find` cannot take an end location
 		str = str:sub(1, startFrom):reverse()
+		-- print("'"..str.."'")
 		startFrom = 1
 	end
 
@@ -60,8 +66,8 @@ end
 ---search for the next item to move to
 ---@param key string e|w|b
 function M.motion(key)
-	if not (key == "w" or key == "e" or key == "b") then
-		vim.notify("Invalid key: " .. key .. "\nOnly w, e, and b are supported.", vim.log.levels.ERROR)
+	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
+		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
 		return
 	end
 
@@ -73,15 +79,21 @@ function M.motion(key)
 	local target
 	if key == "e" then
 		col = col + 2 -- 1 for next position, 1 for lua's 1-based indexing
-		target = nextWordPosition(line, col, "end")
+		target = getNextPosition(line, col, "end")
 	elseif key == "w" then
 		col = col + 1 -- one less, because the endOfWord cursor is standing on should be found
-		local endOfWord = nextWordPosition(line, col, "end")
+		local endOfWord = getNextPosition(line, col, "end")
 		if not endOfWord then return end
 		endOfWord = endOfWord + 1 -- next position
-		target = nextWordPosition(line, endOfWord, "start")
+		target = getNextPosition(line, endOfWord, "start")
 	elseif key == "b" then
-		target = nextWordPosition(line, col, "end", "reversed")
+		target = getNextPosition(line, col, "end", "reversed")
+	elseif key == "ge" then
+		-- BUG "ge" not working for the end of line yet
+		local startOfWord = getNextPosition(line, col, "end", "reversed")
+		if not startOfWord then return end
+		startOfWord = startOfWord - 1 -- next position
+		target = getNextPosition(line, startOfWord, "start", "reversed")
 	end
 
 	-- move to new location
