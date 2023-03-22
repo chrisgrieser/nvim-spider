@@ -1,7 +1,5 @@
 local M = {}
 
--- HELPERS
-
 ---equivalent to fn.getline(), but using more efficient nvim api
 ---@param lnum integer
 ---@return string
@@ -27,8 +25,10 @@ end
 
 -- PATTERNS
 local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
-local upperWord = "[%u%d][%u%d]+" -- at least two, needed for SCREAMING_SNAKE_CASE
-local punctuation = "%f[^%s]%p+%f[%s]" -- only standalone punctuation
+local upperWord = "[%u%d]+%f[^%w]" -- uppercase for SCREAMING_SNAKE_CASE
+local punctuation = "%f[^%s]%p+%f[%s]" -- standalone punctuation
+
+local lowerWordReversed = "[%l%d]+%u?" -- the other patterns are "symmetric" and therefore do not require reversal
 
 --------------------------------------------------------------------------------
 
@@ -68,8 +68,8 @@ function M.motion(key)
 		line = line
 			:sub(1, col) -- only before the cursor pos
 			:reverse() -- search backwards to avoid need for loop
-		lowerWord = "[%l%d]+%u?" -- adjustment needed due to reversal
-		_, lowerPos = line:find(lowerWord)
+		-- INFO patterns needs to be reversed due to string reversal
+		_, lowerPos = line:find(lowerWordReversed) 
 		_, upperPos = line:find(upperWord)
 		_, punctPos = line:find(punctuation)
 		closestPos = minimum(lowerPos, upperPos, punctPos)
