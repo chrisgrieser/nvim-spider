@@ -62,7 +62,7 @@ local function getNextPosition(line, col, startOrEnd, reversed)
 		line = line:reverse()
 		col = #line - col + 1
 	end
-	-- line = line .. " " -- so the 2nd %f[] also matches the end of the string
+	line = line .. " " -- so the 2nd %f[] also matches the end of the string
 
 	local pos1 = firstMatchAfter(line, lowerWord, startOrEnd, col)
 	local pos2 = firstMatchAfter(line, upperWord, startOrEnd, col)
@@ -71,8 +71,8 @@ local function getNextPosition(line, col, startOrEnd, reversed)
 	local nextPos = minimum(pos1, pos2, pos3)
 	if not nextPos then return nil end
 
-	if reversed then nextPos = #line - nextPos + 1 end
 	if startOrEnd == "start" then nextPos = nextPos + 1 end
+	if reversed then nextPos = #line - nextPos end
 	return nextPos
 end
 
@@ -96,13 +96,12 @@ function M.motion(key)
 		col = col + 2 -- 1 for next position, 1 for lua's 1-based indexing
 		target = getNextPosition(line, col, "end")
 	elseif key == "w" then
-		col = col + 1 -- one less, because the endOfWord cursor is standing on should be found
+		col = col + 2
 		target = getNextPosition(line, col, "start")
 	elseif key == "b" then
-		target = getNextPosition(line, col, "end", "reversed")
+		target = getNextPosition(line, col, "end", "backwards")
 	elseif key == "ge" then
-		col = col - 1 
-		target = getNextPosition(line, col, "start", "reversed")
+		target = getNextPosition(line, col, "start", "backwards")
 	end
 
 	-- move to new location
