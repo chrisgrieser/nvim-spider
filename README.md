@@ -15,7 +15,7 @@ Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insig
 <!--toc:end-->
 
 ## Features
-The `w`, `e`, and `b` motions work the same as the default ones by vim, except for two differences:
+The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim, except for two differences:
 
 ### CamelCaseMotion
 The movements happen by subwords, meaning it stops at the sub-parts of an CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable are considered words.
@@ -34,8 +34,8 @@ local myVariableName = FOO_BAR_BAZ
 A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not includes any non-punctuation characters. This speeds up the movement across the line by reducing the number of mostly unnecessary stops.
 
 ```lua
-foo == bar
---  ^    significant punctuation
+foo == bar .. "baz"
+--  ^      ^    significant punctuation
 
 foo:find("a")
 -- ^    ^  ^  insignificant punctuation
@@ -74,6 +74,7 @@ No `.setup()` function is required, and no keybindings are created by default. B
 vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
 vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
 vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
+vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
 ```
 
 
