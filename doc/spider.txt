@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 22
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 24
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -29,8 +29,8 @@ insignificant punctuation.
 
 FEATURES                                         *spider-nvim-spider-features*
 
-The `w`, `e`, and `b` motions work the same as the default ones by vim, except
-for two differences:
+The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
+except for two differences:
 
 
 CAMELCASEMOTION ~
@@ -58,8 +58,8 @@ characters. This speeds up the movement across the line by reducing the number
 of mostly unnecessary stops.
 
 >lua
-    foo == bar
-    --  ^    significant punctuation
+    foo == bar .. "baz"
+    --  ^      ^    significant punctuation
     
     foo:find("a")
     -- ^    ^  ^  insignificant punctuation
@@ -104,6 +104,7 @@ this plugin’s version of them.
     vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
     vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
     vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
+    vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
 <
 
 
