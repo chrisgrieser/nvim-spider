@@ -4,7 +4,7 @@ local M = {}
 -- HELPERS
 
 ---equivalent to fn.getline(), but using more efficient nvim api
----@param lnum integer
+---@param lnum number
 ---@return string
 local function getline(lnum)
 	local lineContent = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, true)
@@ -37,6 +37,9 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	else
 		pattern = "()" .. pattern
 	end
+	-- `:gmatch` will return all locations in the string where the pattern is
+	-- found, the loop looks for the first one that is higher than the col to
+	-- look from
 	for pos in line:gmatch(pattern) do
 		if pos > col then return pos - 1 end
 	end
@@ -48,33 +51,38 @@ end
 ---finds next word, which is lowercase, uppercase, or standalone punctuation
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
----@param endOfWord boolean whether to return the end instead of the start, defaults to false
----@param reversed? any whether the search should take place backwards
+---@param key string w|e|b|ge the motion to perform
 ---@return number|nil pattern position, returns nil if no pattern was found
-local function getNextPosition(line, col, endOfWord, reversed)
-	-- INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`
+local function getNextPosition(line, col, key)
+	-- (INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`)
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
 	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- uppercase for SCREAMING_SNAKE_CASE
 	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
 
-	-- reverse pattern, line, and colNum for `b` and `ge`
-	if reversed then
+	-- define motion properties
+	local backwards = (key == "b") or (key == "ge")
+	local endOfWord = (key == "ge") or (key == "e")
+	if backwards then
 		lowerWord = "[%l%d]+%u?" -- the other patterns are already symmetric
 		line = line:reverse()
-		col = #line - col + 1
-		endOfWord = not (endOfWord)
+		endOfWord = not endOfWord
+		if col == -1 then
+			col = 1
+		else
+			col = #line - col + 1
+		end
 	end
 	line = line .. " " -- so the 2nd %f[] also matches the end of the string
 
+	-- search for patterns, get closest one
 	local pos1 = firstMatchAfter(line, lowerWord, endOfWord, col)
 	local pos2 = firstMatchAfter(line, upperWord, endOfWord, col)
 	local pos3 = firstMatchAfter(line, punctuation, endOfWord, col)
-
 	local nextPos = minimum(pos1, pos2, pos3)
-	if not nextPos then return nil end
+	if not nextPos then return nil end -- none found in this line
 
-	if endOfWord == "start" then nextPos = nextPos + 1 end
-	if reversed then nextPos = #line - nextPos end
+	if not endOfWord then nextPos = nextPos + 1 end
+	if backwards then nextPos = #line - nextPos end
 	return nextPos
 end
 
@@ -87,31 +95,33 @@ function M.motion(key)
 		return
 	end
 
-	-- get line content to search
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	local line = getline(row)
+	local startRow, startCol = unpack(vim.api.nvim_win_get_cursor(0))
+	local col = startCol
+	if key == "w" or key == "e" then col = col + 2 end -- 1 for next position, 1 for lua's 1-based indexing
+	local row = startRow
+	local lastRow = vim.fn.line("$")
+	local targetCol
 
-	-- key-specific-search
-	local target
-	if key == "w" then
-		col = col + 2 -- 1 for next position, 1 for lua's 1-based indexing
-		target = getNextPosition(line, col, false)
-	elseif key == "e" then
-		col = col + 2
-		target = getNextPosition(line, col, true)
-	elseif key == "b" then
-		target = getNextPosition(line, col, false, "backwards")
-	elseif key == "ge" then
-		target = getNextPosition(line, col, true, "backwards")
+	while true do
+		local line = getline(row)
+		targetCol = getNextPosition(line, col, key)
+		if targetCol then break end
+
+		if key == "w" or key == "e" then
+			row = row + 1
+			if row > lastRow then return end 
+			col = 1 -- from second line on, always look from the beginning of the line
+		elseif key == "b" or key == "ge" then
+			row = row - 1
+			if row < 1 then return end 
+			col = -1
+		end
 	end
 
-	-- move to new location
-	if not target then return end -- not found in this line
-
 	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
-	if not isOperatorPending then target = target - 1 end -- lua string indices different
+	if not isOperatorPending then targetCol = targetCol - 1 end -- lua string indices different
 
-	vim.api.nvim_win_set_cursor(0, { row, target })
+	vim.api.nvim_win_set_cursor(0, { row, targetCol })
 end
 
 --------------------------------------------------------------------------------

@@ -80,7 +80,6 @@ vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") 
 
 ## Roadmap
 - [ ] Counts
-- [ ] Movements to the next/previous line
 - [ ] Dot repeats ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
 
 ## Credits
