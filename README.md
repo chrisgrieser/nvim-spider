@@ -1,8 +1,7 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
 
-> __Warning__  
-> This plugin is still WIP and subject to change without warning.
+Lightweight (~120 LoC), zero-config, pure lua. Supports normal, visual, and operator-pending mode.
 
 <!--toc:start-->
 - [Features](#features)
@@ -31,7 +30,7 @@ local myVariableName = FOO_BAR_BAZ
 ```
 
 ### Skipping Insignificant Punctuation
-A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not includes any non-punctuation characters. This speeds up the movement across the line by reducing the number of mostly unnecessary stops.
+A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not includes any non-punctuation characters.
 
 ```lua
 foo == bar .. "baz"
@@ -40,6 +39,8 @@ foo == bar .. "baz"
 foo:find("a")
 -- ^    ^  ^  insignificant punctuation
 ```
+
+This speeds up the movement across the line by reducing the number of mostly unnecessary stops.
 
 ```lua
 -- positions vim's `w` will move to
@@ -64,7 +65,7 @@ For an alternative `iw` text object that considers CamelCase word parts, check o
 use { "chrisgrieser/nvim-spider" }
 
 -- lazy.nvim
-{ "chrisgrieser/nvim-spider" },
+{ "chrisgrieser/nvim-spider", lazy = true },
 ```
 
 No `.setup()` function is required, and no keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
