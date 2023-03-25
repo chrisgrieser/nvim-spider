@@ -6,7 +6,7 @@ Table of Contents                                   *spider-table-of-contents*
 1. nvim-spider                                            |spider-nvim-spider|
   - Features                                     |spider-nvim-spider-features|
   - Installation                             |spider-nvim-spider-installation|
-  - Roadmap                                       |spider-nvim-spider-roadmap|
+  - Limitations                               |spider-nvim-spider-limitations|
   - Credits                                       |spider-nvim-spider-credits|
 
 ==============================================================================
@@ -15,8 +15,8 @@ Table of Contents                                   *spider-table-of-contents*
 Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips
 insignificant punctuation.
 
-Lightweight (~120 LoC), zero-config, pure lua. Supports normal, visual, and
-operator-pending mode.
+Lightweight (~120 LoC), zero-config, pure lua. Works in normal, visual, and
+operator-pending mode. Works with counts.
 
 
 - |spider-features|
@@ -24,7 +24,7 @@ operator-pending mode.
     - |spider-skipping-insignificant-punctuation|
     - |spider-text-object|
 - |spider-installation|
-- |spider-roadmap|
+- |spider-limitations|
 - |spider-credits|
 
 
@@ -111,18 +111,13 @@ this plugin’s version of them.
 <
 
 
-ROADMAP                                           *spider-nvim-spider-roadmap*
+LIMITATIONS                                   *spider-nvim-spider-limitations*
 
 
-- ☐ Counts
-- ☐ Dot repeats (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
+- ☐ Dot repeats when motion has been used as text object. (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
 
 
 CREDITS                                           *spider-nvim-spider-credits*
-
-**Thanks** This is basically a port of the CamelCaseMotion
-<https://github.com/bkad/CamelCaseMotion>, written in lua, and with some minor
-improvements.
 
 **About Me** In my day job, I am a sociologist studying the social mechanisms
 underlying the digital economy. For my PhD project, I investigate the
