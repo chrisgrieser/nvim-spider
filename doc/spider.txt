@@ -112,7 +112,6 @@ ROADMAP                                           *spider-nvim-spider-roadmap*
 
 
 - ☐ Counts
-- ☐ Movements to the next/previous line
 - ☐ Dot repeats (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
 
 
