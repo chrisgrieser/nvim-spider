@@ -27,14 +27,15 @@ end
 ---returns the index of the first match after the given pattern
 ---@param line string
 ---@param pattern string
----@param startOrEnd string start|end whether the start of the end of the pattern should be looked for
+---@param endOfWord boolean look for the end of the pattern instead of the start
 ---@param col number
 ---@return number|nil returns nil if none is found
-local function firstMatchAfter(line, pattern, startOrEnd, col)
-	if startOrEnd == "start" then
-		pattern = "()" .. pattern
-	else
+local function firstMatchAfter(line, pattern, endOfWord, col)
+	-- INFO "()" makes gmatch return the position of that group
+	if endOfWord then
 		pattern = pattern .. "()"
+	else
+		pattern = "()" .. pattern
 	end
 	for pos in line:gmatch(pattern) do
 		if pos > col then return pos - 1 end
@@ -47,10 +48,10 @@ end
 ---finds next word, which is lowercase, uppercase, or standalone punctuation
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
----@param startOrEnd string start|end whether to return the start or the end of where the pattern was found, defaults to "start"
+---@param endOfWord boolean whether to return the end instead of the start, defaults to false
 ---@param reversed? any whether the search should take place backwards
 ---@return number|nil pattern position, returns nil if no pattern was found
-local function getNextPosition(line, col, startOrEnd, reversed)
+local function getNextPosition(line, col, endOfWord, reversed)
 	-- INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
 	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- uppercase for SCREAMING_SNAKE_CASE
@@ -61,25 +62,25 @@ local function getNextPosition(line, col, startOrEnd, reversed)
 		lowerWord = "[%l%d]+%u?" -- the other patterns are already symmetric
 		line = line:reverse()
 		col = #line - col + 1
+		endOfWord = not (endOfWord)
 	end
 	line = line .. " " -- so the 2nd %f[] also matches the end of the string
 
-	local pos1 = firstMatchAfter(line, lowerWord, startOrEnd, col)
-	local pos2 = firstMatchAfter(line, upperWord, startOrEnd, col)
-	local pos3 = firstMatchAfter(line, punctuation, startOrEnd, col)
+	local pos1 = firstMatchAfter(line, lowerWord, endOfWord, col)
+	local pos2 = firstMatchAfter(line, upperWord, endOfWord, col)
+	local pos3 = firstMatchAfter(line, punctuation, endOfWord, col)
 
 	local nextPos = minimum(pos1, pos2, pos3)
 	if not nextPos then return nil end
 
-	if startOrEnd == "start" then nextPos = nextPos + 1 end
+	if endOfWord == "start" then nextPos = nextPos + 1 end
 	if reversed then nextPos = #line - nextPos end
 	return nextPos
 end
 
 --------------------------------------------------------------------------------
 
----search for the next item to move to
----@param key string e|w|b|ge
+---@param key string w|e|b|ge
 function M.motion(key)
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
 		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
@@ -92,16 +93,16 @@ function M.motion(key)
 
 	-- key-specific-search
 	local target
-	if key == "e" then
+	if key == "w" then
 		col = col + 2 -- 1 for next position, 1 for lua's 1-based indexing
-		target = getNextPosition(line, col, "end")
-	elseif key == "w" then
+		target = getNextPosition(line, col, false)
+	elseif key == "e" then
 		col = col + 2
-		target = getNextPosition(line, col, "start")
+		target = getNextPosition(line, col, true)
 	elseif key == "b" then
-		target = getNextPosition(line, col, "end", "backwards")
+		target = getNextPosition(line, col, false, "backwards")
 	elseif key == "ge" then
-		target = getNextPosition(line, col, "start", "backwards")
+		target = getNextPosition(line, col, true, "backwards")
 	end
 
 	-- move to new location
