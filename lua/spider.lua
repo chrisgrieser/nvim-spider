@@ -11,7 +11,7 @@ local function getline(lnum)
 	return lineContent[1]
 end
 
----minimum, factoring in that any number may be null
+---minimum, but as opposed to normal `math.min` factors in that any number may be nil
 ---@param pos1 number|nil
 ---@param pos2 number|nil
 ---@param pos3 number|nil
@@ -28,7 +28,7 @@ end
 ---@param line string
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
----@param col number
+---@param col number -- look for the first match after this number
 ---@return number|nil returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- INFO "()" makes gmatch return the position of that group
@@ -54,9 +54,9 @@ end
 ---@param key string w|e|b|ge the motion to perform
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key)
-	-- (INFO `%f[set]` is the frontier pattern, roughly lua's version of `\b`)
+	-- `%f[set]` is the frontier pattern, roughly lua's equivalent of `\b`
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
-	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- uppercase for SCREAMING_SNAKE_CASE
+	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- solely uppercase for SCREAMING_SNAKE_CASE
 	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
 
 	-- define motion properties
@@ -95,33 +95,33 @@ function M.motion(key)
 		return
 	end
 
-	local startRow, startCol = unpack(vim.api.nvim_win_get_cursor(0))
-	local col = startCol
-	if key == "w" or key == "e" then col = col + 2 end -- 1 for next position, 1 for lua's 1-based indexing
-	local row = startRow
+	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local lastRow = vim.fn.line("$")
-	local targetCol
+	local forwards = key == "w" or key == "e"
 
-	while true do
-		local line = getline(row)
-		targetCol = getNextPosition(line, col, key)
-		if targetCol then break end
+	-- looping through counts
+	for i = 1, vim.v.count1, 1 do
+		if forwards then
+			col = col + 2 -- +1 (next position), +1 lua indexing
+		elseif not forwards and i > 1 then
+			col = col - 1 -- next pos
+		end
 
-		if key == "w" or key == "e" then
-			row = row + 1
-			if row > lastRow then return end 
-			col = 1 -- from second line on, always look from the beginning of the line
-		elseif key == "b" or key == "ge" then
-			row = row - 1
-			if row < 1 then return end 
-			col = -1
+		-- looping through rows (if next location not found in line)
+		while true do
+			local line = getline(row)
+			col = getNextPosition(line, col, key)
+			if col then break end
+			col = forwards and 1 or -1
+			row = forwards and row + 1 or row - 1
+			if row > lastRow or row < 1 then return end
 		end
 	end
 
 	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
-	if not isOperatorPending then targetCol = targetCol - 1 end -- lua string indices different
+	if not isOperatorPending then col = col - 1 end -- lua string indices different
 
-	vim.api.nvim_win_set_cursor(0, { row, targetCol })
+	vim.api.nvim_win_set_cursor(0, { row, col })
 end
 
 --------------------------------------------------------------------------------

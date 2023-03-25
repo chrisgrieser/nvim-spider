@@ -1,7 +1,7 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
 
-Lightweight (~120 LoC), zero-config, pure lua. Supports normal, visual, and operator-pending mode.
+Lightweight (~120 LoC), zero-config, pure lua. Works in normal, visual, and operator-pending mode. Works with counts.
 
 <!--toc:start-->
 - [Features](#features)
@@ -9,7 +9,7 @@ Lightweight (~120 LoC), zero-config, pure lua. Supports normal, visual, and oper
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 	- [Text Object](#text-object)
 - [Installation](#installation)
-- [Roadmap](#roadmap)
+- [Limitations](#limitations)
 - [Credits](#credits)
 <!--toc:end-->
 
@@ -79,14 +79,10 @@ vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") 
 ```
 
 
-## Roadmap
-- [ ] Counts
-- [ ] Dot repeats ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
+## Limitations
+- [ ] Dot repeats when motion has been used as text object. ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
 
 ## Credits
-__Thanks__  
-This is basically a port of the [CamelCaseMotion](https://github.com/bkad/CamelCaseMotion), written in lua, and with some minor improvements.
-
 <!-- vale Google.FirstPerson = NO -->
 __About Me__  
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to get in touch.
