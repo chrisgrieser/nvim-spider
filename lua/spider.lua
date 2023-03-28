@@ -1,10 +1,27 @@
 local M = {}
+--------------------------------------------------------------------------------
+-- CONFIG
+
+-- Default values
+local skipInsignificantPunc = true
+
+---@class optsObj
+---@field skipInsignificantPunctuation boolean defaults to true
+
+---@param opts optsObj
+function M.setup(opts)
+	opts = opts or {}
+	if opts.skipInsignificantPunctuation ~= nil then
+		skipInsignificantPunc = opts.skipInsignificantPunctuation
+	end
+end
 
 --------------------------------------------------------------------------------
 -- HELPERS
 
 ---equivalent to fn.getline(), but using more efficient nvim api
 ---@param lnum number
+---@nodiscard
 ---@return string
 local function getline(lnum)
 	local lineContent = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, true)
@@ -15,6 +32,7 @@ end
 ---@param pos1 number|nil
 ---@param pos2 number|nil
 ---@param pos3 number|nil
+---@nodiscard
 ---@return number|nil minimum value or nil if all input numbers are nil
 local function minimum(pos1, pos2, pos3)
 	if not (pos1 or pos2 or pos3) then return nil end
@@ -23,6 +41,9 @@ local function minimum(pos1, pos2, pos3)
 	pos3 = pos3 or math.huge
 	return math.min(pos1, pos2, pos3)
 end
+
+--------------------------------------------------------------------------------
+-- CORE SEARCH METHODS
 
 ---returns the index of the first match after the given pattern
 ---@param line string
@@ -47,11 +68,6 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	return nil
 end
 
---------------------------------------------------------------------------------
--- CONFIG
-
---------------------------------------------------------------------------------
-
 ---finds next word, which is lowercase, uppercase, or standalone punctuation
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
@@ -63,6 +79,7 @@ local function getNextPosition(line, col, key)
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
 	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- solely uppercase for SCREAMING_SNAKE_CASE
 	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
+	if not skipInsignificantPunc then punctuation = "%p+" end
 
 	-- define motion properties
 	local backwards = (key == "b") or (key == "ge")

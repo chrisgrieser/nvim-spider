@@ -1,11 +1,11 @@
 # nvim-spider
-Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips insignificant punctuation.
+Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
-Lightweight (~120 LoC), zero-config, pure lua. Works in normal, visual, and operator-pending mode. Works with counts.
+Lightweight and lua implementation of Subword Motion. Works in normal, visual, and operator-pending mode. Works with counts.
 
 <!--toc:start-->
 - [Features](#features)
-	- [CamelCaseMotion](#camelcasemotion)
+	- [Subword Motion](#subword-motion)
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 	- [Text Object](#text-object)
 - [Installation](#installation)
@@ -16,7 +16,7 @@ Lightweight (~120 LoC), zero-config, pure lua. Works in normal, visual, and oper
 ## Features
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim, except for two differences:
 
-### CamelCaseMotion
+### Subword Motion
 The movements happen by subwords, meaning it stops at the sub-parts of a CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable.
 
 ```lua
@@ -52,6 +52,8 @@ if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
 -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 ```
 
+If you prefer to use this plugin only for subword motion, you can disable this feature by setting `skipInsignificantPunctuation = false` in the `.setup()` call.
+
 > __Note__  
 > vim's `iskeyword` option is ignored by this plugin.
 
@@ -68,7 +70,7 @@ use { "chrisgrieser/nvim-spider" }
 { "chrisgrieser/nvim-spider", lazy = true },
 ```
 
-No `.setup()` function is required, and no keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
+No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
 
 ```lua
 -- Keymaps
@@ -78,6 +80,16 @@ vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") en
 vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
 ```
 
+## Configuration
+
+The `.setup()` call is optional. Currently, its only option is to disable the skipping of insignificant punctuation:
+
+```lua
+-- default values
+require("spider").setup({
+	skipInsignificantPunctuation = true
+})
+```
 
 ## Limitations
 - [ ] Dot repeats when motion has been used as text object. ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
