@@ -30,7 +30,7 @@ local myVariableName = FOO_BAR_BAZ
 ```
 
 ### Skipping Insignificant Punctuation
-A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not includes any non-punctuation characters.
+A sequence of one or more punctuation characters is considered significant if it is surrounded by whitespace and does not include any non-punctuation characters.
 
 ```lua
 foo == bar .. "baz"
