@@ -6,21 +6,22 @@ Table of Contents                                   *spider-table-of-contents*
 1. nvim-spider                                            |spider-nvim-spider|
   - Features                                     |spider-nvim-spider-features|
   - Installation                             |spider-nvim-spider-installation|
+  - Configuration                           |spider-nvim-spider-configuration|
   - Limitations                               |spider-nvim-spider-limitations|
   - Credits                                       |spider-nvim-spider-credits|
 
 ==============================================================================
 1. nvim-spider                                            *spider-nvim-spider*
 
-Use the `w`, `e`, `b` motions like a spider. Considers camelCase and skips
+Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
-Lightweight (~120 LoC), zero-config, pure lua. Works in normal, visual, and
-operator-pending mode. Works with counts.
+Lightweight and lua implementation of Subword Motion. Works in normal, visual,
+and operator-pending mode. Works with counts.
 
 
 - |spider-features|
-    - |spider-camelcasemotion|
+    - |spider-subword-motion|
     - |spider-skipping-insignificant-punctuation|
     - |spider-text-object|
 - |spider-installation|
@@ -34,7 +35,7 @@ The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
 except for two differences:
 
 
-CAMELCASEMOTION ~
+SUBWORD MOTION ~
 
 The movements happen by subwords, meaning it stops at the sub-parts of a
 CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable.
@@ -77,6 +78,10 @@ unnecessary stops.
     -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 <
 
+If you prefer to use this plugin only for subword motion, you can disable this
+feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
+call.
+
 
   **Note** vim’s `iskeyword` option is ignored by this plugin.
 
@@ -97,9 +102,8 @@ INSTALLATION                                 *spider-nvim-spider-installation*
     { "chrisgrieser/nvim-spider", lazy = true },
 <
 
-No `.setup()` function is required, and no keybindings are created by default.
-Below are the mappings to replace the default `w`, `e`, and `b` motions with
-this plugin’s version of them.
+No keybindings are created by default. Below are the mappings to replace the
+default `w`, `e`, and `b` motions with this plugin’s version of them.
 
 >lua
     -- Keymaps
@@ -107,6 +111,19 @@ this plugin’s version of them.
     vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
     vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
     vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
+<
+
+
+CONFIGURATION                               *spider-nvim-spider-configuration*
+
+The `.setup()` call is optional. Currently, its only option is to disable the
+skipping of insignificant punctuation:
+
+>lua
+    -- default values
+    require("spider").setup({
+        skipInsignificantPunctuation = true
+    })
 <
 
 
