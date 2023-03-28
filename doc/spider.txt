@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 26
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 28
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -53,7 +53,7 @@ CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable.
 SKIPPING INSIGNIFICANT PUNCTUATION ~
 
 A sequence of one or more punctuation characters is considered significant if
-it is surrounded by whitespace and does not includes any non-punctuation
+it is surrounded by whitespace and does not include any non-punctuation
 characters.
 
 >lua
