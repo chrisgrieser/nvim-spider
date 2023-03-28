@@ -29,6 +29,7 @@ end
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
 ---@param col number -- look for the first match after this number
+---@nodiscard
 ---@return number|nil returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- INFO "()" makes gmatch return the position of that group
@@ -47,11 +48,15 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 end
 
 --------------------------------------------------------------------------------
+-- CONFIG
+
+--------------------------------------------------------------------------------
 
 ---finds next word, which is lowercase, uppercase, or standalone punctuation
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
----@param key string w|e|b|ge the motion to perform
+---@param key "w"|"e"|"b"|"ge" the motion to perform
+---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key)
 	-- `%f[set]` is the frontier pattern, roughly lua's equivalent of `\b`
@@ -88,7 +93,7 @@ end
 
 --------------------------------------------------------------------------------
 
----@param key string w|e|b|ge
+---@param key "w"|"e"|"b"|"ge" the motion to perform
 function M.motion(key)
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
 		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
