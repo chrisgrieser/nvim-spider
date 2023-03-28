@@ -140,8 +140,11 @@ function M.motion(key)
 		end
 	end
 
+	col = col - 1 -- lua string indices different
+
+	-- operator pending specific considerations (see also issue #3)
 	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
-	if not isOperatorPending then col = col - 1 end -- lua string indices different
+	if isOperatorPending and key == "e" then col = col + 1 end
 
 	vim.api.nvim_win_set_cursor(0, { row, col })
 end
