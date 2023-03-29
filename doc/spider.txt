@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 28
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 29
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -16,8 +16,8 @@ Table of Contents                                   *spider-table-of-contents*
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
-Lightweight and lua implementation of Subword Motion. Works in normal, visual,
-and operator-pending mode. Works with counts.
+Lua implementation of CamelCaseMotion. Works in normal, visual, and
+operator-pending mode. Works with counts.
 
 
 - |spider-features|
