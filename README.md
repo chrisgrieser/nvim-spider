@@ -1,7 +1,7 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
-Lightweight and lua implementation of Subword Motion. Works in normal, visual, and operator-pending mode. Works with counts.
+Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pending mode. Works with counts.
 
 <!--toc:start-->
 - [Features](#features)
