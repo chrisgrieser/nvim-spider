@@ -74,10 +74,10 @@ No keybindings are created by default. Below are the mappings to replace the def
 
 ```lua
 -- Keymaps
-vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
-vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
-vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
-vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
+vim.keymap.set({"n", "o", "x"}, "w", "<Plug>(spider-motion-w)", { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "e", "<Plug>(spider-motion-e)", { desc = "Spider-e" })
+vim.keymap.set({"n", "o", "x"}, "b", "<Plug>(spider-motion-b)", { desc = "Spider-b" })
+vim.keymap.set({"n", "o", "x"}, "ge", "<Plug>(spider-motion-ge)", { desc = "Spider-ge" })
 ```
 
 ## Configuration
@@ -90,9 +90,6 @@ require("spider").setup({
 	skipInsignificantPunctuation = true
 })
 ```
-
-## Limitations
-- [ ] Dot repeats when motion has been used as text object. ([Dot-repeat *for text objects* seems a bit more tricky, help is welcome.](https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900))
 
 ## Credits
 <!-- vale Google.FirstPerson = NO -->

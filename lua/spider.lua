@@ -147,6 +147,14 @@ function M.motion(key)
 	if isOperatorPending and key == "e" then col = col + 1 end
 
 	vim.api.nvim_win_set_cursor(0, { row, col })
+
+-- set plug keymaps
+for _, key in ipairs { "w", "e", "b", "ge" } do
+    vim.keymap.set(
+      "",
+      "<Plug>(spider-motion-" .. key .. ")",
+      "<cmd>lua require('spider').motion('" .. key .. "')<CR>"
+    )
 end
 
 --------------------------------------------------------------------------------
