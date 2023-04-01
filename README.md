@@ -71,13 +71,14 @@ use { "chrisgrieser/nvim-spider" }
 ```
 
 No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
+Note that for dot-repeat to work properly, you have to use a `<cmd>` mapping that calls the plugin function, **not** a lua function calling it!
 
 ```lua
 -- Keymaps
-vim.keymap.set({"n", "o", "x"}, "w", "<Plug>(spider-motion-w)", { desc = "Spider-w" })
-vim.keymap.set({"n", "o", "x"}, "e", "<Plug>(spider-motion-e)", { desc = "Spider-e" })
-vim.keymap.set({"n", "o", "x"}, "b", "<Plug>(spider-motion-b)", { desc = "Spider-b" })
-vim.keymap.set({"n", "o", "x"}, "ge", "<Plug>(spider-motion-ge)", { desc = "Spider-ge" })
+vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-w" })
 ```
 
 ## Configuration
