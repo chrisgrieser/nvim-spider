@@ -1,7 +1,13 @@
 # nvim-spider
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
-Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pending mode. Works with counts.
+Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pending mode. Works with counts and is dot-repeatable.
+
+> __Note__  
+> If you installed the plugin before March 31, you should change your
+> keymappings to call the motions via Ex-commands: `"<cmd>lua
+> require('spider').motion("w")<CR>". This makes them dot-repeatable if used in
+> operator-pending mode. [See the examples here.](#installation)
 
 <!--toc:start-->
 - [Features](#features)
@@ -9,7 +15,6 @@ Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pen
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 	- [Text Object](#text-object)
 - [Installation](#installation)
-- [Limitations](#limitations)
 - [Credits](#credits)
 <!--toc:end-->
 
@@ -71,28 +76,32 @@ use { "chrisgrieser/nvim-spider" }
 ```
 
 No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
-Note that for dot-repeat to work properly, you have to use a `<cmd>` mapping that calls the plugin function, **not** a lua function calling it!
 
 ```lua
--- Keymaps
 vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
 vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-w" })
 vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-w" })
 vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-w" })
 ```
 
+> __Note__  
+> Note that for dot-repeat to work properly, you have to call this plugin's motions as Ex-command. Calling `function() require("spider").motion("w") end` as third argument of the keymap do *not* support dot-repeatability.
+
 ## Configuration
 
 The `.setup()` call is optional. Currently, its only option is to disable the skipping of insignificant punctuation:
 
 ```lua
--- default values
+-- default value
 require("spider").setup({
 	skipInsignificantPunctuation = true
 })
 ```
 
 ## Credits
+__Thanks__  
+- [To `@vypxl` and `@ii14` for figuring out dot-repeatability.](https://github.com/chrisgrieser/nvim-spider/pull/4)
+
 <!-- vale Google.FirstPerson = NO -->
 __About Me__  
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to get in touch.
