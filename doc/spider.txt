@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 March 29
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 01
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -7,7 +7,6 @@ Table of Contents                                   *spider-table-of-contents*
   - Features                                     |spider-nvim-spider-features|
   - Installation                             |spider-nvim-spider-installation|
   - Configuration                           |spider-nvim-spider-configuration|
-  - Limitations                               |spider-nvim-spider-limitations|
   - Credits                                       |spider-nvim-spider-credits|
 
 ==============================================================================
@@ -103,14 +102,16 @@ INSTALLATION                                 *spider-nvim-spider-installation*
 <
 
 No keybindings are created by default. Below are the mappings to replace the
-default `w`, `e`, and `b` motions with this plugin’s version of them.
+default `w`, `e`, and `b` motions with this plugin’s version of them. Note
+that for dot-repeat to work properly, you have to use a `<cmd>` mapping that
+calls the plugin function, **not** a lua function calling it!
 
 >lua
     -- Keymaps
-    vim.keymap.set({"n", "o", "x"}, "w", function() require("spider").motion("w") end, { desc = "Spider-w" })
-    vim.keymap.set({"n", "o", "x"}, "e", function() require("spider").motion("e") end, { desc = "Spider-e" })
-    vim.keymap.set({"n", "o", "x"}, "b", function() require("spider").motion("b") end, { desc = "Spider-b" })
-    vim.keymap.set({"n", "o", "x"}, "ge", function() require("spider").motion("ge") end, { desc = "Spider-ge" })
+    vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+    vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-w" })
+    vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-w" })
+    vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-w" })
 <
 
 
@@ -125,12 +126,6 @@ skipping of insignificant punctuation:
         skipInsignificantPunctuation = true
     })
 <
-
-
-LIMITATIONS                                   *spider-nvim-spider-limitations*
-
-
-- ☐ Dot repeats when motion has been used as text object. (Dot-repeat _for text objects_ seems a bit more tricky, help is welcome. <https://github.com/chrisgrieser/nvim-various-textobjs/issues/7#issuecomment-1374861900>)
 
 
 CREDITS                                           *spider-nvim-spider-credits*
