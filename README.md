@@ -1,4 +1,4 @@
-# nvim-spider
+# nvim-spider 🕷️🕸️
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
 Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pending mode. Works with counts and is dot-repeatable.
@@ -105,6 +105,9 @@ __Thanks__
 <!-- vale Google.FirstPerson = NO -->
 __About Me__  
 In my day job, I am a sociologist studying the social mechanisms underlying the digital economy. For my PhD project, I investigate the governance of the app economy and how software ecosystems manage the tension between innovation and compatibility. If you are interested in this subject, feel free to get in touch.
+
+__Blog__  
+I also occassionally blog about vim: [Nano Tips for Vim](https://nanotipsforvim.prose.sh)
 
 __Profiles__  
 - [Discord](https://discordapp.com/users/462774483044794368/)
