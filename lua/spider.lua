@@ -111,6 +111,7 @@ end
 --------------------------------------------------------------------------------
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
+-- selene: allow(high_cyclomatic_complexity)
 function M.motion(key)
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
 		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
@@ -142,9 +143,19 @@ function M.motion(key)
 
 	col = col - 1 -- lua string indices different
 
-	-- operator pending specific considerations (see also issue #3)
+	-- operator-pending specific considerations (see issues #3 and #5)
 	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
-	if isOperatorPending and key == "e" then col = col + 1 end
+	if isOperatorPending then
+		local lastCol = vim.fn.col("$")
+		if key == "e" then col = col + 1 end
+
+		if lastCol - 1 == col then
+			-- HACK columns are end-exclusive, cannot actually target the last character
+			-- in the line otherwise without switching to visual mode?!
+			vim.cmd.normal { "v", bang = true }
+			col = col - 1 -- SIC indices in visual off-by-one compared to normal
+		end
+	end
 
 	vim.api.nvim_win_set_cursor(0, { row, col })
 end
