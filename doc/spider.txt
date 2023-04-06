@@ -1,18 +1,18 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 04
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 06
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
 
-1. nvim-spider 🕷️🕸️              |spider-nvim-spider-🕷️🕸️|
-  - Features                      |spider-nvim-spider-🕷️🕸️-features|
-  - Installation              |spider-nvim-spider-🕷️🕸️-installation|
-  - Configuration            |spider-nvim-spider-🕷️🕸️-configuration|
-  - Credits                        |spider-nvim-spider-🕷️🕸️-credits|
+1. nvim-spider                                           |spider-nvim-spider-|
+  - Features                                    |spider-nvim-spider--features|
+  - Installation                            |spider-nvim-spider--installation|
+  - Configuration                          |spider-nvim-spider--configuration|
+  - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
-1. nvim-spider 🕷️🕸️              *spider-nvim-spider-🕷️🕸️*
+1. nvim-spider                                           *spider-nvim-spider-*
 
-Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
+Usethe `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
 Lua implementation of CamelCaseMotion. Works in normal, visual, and
@@ -32,7 +32,7 @@ operator-pending mode. Works with counts and is dot-repeatable.
 - |spider-credits|
 
 
-FEATURES                          *spider-nvim-spider-🕷️🕸️-features*
+FEATURES                                        *spider-nvim-spider--features*
 
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
 except for two differences:
@@ -95,7 +95,7 @@ out the "subword" text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
-INSTALLATION                  *spider-nvim-spider-🕷️🕸️-installation*
+INSTALLATION                                *spider-nvim-spider--installation*
 
 >lua
     -- packer
@@ -121,7 +121,7 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
   require("spider").motion("w") end` as third argument of the keymap do _not_
   support dot-repeatability.
 
-CONFIGURATION                *spider-nvim-spider-🕷️🕸️-configuration*
+CONFIGURATION                              *spider-nvim-spider--configuration*
 
 The `.setup()` call is optional. Currently, its only option is to disable the
 skipping of insignificant punctuation:
@@ -134,7 +134,7 @@ skipping of insignificant punctuation:
 <
 
 
-CREDITS                            *spider-nvim-spider-🕷️🕸️-credits*
+CREDITS                                          *spider-nvim-spider--credits*
 
 **Thanks** - To `@vypxl` and `@ii14` for figuring out dot-repeatability.
 <https://github.com/chrisgrieser/nvim-spider/pull/4>
