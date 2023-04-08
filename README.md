@@ -85,7 +85,7 @@ vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<C
 ```
 
 > __Note__  
-> Note that for dot-repeat to work properly, you have to call this plugin's motions as Ex-command. Calling `function() require("spider").motion("w") end` as third argument of the keymap do *not* support dot-repeatability.
+> Note that for dot-repeat to work properly, you have to call this plugin's motions as Ex-command. When calling `function() require("spider").motion("w") end` as third argument of the keymap, dot-repeatability will *not* work.
 
 ## Configuration
 
@@ -110,9 +110,9 @@ __Blog__
 I also occassionally blog about vim: [Nano Tips for Vim](https://nanotipsforvim.prose.sh)
 
 __Profiles__  
+- [reddit](https://www.reddit.com/user/pseudometapseudo)
 - [Discord](https://discordapp.com/users/462774483044794368/)
 - [Academic Website](https://chris-grieser.de/)
-- [GitHub](https://github.com/chrisgrieser/)
 - [Twitter](https://twitter.com/pseudo_meta)
 - [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
 - [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
