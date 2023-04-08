@@ -20,9 +20,8 @@ operator-pending mode. Works with counts and is dot-repeatable.
 
 
   **Note** If you installed the plugin before March 31, you should change your
-  keymappings to call the motions via Ex-commands: `"lua
-  require('spider').motion("w”)“. This makes them dot-repeatable if used in
-  operator-pending mode. |spider-see-the-examples-here.|
+  keymappings to call the motions via Ex-commands to make them dot-repeatable:
+  `"<cmd>lua require('spider').motion("w")<CR>"`. |spider-see-the-example-here.|
 
 - |spider-features|
     - |spider-subword-motion|
