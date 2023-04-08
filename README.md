@@ -5,9 +5,8 @@ Lua implementation of CamelCaseMotion. Works in normal, visual, and operator-pen
 
 > __Note__  
 > If you installed the plugin before March 31, you should change your
-> keymappings to call the motions via Ex-commands: `"<cmd>lua
-> require('spider').motion("w")<CR>". This makes them dot-repeatable if used in
-> operator-pending mode. [See the examples here.](#installation)
+> keymappings to call the motions via Ex-commands to make them dot-repeatable: `"<cmd>lua
+> require('spider').motion("w")<CR>"`. [See the example here.](#installation)
 
 <!--toc:start-->
 - [Features](#features)
