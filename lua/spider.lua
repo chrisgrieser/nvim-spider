@@ -144,7 +144,8 @@ function M.motion(key)
 	col = col - 1 -- lua string indices different
 
 	-- operator-pending specific considerations (see issues #3 and #5)
-	local isOperatorPending = vim.api.nvim_get_mode().mode == "no"
+	local mode = vim.api.nvim_get_mode().mode
+	local isOperatorPending = mode == "no"
 	if isOperatorPending then
 		local lastCol = vim.fn.col("$")
 		if key == "e" then col = col + 1 end
@@ -156,6 +157,9 @@ function M.motion(key)
 			col = col - 1 -- SIC indices in visual off-by-one compared to normal
 		end
 	end
+
+	local shouldOpenFold = vim.tbl_contains(vim.opt_local.foldopen:get(), "hor")
+	if mode == "n" and shouldOpenFold then vim.cmd.normal { "zv", bang = true } end
 
 	vim.api.nvim_win_set_cursor(0, { row, col })
 end
