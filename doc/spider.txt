@@ -115,10 +115,9 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
 <
 
 
-  **Note** Note that for dot-repeat to work properly, you have to call this
-  plugin’s motions as Ex-command. When calling `function()
-  require("spider").motion("w") end` as third argument of the keymap,
-  dot-repeatability will _not_ work.
+  **Note** For dot-repeat to work, you have to call the motions as Ex-commands.
+  When calling `function() require("spider").motion("w") end` as third argument
+  of the keymap, dot-repeatability will _not_ work.
 
 CONFIGURATION                              *spider-nvim-spider--configuration*
 
