@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 08
+*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 09
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -7,6 +7,7 @@ Table of Contents                                   *spider-table-of-contents*
   - Features                                    |spider-nvim-spider--features|
   - Installation                            |spider-nvim-spider--installation|
   - Configuration                          |spider-nvim-spider--configuration|
+  - Text Object                              |spider-nvim-spider--text-object|
   - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
@@ -15,8 +16,9 @@ Table of Contents                                   *spider-table-of-contents*
 Usethe `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
-Lua implementation of CamelCaseMotion. Works in normal, visual, and
-operator-pending mode. Works with counts and is dot-repeatable.
+Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
+Works in normal, visual, and operator-pending mode. Supports counts and
+dot-repeats.
 
 
   **Note** If you installed the plugin before March 31, you should change your
@@ -26,8 +28,9 @@ operator-pending mode. Works with counts and is dot-repeatable.
 - |spider-features|
     - |spider-subword-motion|
     - |spider-skipping-insignificant-punctuation|
-    - |spider-text-object|
 - |spider-installation|
+- |spider-configuration|
+- |spider-text-object|
 - |spider-credits|
 
 
@@ -85,14 +88,7 @@ feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
 call.
 
 
-  **Note** vim’s `iskeyword` option is ignored by this plugin.
-
-TEXT OBJECT ~
-
-For an alternative `iw` text object that considers CamelCase word parts, check
-out the "subword" text object of nvim-various-textobjs
-<https://github.com/chrisgrieser/nvim-various-textobjs>.
-
+  **Note** This plugin ignores vim’s `iskeyword` option.
 
 INSTALLATION                                *spider-nvim-spider--installation*
 
@@ -132,10 +128,18 @@ skipping of insignificant punctuation:
 <
 
 
+TEXT OBJECT                                  *spider-nvim-spider--text-object*
+
+This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not
+include a subword-variant of the `iw`. For a version of `iw` that considers
+CamelCase, check out the `subword` text object of nvim-various-textobjs
+<https://github.com/chrisgrieser/nvim-various-textobjs>.
+
+
 CREDITS                                          *spider-nvim-spider--credits*
 
-**Thanks** - To `@vypxl` and `@ii14` for figuring out dot-repeatability.
-<https://github.com/chrisgrieser/nvim-spider/pull/4>
+**Thanks** To `@vypxl` and `@ii14` for figuring out dot-repeatability
+<https://github.com/chrisgrieser/nvim-spider/pull/4>.
 
 **About Me** In my day job, I am a sociologist studying the social mechanisms
 underlying the digital economy. For my PhD project, I investigate the
@@ -143,7 +147,7 @@ governance of the app economy and how software ecosystems manage the tension
 between innovation and compatibility. If you are interested in this subject,
 feel free to get in touch.
 
-**Blog** I also occassionally blog about vim: Nano Tips for Vim
+**Blog** I also occasionally blog about vim: Nano Tips for Vim
 <https://nanotipsforvim.prose.sh>
 
 **Profiles** - reddit <https://www.reddit.com/user/pseudometapseudo> - Discord
