@@ -63,7 +63,8 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- found, the loop looks for the first one that is higher than the col to
 	-- look from
 	for pos in line:gmatch(pattern) do
-		if pos > col then return pos - 1 end
+		if endOfWord and pos > col then return pos - 1 end
+		if not (endOfWord) and pos >= col then return pos - 1 end
 	end
 	return nil
 end
@@ -75,7 +76,7 @@ end
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key)
-	-- `%f[set]` is the frontier pattern, roughly lua's equivalent of `\b`
+	-- `%f[set]` is roughly lua's equivalent of `\b`
 	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
 	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- solely uppercase for SCREAMING_SNAKE_CASE
 	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
