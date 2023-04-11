@@ -42,7 +42,8 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 
 	-- special case: pattern starting with `^`
 	if pattern:find("^%^") then
-		local start, endPos = line:find(pattern, col)
+		if col ~= 1 then return nil end
+		local start, endPos = line:find(pattern)
 		local pos = endOfWord and endPos or start
 		return pos
 	end
