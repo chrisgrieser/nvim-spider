@@ -14,7 +14,8 @@ Lua implementation of CamelCaseMotion, with extra consideration of punctuation. 
 	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Text Object](#text-object)
+- [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
+- [Subword Text Object](#subword-text-object)
 - [Credits](#credits)
 <!--toc:end-->
 
@@ -82,7 +83,7 @@ vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<C
 ```
 
 > __Note__  
-> For dot-repeat to work, you have to call the motions as Ex-commands. When calling `function() require("spider").motion("w") end` as third argument of the keymap, dot-repeatability will *not* work.
+> For dot-repeat to work, you have to call the motions as Ex-commands. When calling `function() require("spider").motion("w") end` as third argument of the keymap, dot-repeatability <!-- vale Google.Will = NO -->will *not* work.
 
 ## Configuration
 The `.setup()` call is optional. Currently, its only option is to disable the skipping of insignificant punctuation:
@@ -94,7 +95,13 @@ require("spider").setup({
 })
 ```
 
-## Text Object
+## Notes on Operator-pending Mode
+<!-- vale Google.FirstPerson = NO -->
+In operator pending mode, vim's `web` motions are actually a bit inconsistent. For instance, `cw` will change to the *end* of a word instead of the start of the next word, like `dw` does. This is probably done for convenience in vi's early days before there were text objects, but in my view taught people bad habits.
+
+In this plugin, such small inconsistencies are deliberately not implemented. This is also because with of subword motions, vim's behavior would create unexpected results when used in subwords or near punctuation. If you absolutely want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as option.)
+<!-- vale Google.FirstPerson = YES -->
+## Subword Text Object
 This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of the `iw`. For a version of `iw` that considers CamelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 ## Credits

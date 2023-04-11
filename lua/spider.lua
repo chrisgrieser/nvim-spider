@@ -158,6 +158,7 @@ function M.motion(key)
 		end
 	end
 
+	-- consider fold opening
 	local shouldOpenFold = vim.tbl_contains(vim.opt_local.foldopen:get(), "hor")
 	if mode == "n" and shouldOpenFold then vim.cmd.normal { "zv", bang = true } end
 
