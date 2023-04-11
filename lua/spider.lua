@@ -28,22 +28,6 @@ local function getline(lnum)
 	return lineContent[1]
 end
 
----minimum, but as opposed to normal `math.min` factors in that any number may be nil
----@param pos1 number|nil
----@param pos2 number|nil
----@param pos3 number|nil
----@param pos4 number|nil
----@nodiscard
----@return number|nil minimum value or nil if all input numbers are nil
-local function minimum(pos1, pos2, pos3, pos4)
-	if not (pos1 or pos2 or pos3 or pos4) then return nil end
-	pos1 = pos1 or math.huge -- math.huge will never be the lowest number
-	pos2 = pos2 or math.huge
-	pos3 = pos3 or math.huge
-	pos4 = pos4 or math.huge
-	return math.min(pos1, pos2, pos3, pos4)
-end
-
 --------------------------------------------------------------------------------
 -- CORE SEARCH METHODS
 
@@ -87,17 +71,19 @@ end
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key)
 	-- `%f[set]` is roughly lua's equivalent of `\b`
-	local lowerWord = "%u?[%l%d]+" -- first char may be uppercase for CamelCase
-	local upperWord = "%f[%w][%u%d]+%f[^%w]" -- solely uppercase for SCREAMING_SNAKE_CASE
-	local punctuation = "%f[^%s]%p+%f[%s]" -- punctuation surrounded by whitespace
-	local punctAtStart = "^%p+%f[%s]"
-	if not skipInsignificantPunc then punctuation = "%p+" end
+	local patterns = {
+		lowerWord = "%u?[%l%d]+", -- first char may be uppercase for CamelCase
+		upperWord = "%f[%w][%u%d]+%f[^%w]", -- solely uppercase for SCREAMING_SNAKE_CASE
+		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
+		punctAtStart = "^%p+%f[%s]",
+	}
+	if not skipInsignificantPunc then patterns.punctuation = "%p+" end
 
 	-- define motion properties
 	local backwards = (key == "b") or (key == "ge")
 	local endOfWord = (key == "ge") or (key == "e")
 	if backwards then
-		lowerWord = "[%l%d]+%u?" -- the other patterns are already symmetric
+		patterns.lowerWord = "[%l%d]+%u?" -- the other patterns are already symmetric
 		line = line:reverse()
 		endOfWord = not endOfWord
 		if col == -1 then
@@ -109,12 +95,13 @@ local function getNextPosition(line, col, key)
 	line = line .. " " -- so the 2nd %f[] also matches the end of the string
 
 	-- search for patterns, get closest one
-	local pos1 = firstMatchAfter(line, lowerWord, endOfWord, col)
-	local pos2 = firstMatchAfter(line, upperWord, endOfWord, col)
-	local pos3 = firstMatchAfter(line, punctuation, endOfWord, col)
-	local pos4 = firstMatchAfter(line, punctAtStart, endOfWord, col)
-	local nextPos = minimum(pos1, pos2, pos3, pos4)
-	if not nextPos then return nil end -- none found in this line
+	local matches = {}
+	for _, pattern in pairs(patterns) do
+		local match =  firstMatchAfter(line, pattern, endOfWord, col)
+		if match then table.insert(matches, match) end
+	end
+	if vim.tbl_isempty(matches) then return nil end -- none found in this line
+	local nextPos = math.min(unpack(matches))
 
 	if not endOfWord then nextPos = nextPos + 1 end
 	if backwards then nextPos = #line - nextPos end
