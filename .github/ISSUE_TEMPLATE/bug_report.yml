@@ -11,20 +11,16 @@ body:
     validations:
       required: true
   - type: textarea
-    id: screenshot
-    attributes:
-      label: Relevant Screenshot
-      description: If applicable, add screenshots or a screen recording to help explain your problem.
-  - type: textarea
     id: reproduction-steps
     attributes:
-      label: To Reproduce
-      description: Steps to reproduce the problem
+      label: Reproduction & Sample Text
+      description: Include sample text and mark clearly where the cursor is before and operation, where it is after an operation, and where you expected it be.
       placeholder: |
-        For example:
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll down to '...'
+        before: Samp|le Text
+        after: Sample |Text 
+        expected: Sample| Text
+    validations:
+      required: true
   - type: textarea
     id: version-info
     attributes:
@@ -37,5 +33,7 @@ body:
     attributes:
       label: Make sure you have done the following
       options:
+        - label: I am creating one bug report per issue, rather than listing multiple issues in one bug report.
+          required: true
         - label: I have updated to the latest version of the plugin.
           required: true
