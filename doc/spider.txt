@@ -8,6 +8,7 @@ Table of Contents                                   *spider-table-of-contents*
   - Installation                            |spider-nvim-spider--installation|
   - Configuration                          |spider-nvim-spider--configuration|
   - Notes on Operator-pending Mode|spider-nvim-spider--notes-on-operator-pending-mode|
+  - Subword Text Object              |spider-nvim-spider--subword-text-object|
   - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
@@ -141,10 +142,14 @@ In this plugin, such small inconsistencies are deliberately not implemented.
 This is also because with of subword motions, vim’s behavior would create
 unexpected results when used in subwords or near punctuation. If you absolutely
 want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as
-option.) Subword Text Object This plugins supports `w`, `e`, and `b` in
-operater-pending mode, but does not include a subword-variant of the `iw`. For
-a version of `iw` that considers CamelCase, check out the `subword` text object
-of nvim-various-textobjs
+option.)
+
+
+SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
+
+This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not
+include a subword-variant of the `iw`. For a version of `iw` that considers
+CamelCase, check out the `subword` text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
