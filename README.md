@@ -5,8 +5,7 @@ Lua implementation of CamelCaseMotion, with extra consideration of punctuation. 
 
 > __Note__  
 > If you installed the plugin before March 31, you should change your
-> keymappings to call the motions via Ex-commands to make them dot-repeatable: `"<cmd>lua
-> require('spider').motion("w")<CR>"`. [See the example here.](#installation)
+> keymappings to call the motions via Ex-commands to make them dot-repeatable: `"<cmd>lua require('spider').motion("w")<CR>"`. [See the example here.](#installation)
 
 <!--toc:start-->
 - [Features](#features)
@@ -101,6 +100,7 @@ In operator pending mode, vim's `web` motions are actually a bit inconsistent. F
 
 In this plugin, such small inconsistencies are deliberately not implemented. This is also because with of subword motions, vim's behavior would create unexpected results when used in subwords or near punctuation. If you absolutely want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as option.)
 <!-- vale Google.FirstPerson = YES -->
+
 ## Subword Text Object
 This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of the `iw`. For a version of `iw` that considers CamelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 

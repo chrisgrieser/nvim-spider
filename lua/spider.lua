@@ -31,7 +31,9 @@ end
 --------------------------------------------------------------------------------
 -- CORE SEARCH METHODS
 
----returns the index of the first match after the given pattern
+-- INFO This method is necessary as opposed to a simple `:find`, to correctly
+-- determine a word the
+-- cursor is already standing on
 ---@param line string
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
@@ -39,18 +41,18 @@ end
 ---@nodiscard
 ---@return number|nil returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, col)
-
-	-- special case: pattern starting with `^`
-	if pattern:find("^%^") then
-		if col ~= 1 then return nil end
+	-- special case: pattern with `^` / `$`, since there can only be one match
+	-- and since gmatch won't work with them
+	if pattern:find("^%^") or pattern:find("%$$") then
+		if pattern:find("%$$") and col == #line + 1 then return nil end
+		if pattern:find("^%^") and col ~= 1 then return nil end
 		local start, endPos = line:find(pattern)
 		local pos = endOfWord and endPos or start
 		return pos
 	end
 
-	-- INFO "()" makes gmatch return the position of that group
 	if endOfWord then
-		pattern = pattern .. "()"
+		pattern = pattern .. "()" -- INFO "()" makes gmatch return the position of that group
 	else
 		pattern = "()" .. pattern
 	end
@@ -59,7 +61,7 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- look from
 	for pos in line:gmatch(pattern) do
 		if endOfWord and pos > col then return pos - 1 end
-		if not (endOfWord) and pos >= col then return pos - 1 end
+		if not endOfWord and pos >= col then return pos - 1 end
 	end
 	return nil
 end
@@ -76,7 +78,8 @@ local function getNextPosition(line, col, key)
 		lowerWord = "%u?[%l%d]+", -- first char may be uppercase for CamelCase
 		upperWord = "%f[%w][%u%d]+%f[^%w]", -- solely uppercase for SCREAMING_SNAKE_CASE
 		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
-		punctAtStart = "^%p+%f[%s]",
+		punctAtStart = "^%p+%f[%s]", -- needed since lua does not allow for logical OR
+		punctAtEnd = "%f[^%s]%p+$",
 	}
 	if not skipInsignificantPunc then patterns.punctuation = "%p+" end
 
@@ -93,19 +96,18 @@ local function getNextPosition(line, col, key)
 			col = #line - col + 1
 		end
 	end
-	line = line .. " " -- so the 2nd %f[] also matches the end of the string
 
 	-- search for patterns, get closest one
 	local matches = {}
 	for _, pattern in pairs(patterns) do
-		local match =  firstMatchAfter(line, pattern, endOfWord, col)
+		local match = firstMatchAfter(line, pattern, endOfWord, col)
 		if match then table.insert(matches, match) end
 	end
 	if vim.tbl_isempty(matches) then return nil end -- none found in this line
 	local nextPos = math.min(unpack(matches))
 
 	if not endOfWord then nextPos = nextPos + 1 end
-	if backwards then nextPos = #line - nextPos end
+	if backwards then nextPos = #line - nextPos + 1 end
 	return nextPos
 end
 
