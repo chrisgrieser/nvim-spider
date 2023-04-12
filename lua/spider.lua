@@ -81,6 +81,7 @@ local function getNextPosition(line, col, key)
 		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
 		punctAtStart = "^%p+%f[%s]", -- needed since lua does not allow for logical OR
 		punctAtEnd = "%f[^%s]%p+$",
+		onlyPunct = "^%p+$",
 	}
 	if not skipInsignificantPunc then patterns.punctuation = "%p+" end
 
