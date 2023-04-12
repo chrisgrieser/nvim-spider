@@ -35,5 +35,7 @@ body:
       options:
         - label: In case I have an issue with using the motions in operater-pending mode (`cw`, `de`, …), I read the [notes on operator-pending mode in the README](https://github.com/chrisgrieser/nvim-spider#notes-on-operator-pending-mode).
           required: true
+        - label: I do not have set the options `virtualedit=all` or `virtualedit=onemore`.
+          required: true
         - label: I have updated to the latest version of the plugin.
           required: true
