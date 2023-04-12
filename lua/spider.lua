@@ -41,10 +41,10 @@ end
 ---@nodiscard
 ---@return number|nil returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, col)
-	-- special case: pattern with `^` / `$`, since there can only be one match
+	-- special case: pattern with ^/$, since there can only be one match
 	-- and since gmatch won't work with them
 	if pattern:find("^%^") or pattern:find("%$$") then
-		if pattern:find("%$$") and col >= #line then return nil end
+		if pattern:find("%$$") and col >= #line then return nil end -- checking for high col count for virtualedit
 		if pattern:find("^%^") and col ~= 1 then return nil end
 		local start, endPos = line:find(pattern)
 		local pos = endOfWord and endPos or start
@@ -124,6 +124,7 @@ function M.motion(key)
 	end
 
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local startCol, startRow = col, row
 	local lastRow = vim.fn.line("$")
 	local forwards = key == "w" or key == "e"
 
@@ -139,7 +140,8 @@ function M.motion(key)
 		while true do
 			local line = getline(row)
 			col = getNextPosition(line, col, key)
-			if col then break end
+			local onTheSamePos = (col == startCol + 1 and row == startRow)
+			if col and not(onTheSamePos) then break end
 			col = forwards and 1 or -1
 			row = forwards and row + 1 or row - 1
 			if row > lastRow or row < 1 then return end
