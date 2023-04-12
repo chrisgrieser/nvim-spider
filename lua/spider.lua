@@ -48,6 +48,7 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 		if pattern:find("^%^") and col ~= 1 then return nil end
 		local start, endPos = line:find(pattern)
 		local pos = endOfWord and endPos or start
+		if pos and not endOfWord then pos = pos - 1 end
 		return pos
 	end
 
