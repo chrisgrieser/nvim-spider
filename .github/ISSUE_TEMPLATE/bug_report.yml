@@ -28,14 +28,20 @@ body:
       render: Text
     validations:
       required: true
+  - type: textarea
+    id: special-settings
+    attributes:
+      label: Special Settings
+      description: Do you have any special settings enabled that alter vim's editing behavior, like `virtualedit=onemore`?
+      render: Text
+    validations:
+      required: true
   - type: checkboxes
     id: checklist
     attributes:
       label: Make sure you have done the following
       options:
         - label: In case I have an issue with using the motions in operater-pending mode (`cw`, `de`, …), I read the [notes on operator-pending mode in the README](https://github.com/chrisgrieser/nvim-spider#notes-on-operator-pending-mode).
-          required: true
-        - label: I do not have set the options `virtualedit=all` or `virtualedit=onemore`.
           required: true
         - label: I have updated to the latest version of the plugin.
           required: true

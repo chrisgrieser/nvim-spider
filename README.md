@@ -72,8 +72,6 @@ use { "chrisgrieser/nvim-spider" }
 { "chrisgrieser/nvim-spider", lazy = true },
 ```
 
-Note that the plugin does not work well with `virtualedit`.
-
 No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
 
 ```lua
