@@ -44,7 +44,7 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- special case: pattern with `^` / `$`, since there can only be one match
 	-- and since gmatch won't work with them
 	if pattern:find("^%^") or pattern:find("%$$") then
-		if pattern:find("%$$") and col == #line + 1 then return nil end
+		if pattern:find("%$$") and col >= #line then return nil end
 		if pattern:find("^%^") and col ~= 1 then return nil end
 		local start, endPos = line:find(pattern)
 		local pos = endOfWord and endPos or start
