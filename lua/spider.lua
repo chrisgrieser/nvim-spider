@@ -83,7 +83,10 @@ local function getNextPosition(line, col, key)
 		punctAtEnd = "%f[^%s]%p+$",
 		onlyPunct = "^%p+$",
 	}
-	if not skipInsignificantPunc then patterns.punctuation = "%p+" end
+
+	if not (skipInsignificantPunc and not vim.startswith(vim.api.nvim_get_mode().mode, 'no')) then
+    patterns.punctuation = "%p+"
+  end
 
 	-- define motion properties
 	local backwards = (key == "b") or (key == "ge")
