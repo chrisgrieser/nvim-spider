@@ -44,7 +44,7 @@ except for two differences:
 SUBWORD MOTION ~
 
 The movements happen by subwords, meaning it stops at the sub-parts of a
-CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable.
+camelCase, SCREAMING_SNAKE_CASE, or kebab-case variable.
 
 >lua
     -- positions vim's `w` will move to
