@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2023 April 12
+*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 17
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -25,7 +25,6 @@ dot-repeats.
   **Note** If you installed the plugin before March 31, you should change your
   keymappings to call the motions via Ex-commands to make them dot-repeatable:
   `"<cmd>lua require('spider').motion("w")<CR>"`. |spider-see-the-example-here.|
-
 - |spider-features|
     - |spider-subword-motion|
     - |spider-skipping-insignificant-punctuation|
@@ -148,8 +147,8 @@ option.)
 SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
 
 This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not
-include a subword-variant of the `iw`. For a version of `iw` that considers
-CamelCase, check out the `subword` text object of nvim-various-textobjs
+include a subword-variant of `iw`. For a version of `iw` that considers
+camelCase, check out the `subword` text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
