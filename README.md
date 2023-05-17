@@ -22,7 +22,7 @@ Lua implementation of CamelCaseMotion, with extra consideration of punctuation. 
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim, except for two differences:
 
 ### Subword Motion
-The movements happen by subwords, meaning it stops at the sub-parts of a CamelCase (or SCREAMING_SNAKE_CASE or kebab-case) variable.
+The movements happen by subwords, meaning it stops at the sub-parts of a camelCase, SCREAMING_SNAKE_CASE, or kebab-case variable.
 
 ```lua
 -- positions vim's `w` will move to
