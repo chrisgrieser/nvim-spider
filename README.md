@@ -102,7 +102,7 @@ In this plugin, such small inconsistencies are deliberately not implemented. Thi
 <!-- vale Google.FirstPerson = YES -->
 
 ## Subword Text Object
-This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of the `iw`. For a version of `iw` that considers CamelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
+This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of `iw`. For a version of `iw` that considers camelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 ## Credits
 __Thanks__  
