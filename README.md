@@ -96,9 +96,9 @@ require("spider").setup({
 
 ## Notes on Operator-pending Mode
 <!-- vale Google.FirstPerson = NO -->
-In operator pending mode, vim's `web` motions are actually a bit inconsistent. For instance, `cw` will change to the *end* of a word instead of the start of the next word, like `dw` does. This is probably done for convenience in vi's early days before there were text objects, but in my view taught people bad habits.
+In operator pending mode, vim's `web` motions are actually a bit inconsistent. For instance, `cw` will change to the *end* of a word instead of the start of the next word, like `dw` does. This is probably done for convenience in vi's early days before there were text objects. In my view, this is quite problematic since it makes people habitualize inconsistent motion behavior.
 
-In this plugin, such small inconsistencies are deliberately not implemented. This is also because with of subword motions, vim's behavior would create unexpected results when used in subwords or near punctuation. If you absolutely want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as option.)
+In this plugin, such small inconsistencies are therefore deliberately not implemented. Apart from the inconsistency, such a behavior can create unexpected results when used in subwords or near punctuation. If you absolutely want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as option for the keymap.)
 <!-- vale Google.FirstPerson = YES -->
 
 ## Subword Text Object
