@@ -1,4 +1,4 @@
-*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 17
+*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 19
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -134,14 +134,15 @@ NOTES ON OPERATOR-PENDING MODE*spider-nvim-spider--notes-on-operator-pending-mod
 In operator pending mode, vim’s `web` motions are actually a bit
 inconsistent. For instance, `cw` will change to the _end_ of a word instead of
 the start of the next word, like `dw` does. This is probably done for
-convenience in vi’s early days before there were text objects, but in my view
-taught people bad habits.
+convenience in vi’s early days before there were text objects. In my view,
+this is quite problematic since it makes people habitualize inconsistent motion
+behavior.
 
-In this plugin, such small inconsistencies are deliberately not implemented.
-This is also because with of subword motions, vim’s behavior would create
+In this plugin, such small inconsistencies are therefore deliberately not
+implemented. Apart from the inconsistency, such a behavior can create
 unexpected results when used in subwords or near punctuation. If you absolutely
 want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as
-option.)
+option for the keymap.)
 
 
 SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
