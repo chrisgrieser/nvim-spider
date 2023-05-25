@@ -1,4 +1,4 @@
-*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 19
+*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 25
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
