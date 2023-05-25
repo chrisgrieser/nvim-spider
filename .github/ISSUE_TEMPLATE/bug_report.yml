@@ -14,7 +14,7 @@ body:
     id: reproduction-steps
     attributes:
       label: Reproduction & Sample Text
-      description: Include sample text and mark clearly where the cursor is before and operation, where it is after an operation, and where you expected it be.
+      description: Include sample text and mark clearly where the cursor is before the operation, where it is afterwards, and where you expected it be.
       placeholder: |
         before: Samp|le Text
         after: Sample |Text 
