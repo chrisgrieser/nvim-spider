@@ -1,11 +1,7 @@
 # nvim-spider 🕷️🕸️
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
-Lua implementation of CamelCaseMotion, with extra consideration of punctuation. Works in normal, visual, and operator-pending mode. Supports counts and dot-repeats.
-
-> __Note__  
-> If you installed the plugin before March 31, you should change your
-> keymappings to call the motions via Ex-commands to make them dot-repeatable: `"<cmd>lua require('spider').motion("w")<CR>"`. [See the example here.](#installation)
+Lua implementation of CamelCaseMotion, with extra consideration of punctuation. Works in normal, visual, and operator-pending mode. Supports counts and dot-repeat.
 
 <!--toc:start-->
 - [Features](#features)
