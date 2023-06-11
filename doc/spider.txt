@@ -1,4 +1,4 @@
-*spider.txt*              For NVIM v0.8.0             Last change: 2023 May 25
+*spider.txt*             For NVIM v0.8.0             Last change: 2023 June 11
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -19,12 +19,8 @@ insignificant punctuation.
 
 Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
 Works in normal, visual, and operator-pending mode. Supports counts and
-dot-repeats.
+dot-repeat.
 
-
-  **Note** If you installed the plugin before March 31, you should change your
-  keymappings to call the motions via Ex-commands to make them dot-repeatable:
-  `"<cmd>lua require('spider').motion("w")<CR>"`. |spider-see-the-example-here.|
 - |spider-features|
     - |spider-subword-motion|
     - |spider-skipping-insignificant-punctuation|
