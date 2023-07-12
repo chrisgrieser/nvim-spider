@@ -90,6 +90,12 @@ require("spider").setup({
 })
 ```
 
+You can also pass this configuration table to the `motion` function:
+```lua
+require('spider').motion('w', { skipInsignificantPunctuation = false })
+```
+Any options passed here will be used, and any options not passed will use the default configuration (from `setup()` or the default configuration)
+
 ## Notes on Operator-pending Mode
 <!-- vale Google.FirstPerson = NO -->
 In operator pending mode, vim's `web` motions are actually a bit inconsistent. For instance, `cw` will change to the *end* of a word instead of the start of the next word, like `dw` does. This is probably done for convenience in vi's early days before there were text objects. In my view, this is quite problematic since it makes people habitualize inconsistent motion behavior.
