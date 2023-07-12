@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0             Last change: 2023 June 11
+*spider.txt*             For NVIM v0.8.0             Last change: 2023 July 12
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -123,6 +123,15 @@ skipping of insignificant punctuation:
         skipInsignificantPunctuation = true
     })
 <
+
+You can also pass this configuration table to the `motion` function:
+
+>lua
+    require('spider').motion('w', { skipInsignificantPunctuation = false })
+<
+
+Any options passed here will be used, and any options not passed will use the
+default configuration (from `setup()` or the default configuration)
 
 
 NOTES ON OPERATOR-PENDING MODE*spider-nvim-spider--notes-on-operator-pending-mode*
