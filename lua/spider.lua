@@ -1,19 +1,18 @@
 local M = {}
 --------------------------------------------------------------------------------
 -- CONFIG
-
--- Default values
-local skipInsignificantPunc = true
-
 ---@class optsObj
 ---@field skipInsignificantPunctuation boolean defaults to true
 
+-- Default values
+local defaults = {
+	skipInsignificantPunctuation = true,
+}
+local config = defaults
+
 ---@param opts optsObj
 function M.setup(opts)
-	opts = opts or {}
-	if opts.skipInsignificantPunctuation ~= nil then
-		skipInsignificantPunc = opts.skipInsignificantPunctuation
-	end
+	if opts then config = vim.tbl_deep_extend("force", config, opts) end
 end
 
 --------------------------------------------------------------------------------
@@ -73,7 +72,7 @@ end
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
-local function getNextPosition(line, col, key)
+local function getNextPosition(line, col, key, opts)
 	-- `%f[set]` is roughly lua's equivalent of `\b`
 	local patterns = {
 		lowerWord = "%u?[%l%d]+", -- first char may be uppercase for CamelCase
@@ -83,7 +82,7 @@ local function getNextPosition(line, col, key)
 		punctAtEnd = "%f[^%s]%p+$",
 		onlyPunct = "^%p+$",
 	}
-	if not skipInsignificantPunc then patterns.punctuation = "%p+" end
+	if not opts.skipInsignificantPunctuation then patterns.punctuation = "%p+" end
 
 	-- define motion properties
 	local backwards = (key == "b") or (key == "ge")
@@ -116,8 +115,10 @@ end
 --------------------------------------------------------------------------------
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
+---@param opts optsObj configuration table as in setup()
 -- selene: allow(high_cyclomatic_complexity)
-function M.motion(key)
+function M.motion(key, opts)
+	opts = opts and vim.tbl_deep_extend("force", config, opts) or config
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
 		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
 		return
@@ -139,7 +140,7 @@ function M.motion(key)
 		-- looping through rows (if next location not found in line)
 		while true do
 			local line = getline(row)
-			col = getNextPosition(line, col, key)
+			col = getNextPosition(line, col, key, opts)
 			local onTheSamePos = (col == startCol + 1 and row == startRow)
 			if col and not(onTheSamePos) then break end
 			col = forwards and 1 or -1
