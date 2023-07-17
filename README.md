@@ -95,7 +95,31 @@ call.
 },
 
 -- packer
-use { "chrisgrieser/nvim-spider", rocks = "luautf8" }
+use { "chrisgrieser/nvim-spider" }
+
+-- lazy.nvim
+{ "chrisgrieser/nvim-spider", lazy = true },
+```
+
+No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
+
+```lua
+vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
+vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge" })
+```
+
+> __Note__  
+> For dot-repeat to work, you have to call the motions as Ex-commands. When calling `function() require("spider").motion("w") end` as third argument of the keymap, dot-repeatability <!-- vale Google.Will = NO -->will *not* work.
+
+## UTF-8 support
+
+For adding UTF-8 support for matching non-ASCII text, add rocks `luautf8` in packer.nvim. Or add [dependency](https://github.com/theHamsta/nvim_rocks) like below, in lazy.nvim example.
+
+```lua
+-- packer
+{ "chrisgrieser/nvim-spider", rocks = "luautf8" }
 
 -- lazy.nvim
 {
