@@ -1,4 +1,6 @@
 # nvim-spider 🕷️🕸️
+<a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider"><img src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield" /></a>
+
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
 Lua implementation of CamelCaseMotion, with extra consideration of punctuation. Works in normal, visual, and operator-pending mode. Supports counts and dot-repeat.
