@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0             Last change: 2023 July 24
+*spider.txt*             For NVIM v0.8.0             Last change: 2023 July 28
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -13,6 +13,8 @@ Table of Contents                                   *spider-table-of-contents*
 
 ==============================================================================
 1. nvim-spider                                           *spider-nvim-spider-*
+
+
 
 Usethe `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
