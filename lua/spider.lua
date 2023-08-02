@@ -115,7 +115,7 @@ end
 --------------------------------------------------------------------------------
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
----@param opts optsObj configuration table as in setup()
+---@param opts? optsObj configuration table as in setup()
 -- selene: allow(high_cyclomatic_complexity)
 function M.motion(key, opts)
 	opts = opts and vim.tbl_deep_extend("force", config, opts) or config
