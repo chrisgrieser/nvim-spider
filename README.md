@@ -71,7 +71,17 @@ If you prefer to use this plugin only for subword motion, you can disable this f
 use { "chrisgrieser/nvim-spider" }
 
 -- lazy.nvim
-{ "chrisgrieser/nvim-spider", lazy = true },
+{
+	"chrisgrieser/nvim-spider",
+	-- example for lazy-loading and keymap
+	keys = {
+		{
+			"e",
+			"<cmd>lua require('spider').motion('e')<CR>",
+			mode = { "n", "o", "x" },
+		},
+	},
+},
 ```
 
 No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
