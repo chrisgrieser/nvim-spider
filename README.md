@@ -1,20 +1,24 @@
+<!-- LTeX: enabled=false -->
 # nvim-spider 🕷️🕸️
+<!-- LTeX: enabled=true -->
 <a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider"><img src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield" /></a>
 
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation.
 
-Lua implementation of CamelCaseMotion, with extra consideration of punctuation. Works in normal, visual, and operator-pending mode. Supports counts and dot-repeat.
+A lua implementation of [CamelCaseMotion](https://github.com/bkad/CamelCaseMotion), with extra consideration of punctuation. Works in normal, visual, and operator-pending mode. Supports counts and dot-repeat.
 
-<!--toc:start-->
+<!-- toc -->
+
 - [Features](#features)
-	- [Subword Motion](#subword-motion)
-	- [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
+	* [Subword Motion](#subword-motion)
+	* [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
 - [Subword Text Object](#subword-text-object)
 - [Credits](#credits)
-<!--toc:end-->
+
+<!-- tocstop -->
 
 ## Features
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim, except for two differences:
@@ -73,10 +77,30 @@ use { "chrisgrieser/nvim-spider" }
 No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
 
 ```lua
-vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
-vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
-vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
-vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge" })
+vim.keymap.set(
+	{ "n", "o", "x" },
+	"w",
+	"<cmd>lua require('spider').motion('w')<CR>",
+	{ desc = "Spider-w" }
+)
+vim.keymap.set(
+	{ "n", "o", "x" },
+	"e",
+	"<cmd>lua require('spider').motion('e')<CR>",
+	{ desc = "Spider-e" }
+)
+vim.keymap.set(
+	{ "n", "o", "x" },
+	"b",
+	"<cmd>lua require('spider').motion('b')<CR>",
+	{ desc = "Spider-b" }
+)
+vim.keymap.set(
+	{ "n", "o", "x" },
+	"ge",
+	"<cmd>lua require('spider').motion('ge')<CR>",
+	{ desc = "Spider-ge" }
+)
 ```
 
 > __Note__  
@@ -87,15 +111,17 @@ The `.setup()` call is optional. Currently, its only option is to disable the sk
 
 ```lua
 -- default value
-require("spider").setup({
-	skipInsignificantPunctuation = true
-})
+require("spider").setup {
+	skipInsignificantPunctuation = true,
+}
 ```
 
 You can also pass this configuration table to the `motion` function:
+
 ```lua
-require('spider').motion('w', { skipInsignificantPunctuation = false })
+require("spider").motion("w", { skipInsignificantPunctuation = false })
 ```
+
 Any options passed here will be used, and any options not passed will use the default configuration (from `setup()` or the default configuration)
 
 ## Notes on Operator-pending Mode
@@ -106,7 +132,7 @@ In this plugin, such small inconsistencies are therefore deliberately not implem
 <!-- vale Google.FirstPerson = YES -->
 
 ## Subword Text Object
-This plugins supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of `iw`. For a version of `iw` that considers camelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
+This plugin supports `w`, `e`, and `b` in operater-pending mode, but does not include a subword-variant of `iw`. For a version of `iw` that considers camelCase, check out the `subword` text object of [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 ## Credits
 __Thanks__  
