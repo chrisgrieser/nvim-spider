@@ -12,11 +12,10 @@ local config = defaults
 
 ---@param opts optsObj
 function M.setup(opts)
-	if opts then config = vim.tbl_deep_extend("force", config, opts) end
+	 config = vim.tbl_deep_extend("force", config, opts)
 end
 
 --------------------------------------------------------------------------------
--- HELPERS
 
 ---equivalent to fn.getline(), but using more efficient nvim api
 ---@param lnum number
@@ -27,12 +26,8 @@ local function getline(lnum)
 	return lineContent[1]
 end
 
---------------------------------------------------------------------------------
--- CORE SEARCH METHODS
-
 -- INFO This method is necessary as opposed to a simple `:find`, to correctly
--- determine a word the
--- cursor is already standing on
+-- determine a word the cursor is already standing on
 ---@param line string
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
@@ -73,15 +68,15 @@ end
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key, opts)
-	-- `%f[set]` is roughly lua's equivalent of `\b`
+	-- INFO `%f[set]` is used to emulate `#b`
 	local patterns = {
-		lowerWord = "%u?[%l]+", -- first char may be uppercase for CamelCase
-		upperWord = "%f[%w][%u]+%f[^%w]", -- solely uppercase for SCREAMING_SNAKE_CASE
-		number = "%d+", -- see issue #31 divisibleBy10Test
+		camelCaseWord = "%u?[%l]+",
+		ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]", 
+		number = "%d+", -- see issue #31
 		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
-		punctAtStart = "^%p+%f[%s]", -- needed since lua does not allow for logical OR
-		punctAtEnd = "%f[^%s]%p+$",
-		onlyPunct = "^%p+$",
+		punctuationAtStart = "^%p+%f[%s]", 
+		punctuationAtEnd = "%f[^%s]%p+$",
+		onlyPunctuationLine = "^%p+$",
 	}
 	if not opts.skipInsignificantPunctuation then patterns.punctuation = "%p+" end
 
@@ -89,7 +84,7 @@ local function getNextPosition(line, col, key, opts)
 	local backwards = (key == "b") or (key == "ge")
 	local endOfWord = (key == "ge") or (key == "e")
 	if backwards then
-		patterns.lowerWord = "[%l%d]+%u?" -- the other patterns are already symmetric
+		patterns.camelCaseWord = "[%l%d]+%u?" -- the other patterns are already symmetric
 		line = line:reverse()
 		endOfWord = not endOfWord
 		if col == -1 then
@@ -117,17 +112,22 @@ end
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param opts? optsObj configuration table as in setup()
--- selene: allow(high_cyclomatic_complexity)
 function M.motion(key, opts)
 	opts = opts and vim.tbl_deep_extend("force", config, opts) or config
+
+	-- GUARD
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
-		vim.notify("Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.", vim.log.levels.ERROR)
+		vim.notify(
+			"Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.",
+			vim.log.levels.ERROR,
+			{ title = "nvim-spider" }
+		)
 		return
 	end
 
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local startCol, startRow = col, row
-	local lastRow = vim.fn.line("$")
+	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
 	-- looping through counts
@@ -143,7 +143,7 @@ function M.motion(key, opts)
 			local line = getline(row)
 			col = getNextPosition(line, col, key, opts)
 			local onTheSamePos = (col == startCol + 1 and row == startRow)
-			if col and not(onTheSamePos) then break end
+			if col and not onTheSamePos then break end
 			col = forwards and 1 or -1
 			row = forwards and row + 1 or row - 1
 			if row > lastRow or row < 1 then return end
