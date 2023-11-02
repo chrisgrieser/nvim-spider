@@ -14,11 +14,16 @@ body:
     id: reproduction-steps
     attributes:
       label: Reproduction & Sample Text
-      description: Include sample text and mark clearly where the cursor is before the operation, where it is afterwards, and where you expected it be.
+      description: > 
+        Include sample text and mark clearly where the cursor is before the operation, 
+        where it is afterwards, and where you expected it be.
       placeholder: |
-        before: Samp|le Text
-        after: Sample |Text 
-        expected: Sample| Text
+        before  : Sample Text
+        ------------^---------
+        after   : Sample Text 
+        ---------------^-----
+        expected: Sample Text
+        -----------------^---
     validations:
       required: true
   - type: textarea
@@ -34,8 +39,6 @@ body:
       label: Special Settings
       description: Do you have any special settings enabled that alter vim's editing behavior, like `virtualedit=onemore`?
       render: Text
-    validations:
-      required: true
   - type: checkboxes
     id: checklist
     attributes:
