@@ -75,8 +75,9 @@ end
 local function getNextPosition(line, col, key, opts)
 	-- `%f[set]` is roughly lua's equivalent of `\b`
 	local patterns = {
-		lowerWord = "%u?[%l%d]+", -- first char may be uppercase for CamelCase
-		upperWord = "%f[%w][%u%d]+%f[^%w]", -- solely uppercase for SCREAMING_SNAKE_CASE
+		lowerWord = "%u?[%l]+", -- first char may be uppercase for CamelCase
+		upperWord = "%f[%w][%u]+%f[^%w]", -- solely uppercase for SCREAMING_SNAKE_CASE
+		number = "%d+", -- see issue #31 divisibleBy10Test
 		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
 		punctAtStart = "^%p+%f[%s]", -- needed since lua does not allow for logical OR
 		punctAtEnd = "%f[^%s]%p+$",
