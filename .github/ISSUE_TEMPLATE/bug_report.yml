@@ -15,9 +15,11 @@ body:
     attributes:
       label: Reproduction & Sample Text
       description: > 
-        Include sample text and mark clearly where the cursor is before the operation, 
-        where it is afterwards, and where you expected it be.
+        Include sample text and mark clearly where the cursor is before the 
+        operation, the exact operation you used, where it is afterwards, and 
+        where you expected it be.
       placeholder: |
+        operation used: `e`
         before  : Sample Text
         ------------^---------
         after   : Sample Text 
