@@ -11,9 +11,7 @@ local defaults = {
 local config = defaults
 
 ---@param opts optsObj
-function M.setup(opts)
-	 config = vim.tbl_deep_extend("force", config, opts)
-end
+function M.setup(opts) config = vim.tbl_deep_extend("force", config, opts) end
 
 --------------------------------------------------------------------------------
 
@@ -71,10 +69,10 @@ local function getNextPosition(line, col, key, opts)
 	-- INFO `%f[set]` is used to emulate `#b`
 	local patterns = {
 		camelCaseWord = "%u?[%l]+",
-		ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]", 
+		ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]",
 		number = "%d+", -- see issue #31
 		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
-		punctuationAtStart = "^%p+%f[%s]", 
+		punctuationAtStart = "^%p+%f[%s]",
 		punctuationAtEnd = "%f[^%s]%p+$",
 		onlyPunctuationLine = "^%p+$",
 	}
