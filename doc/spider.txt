@@ -16,7 +16,7 @@ Table of Contents                                   *spider-table-of-contents*
 
 
 
-Usethe `w`, `e`, `b` motions like a spider. Move by subwords and skip
+Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
 A lua implementation of CamelCaseMotion
