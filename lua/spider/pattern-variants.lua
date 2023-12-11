@@ -34,12 +34,17 @@ local allPunctuationPatterns = {
 --------------------------------------------------------------------------------
 
 ---@param opts optsObj configuration table as in setup()
+---@param backwards boolean whether to adjust patterns for backward motions
 ---@return patternList
 ---@nodiscard
-function M.get(opts)
+function M.get(opts, backwards)
 	local punctuationPatterns = opts.skipInsignificantPunctuation
 		and skipPunctuationPatterns or allPunctuationPatterns
 	local wordPatterns = opts.subwordMovement and subwordPatterns or fullwordPatterns
+
+	if opts.subwordMovement and backwards then
+		wordPatterns.camelCaseWord = wordPatterns.camelCaseWordReversed
+	end
 
 	local patternsToUse = vim.tbl_extend("force", wordPatterns, punctuationPatterns)
 	return patternsToUse

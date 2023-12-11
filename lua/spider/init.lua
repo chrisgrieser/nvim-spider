@@ -70,13 +70,11 @@ end
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key, opts)
-	local patterns = patternVariants.get(opts)
-
-	-- define motion properties
-	local backwards = (key == "b") or (key == "ge")
 	local endOfWord = (key == "ge") or (key == "e")
+	local backwards = (key == "b") or (key == "ge")
+	local patterns = patternVariants.get(opts, backwards)
+
 	if backwards then
-		patterns.camelCaseWord = patterns.camelCaseWordReversed
 		line = line:reverse()
 		endOfWord = not endOfWord
 		if col == -1 then
