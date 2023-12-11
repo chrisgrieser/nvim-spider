@@ -1,5 +1,5 @@
 local M = {}
-local patternVariants = require("lua.spider.pattern-variants")
+local patternVariants = require("spider.pattern-variants")
 
 --------------------------------------------------------------------------------
 -- CONFIG
