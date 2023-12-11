@@ -1,4 +1,6 @@
 local M = {}
+local patternVariants = require("lua.spider.pattern-variants")
+
 --------------------------------------------------------------------------------
 -- CONFIG
 ---@class optsObj
@@ -63,26 +65,17 @@ end
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
+---@param opts optsObj configuration table as in setup()
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 local function getNextPosition(line, col, key, opts)
-	-- INFO `%f[set]` is used to emulate `#b`
-	local patterns = {
-		camelCaseWord = "%u?[%l]+",
-		ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]",
-		number = "%d+", -- see issue #31
-		punctuation = "%f[^%s]%p+%f[%s]", -- punctuation surrounded by whitespace
-		punctuationAtStart = "^%p+%f[%s]",
-		punctuationAtEnd = "%f[^%s]%p+$",
-		onlyPunctuationLine = "^%p+$",
-	}
-	if not opts.skipInsignificantPunctuation then patterns.punctuation = "%p+" end
+	local patterns = patternVariants.get(opts)
 
 	-- define motion properties
 	local backwards = (key == "b") or (key == "ge")
 	local endOfWord = (key == "ge") or (key == "e")
 	if backwards then
-		patterns.camelCaseWord = "[%l%d]+%u?" -- the other patterns are already symmetric
+		patterns.camelCaseWord = patterns.camelCaseWordReversed
 		line = line:reverse()
 		endOfWord = not endOfWord
 		if col == -1 then
@@ -111,6 +104,7 @@ end
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param opts? optsObj configuration table as in setup()
 function M.motion(key, opts)
+	-- merge global opts with opts passed for the specific call
 	opts = opts and vim.tbl_deep_extend("force", config, opts) or config
 
 	-- GUARD
@@ -165,7 +159,7 @@ function M.motion(key, opts)
 		end
 	end
 
-	-- consider fold opening
+	-- consider opt.foldopen
 	local shouldOpenFold = vim.tbl_contains(vim.opt_local.foldopen:get(), "hor")
 	if mode == "n" and shouldOpenFold then vim.cmd.normal { "zv", bang = true } end
 
