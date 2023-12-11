@@ -7,14 +7,14 @@ local patternVariants = require("lua.spider.pattern-variants")
 ---@field skipInsignificantPunctuation boolean
 ---@field subwordMovement boolean
 
-local defaults = {
+local defaultConfig = {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
 }
-local config = defaults
+local globalConfig = defaultConfig
 
----@param opts optsObj
-function M.setup(opts) config = vim.tbl_deep_extend("force", config, opts) end
+---@param userOpts optsObj
+function M.setup(userOpts) globalConfig = vim.tbl_deep_extend("force", defaultConfig, userOpts) end
 
 --------------------------------------------------------------------------------
 
@@ -103,10 +103,9 @@ end
 --------------------------------------------------------------------------------
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
----@param opts? optsObj configuration table as in setup()
-function M.motion(key, opts)
-	-- merge global opts with opts passed for the specific call
-	opts = opts and vim.tbl_deep_extend("force", config, opts) or config
+---@param motionOpts? optsObj configuration table as in setup()
+function M.motion(key, motionOpts)
+	local opts = motionOpts and vim.tbl_deep_extend("force", globalConfig, motionOpts) or globalConfig
 
 	-- GUARD
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
