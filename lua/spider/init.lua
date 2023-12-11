@@ -3,12 +3,13 @@ local patternVariants = require("lua.spider.pattern-variants")
 
 --------------------------------------------------------------------------------
 -- CONFIG
----@class optsObj
----@field skipInsignificantPunctuation boolean defaults to true
+---@class (exact) optsObj
+---@field skipInsignificantPunctuation boolean
+---@field subwordMovement boolean
 
--- Default values
 local defaults = {
 	skipInsignificantPunctuation = true,
+	subwordMovement = true,
 }
 local config = defaults
 

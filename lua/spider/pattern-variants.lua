@@ -22,8 +22,12 @@ local skipPunctuationPatterns = {
 }
 
 ---@type patternList
-local simplePatterns = {
+local fullwordPatterns = {
 	word = "%w+",
+}
+
+---@type patternList
+local allPunctuationPatterns = {
 	punctuation = "%p+",
 }
 
@@ -33,13 +37,12 @@ local simplePatterns = {
 ---@return patternList
 ---@nodiscard
 function M.get(opts)
-	local patterns = subwordPatterns
-	if opts.skipInsignificantPunctuation then
-		patterns = vim.tbl_extend("error", patterns, skipPunctuationPatterns)
-	else
-		patterns.punctuation = simplePatterns.punctuation
-	end
-	return patterns
+	local punctuationPatterns = opts.skipInsignificantPunctuation
+		and skipPunctuationPatterns or allPunctuationPatterns
+	local wordPatterns = opts.subwordMovement and subwordPatterns or fullwordPatterns
+
+	local patternsToUse = vim.tbl_extend("force", wordPatterns, punctuationPatterns)
+	return patternsToUse
 end
 
 --------------------------------------------------------------------------------
