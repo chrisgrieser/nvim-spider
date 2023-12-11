@@ -7,14 +7,14 @@ local patternVariants = require("spider.pattern-variants")
 ---@field skipInsignificantPunctuation boolean
 ---@field subwordMovement boolean
 
-local defaultConfig = {
+local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
 }
-local globalConfig = defaultConfig
+local globalOpts = defaultOpts
 
 ---@param userOpts optsObj
-function M.setup(userOpts) globalConfig = vim.tbl_deep_extend("force", defaultConfig, userOpts) end
+function M.setup(userOpts) globalOpts = vim.tbl_deep_extend("force", defaultOpts, userOpts) end
 
 --------------------------------------------------------------------------------
 
@@ -103,9 +103,9 @@ end
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param motionOpts? optsObj configuration table as in setup()
 function M.motion(key, motionOpts)
-	local opts = motionOpts and vim.tbl_deep_extend("force", globalConfig, motionOpts) or globalConfig
+	local opts = motionOpts and vim.tbl_deep_extend("force", globalOpts, motionOpts) or globalOpts
 
-	-- GUARD
+	-- GUARD: validate motion parameter
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
 		vim.notify(
 			"Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.",
@@ -120,7 +120,7 @@ function M.motion(key, motionOpts)
 	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
-	-- looping through counts
+	-- loop through counts
 	for i = 1, vim.v.count1, 1 do
 		if forwards then
 			col = col + 2 -- +1 (next position), +1 lua indexing
@@ -128,7 +128,7 @@ function M.motion(key, motionOpts)
 			col = col - 1 -- next pos
 		end
 
-		-- looping through rows (if next location not found in line)
+		-- loop through rows (if next location not found in line)
 		while true do
 			local line = getline(row)
 			col = getNextPosition(line, col, key, opts)

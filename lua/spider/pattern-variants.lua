@@ -1,13 +1,14 @@
 local M = {}
 --------------------------------------------------------------------------------
--- INFO `%f[set]` is used to emulate `#b`
-
 ---@alias patternList table<string, string>
+
+-- INFO all patterns need to be symmetric to also work for backward motions
+-- in case they are asymmetric, they need to be reversed. Currently, this is
+-- only the case for the camelCase pattern
 
 ---@type patternList
 local subwordPatterns = {
 	camelCaseWord = "%u?[%l]+",
-	-- only camelCase needs reversal, since the other patterns are already symmetric
 	camelCaseWordReversed = "[%l%d]+%u?",
 	ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]",
 	number = "%d+", -- see issue #31
@@ -22,7 +23,7 @@ local skipPunctuationPatterns = {
 }
 
 ---@type patternList
-local fullwordPatterns = {
+local fullWordPatterns = {
 	word = "%w+",
 }
 
@@ -38,9 +39,9 @@ local allPunctuationPatterns = {
 ---@return patternList
 ---@nodiscard
 function M.get(opts, backwards)
-	local punctuationPatterns = opts.skipInsignificantPunctuation
-		and skipPunctuationPatterns or allPunctuationPatterns
-	local wordPatterns = opts.subwordMovement and subwordPatterns or fullwordPatterns
+	local punctuationPatterns = opts.skipInsignificantPunctuation and skipPunctuationPatterns
+		or allPunctuationPatterns
+	local wordPatterns = opts.subwordMovement and subwordPatterns or fullWordPatterns
 
 	if opts.subwordMovement and backwards then
 		wordPatterns.camelCaseWord = wordPatterns.camelCaseWordReversed
