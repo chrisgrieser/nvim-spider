@@ -1,4 +1,4 @@
-*spider.txt*           For NVIM v0.8.0           Last change: 2023 November 07
+*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 11
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -131,12 +131,6 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
         "<cmd>lua require('spider').motion('b')<CR>",
         { desc = "Spider-b" }
     )
-    vim.keymap.set(
-        { "n", "o", "x" },
-        "ge",
-        "<cmd>lua require('spider').motion('ge')<CR>",
-        { desc = "Spider-ge" }
-    )
 <
 
 
@@ -150,9 +144,10 @@ The `.setup()` call is optional. Currently, its only option is to disable the
 skipping of insignificant punctuation:
 
 >lua
-    -- default value
+    -- default values
     require("spider").setup {
         skipInsignificantPunctuation = true,
+        subwordMovement = true,
     }
 <
 
@@ -163,7 +158,7 @@ You can also pass this configuration table to the `motion` function:
 <
 
 Any options passed here will be used, and any options not passed will use the
-default configuration (from `setup()` or the default configuration)
+default configuration (from `setup()` or the default configuration).
 
 
 NOTES ON OPERATOR-PENDING MODE*spider-nvim-spider--notes-on-operator-pending-mode*
@@ -184,7 +179,7 @@ option for the keymap.)
 
 SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
 
-This plugin supports `w`, `e`, and `b` in operater-pending mode, but does not
+This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
