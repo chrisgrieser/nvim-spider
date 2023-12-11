@@ -7,8 +7,8 @@ Table of Contents                                   *spider-table-of-contents*
   - Features                                    |spider-nvim-spider--features|
   - Installation                            |spider-nvim-spider--installation|
   - Configuration                          |spider-nvim-spider--configuration|
-  - Notes on Operator-pending Mode|spider-nvim-spider--notes-on-operator-pending-mode|
   - Subword Text Object              |spider-nvim-spider--subword-text-object|
+  - Notes on Operator-pending Mode|spider-nvim-spider--notes-on-operator-pending-mode|
   - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
@@ -29,8 +29,8 @@ counts and dot-repeat.
     - |spider-skipping-insignificant-punctuation|
 - |spider-installation|
 - |spider-configuration|
-- |spider-notes-on-operator-pending-mode|
 - |spider-subword-text-object|
+- |spider-notes-on-operator-pending-mode|
 - |spider-credits|
 
 
@@ -83,7 +83,7 @@ unnecessary stops.
     -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 <
 
-If you prefer to use this plugin only for subword motion, you can disable this
+If you prefer to use this plugin only for subword motions, you can disable this
 feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
 call.
 
@@ -100,7 +100,7 @@ INSTALLATION                                *spider-nvim-spider--installation*
     {
         "chrisgrieser/nvim-spider",
         keys = {
-            { -- example for lazy-loading and keymap
+            { -- example for lazy-loading on keystroke
                 "e",
                 "<cmd>lua require('spider').motion('e')<CR>",
                 mode = { "n", "o", "x" },
@@ -157,8 +157,16 @@ You can also pass this configuration table to the `motion` function:
     require("spider").motion("w", { skipInsignificantPunctuation = false })
 <
 
-Any options passed here will be used, and any options not passed will use the
-default configuration (from `setup()` or the default configuration).
+Any options passed here will be used, and override the options set in the
+`setup()` call.
+
+
+SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
+
+This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
+include a subword variant of `iw`. For a version of `iw` that considers
+camelCase, check out the `subword` text object of nvim-various-textobjs
+<https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
 NOTES ON OPERATOR-PENDING MODE*spider-nvim-spider--notes-on-operator-pending-mode*
@@ -175,14 +183,6 @@ implemented. Apart from the inconsistency, such a behavior can create
 unexpected results when used in subwords or near punctuation. If you absolutely
 want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as
 option for the keymap.)
-
-
-SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
-
-This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
-include a subword variant of `iw`. For a version of `iw` that considers
-camelCase, check out the `subword` text object of nvim-various-textobjs
-<https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
 CREDITS                                          *spider-nvim-spider--credits*
