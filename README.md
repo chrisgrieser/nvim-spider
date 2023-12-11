@@ -19,8 +19,8 @@ mode. Supports counts and dot-repeat.
 	* [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
 - [Subword Text Object](#subword-text-object)
+- [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -68,7 +68,7 @@ if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
 -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
 ```
 
-If you prefer to use this plugin only for subword motion, you can disable this
+If you prefer to use this plugin only for subword motions, you can disable this
 feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
 call.
 
@@ -85,7 +85,7 @@ use { "chrisgrieser/nvim-spider" }
 {
 	"chrisgrieser/nvim-spider",
 	keys = {
-		{ -- example for lazy-loading and keymap
+		{ -- example for lazy-loading on keystroke
 			"e",
 			"<cmd>lua require('spider').motion('e')<CR>",
 			mode = { "n", "o", "x" },
@@ -117,11 +117,11 @@ vim.keymap.set(
 	{ desc = "Spider-b" }
 )
 ```
-
+<!-- vale Google.Will = NO -->
 > __Note__  
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
 > calling `function() require("spider").motion("w") end` as third argument of
-> the keymap, dot-repeatability <!-- vale Google.Will = NO -->will *not* work.
+> the keymap, dot-repeatability will *not* work.
 
 ## Configuration
 The `.setup()` call is optional. Currently, its only option is to disable the
@@ -141,8 +141,14 @@ You can also pass this configuration table to the `motion` function:
 require("spider").motion("w", { skipInsignificantPunctuation = false })
 ```
 
-Any options passed here will be used, and any options not passed will use the
-default configuration (from `setup()` or the default configuration).
+Any options passed here will be used, and override the options set in the
+`setup()` call.
+
+## Subword Text Object
+This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
+include a subword variant of `iw`. For a version of `iw` that considers
+camelCase, check out the `subword` text object of
+[nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 <!-- vale Google.FirstPerson = NO -->
 ## Notes on Operator-pending Mode
@@ -157,15 +163,7 @@ implemented. Apart from the inconsistency, such a behavior can create unexpected
 results when used in subwords or near punctuation. If you absolutely want to,
 you can map `cw` to `ce` though. (Remember to add `remap = true` as option for
 the keymap.)
-<!-- vale Google.FirstPerson = YES -->
 
-## Subword Text Object
-This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
-include a subword variant of `iw`. For a version of `iw` that considers
-camelCase, check out the `subword` text object of
-[nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
-
-<!-- vale Google.FirstPerson = NO -->
 ## Credits
 __Thanks__  
 To `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
