@@ -116,12 +116,6 @@ vim.keymap.set(
 	"<cmd>lua require('spider').motion('b')<CR>",
 	{ desc = "Spider-b" }
 )
-vim.keymap.set(
-	{ "n", "o", "x" },
-	"ge",
-	"<cmd>lua require('spider').motion('ge')<CR>",
-	{ desc = "Spider-ge" }
-)
 ```
 
 > __Note__  
@@ -134,7 +128,7 @@ The `.setup()` call is optional. Currently, its only option is to disable the
 skipping of insignificant punctuation:
 
 ```lua
--- default value
+-- default values
 require("spider").setup {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
@@ -148,10 +142,10 @@ require("spider").motion("w", { skipInsignificantPunctuation = false })
 ```
 
 Any options passed here will be used, and any options not passed will use the
-default configuration (from `setup()` or the default configuration)
+default configuration (from `setup()` or the default configuration).
 
-## Notes on Operator-pending Mode
 <!-- vale Google.FirstPerson = NO -->
+## Notes on Operator-pending Mode
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in vi's
@@ -166,16 +160,16 @@ the keymap.)
 <!-- vale Google.FirstPerson = YES -->
 
 ## Subword Text Object
-This plugin supports `w`, `e`, and `b` in operater-pending mode, but does not
+This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
+<!-- vale Google.FirstPerson = NO -->
 ## Credits
 __Thanks__  
 To `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
 
-<!-- vale Google.FirstPerson = NO -->
 __About Me__  
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
