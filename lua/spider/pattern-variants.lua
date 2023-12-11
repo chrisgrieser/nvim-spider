@@ -8,14 +8,15 @@ local M = {}
 
 ---@type patternList
 local subwordPatterns = {
-	camelCaseWord = "%u?[%l]+",
-	camelCaseWordReversed = "[%l%d]+%u?",
-	ALL_UPPER_CASE = "%f[%w][%u]+%f[^%w]",
+	camelCaseWordForward = "%u?[%l]+",
+	camelCaseWordBackward = "[%l%d]+%u?",
+	ALL_UPPER_CASE_WORD = "%f[%w][%u]+%f[^%w]",
 	number = "%d+", -- see issue #31
 }
 
 ---@type patternList
 local skipPunctuationPatterns = {
+	-- requires all these variations since lua patterns have no `\b` anchor
 	punctuationSurroundedByWhitespace = "%f[^%s]%p+%f[%s]",
 	punctuationAtStart = "^%p+%f[%s]",
 	punctuationAtEnd = "%f[^%s]%p+$",
@@ -41,11 +42,10 @@ local allPunctuationPatterns = {
 function M.get(opts, backwards)
 	local punctuationPatterns = opts.skipInsignificantPunctuation and skipPunctuationPatterns
 		or allPunctuationPatterns
-	local wordPatterns = opts.subwordMovement and subwordPatterns or fullWordPatterns
 
-	if opts.subwordMovement and backwards then
-		wordPatterns.camelCaseWord = wordPatterns.camelCaseWordReversed
-	end
+	local wordPatterns = vim.deepcopy(opts.subwordMovement and subwordPatterns or fullWordPatterns)
+	if backwards then wordPatterns.camelCaseWordForward = nil end
+	if not backwards then wordPatterns.camelCaseWordBackward = nil end
 
 	local patternsToUse = vim.tbl_extend("force", wordPatterns, punctuationPatterns)
 	return patternsToUse
