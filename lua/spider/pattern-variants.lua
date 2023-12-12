@@ -25,7 +25,7 @@ local skipPunctuationPatterns = {
 
 ---@type patternList
 local fullWordPatterns = {
-	word = "%w+",
+	word = "[%w_]+", -- `_` is usually considered a word character
 }
 
 ---@type patternList
