@@ -72,7 +72,7 @@ If you prefer to use this plugin only for subword motions, you can disable this
 feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
 call.
 
-> __Note__  
+> [!NOTE]
 > This plugin ignores vim's `iskeyword` option.
 
 ## Installation
