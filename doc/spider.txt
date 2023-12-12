@@ -1,4 +1,4 @@
-*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 11
+*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 12
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -88,7 +88,7 @@ feature by setting `skipInsignificantPunctuation = false` in the `.setup()`
 call.
 
 
-  **Note** This plugin ignores vim’s `iskeyword` option.
+  [!NOTE] This plugin ignores vim’s `iskeyword` option.
 
 INSTALLATION                                *spider-nvim-spider--installation*
 
