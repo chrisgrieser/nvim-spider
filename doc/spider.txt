@@ -1,4 +1,4 @@
-*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 12
+*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 16
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -134,7 +134,7 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
 <
 
 
-  **Note** For dot-repeat to work, you have to call the motions as Ex-commands.
+  [!NOTE] For dot-repeat to work, you have to call the motions as Ex-commands.
   When calling `function() require("spider").motion("w") end` as third argument
   of the keymap, dot-repeatability will _not_ work.
 
