@@ -18,7 +18,7 @@ function M.setup(userOpts) globalOpts = vim.tbl_deep_extend("force", defaultOpts
 
 --------------------------------------------------------------------------------
 
----equivalent to fn.getline(), but using more efficient nvim api
+---Equivalent to fn.getline(), but using more efficient nvim api.
 ---@param lnum number
 ---@nodiscard
 ---@return string
@@ -28,13 +28,13 @@ local function getline(lnum)
 end
 
 -- INFO This method is necessary as opposed to a simple `:find`, to correctly
--- determine a word the cursor is already standing on
+-- determine a word the cursor is already standing on.
 ---@param line string
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
----@param col number -- look for the first match after this number
+---@param col number look for the first match after this number
 ---@nodiscard
----@return number|nil returns nil if none is found
+---@return number|nil -- returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, col)
 	-- special case: pattern with ^/$, since there can only be one match
 	-- and since gmatch won't work with them
@@ -62,7 +62,6 @@ local function firstMatchAfter(line, pattern, endOfWord, col)
 	return nil
 end
 
----finds next word, which is lowercase, uppercase, or standalone punctuation
 ---@param line string input string where to find the pattern
 ---@param col number position to start looking from
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
@@ -144,7 +143,7 @@ function M.motion(key, motionOpts)
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
-	local isOperatorPending = mode == "no"
+	local isOperatorPending = mode == "no" -- = [n]ormal & [o]perator, not the word "no"
 	if isOperatorPending then
 		local lastCol = vim.fn.col("$")
 		if key == "e" then col = col + 1 end

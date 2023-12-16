@@ -118,7 +118,7 @@ vim.keymap.set(
 )
 ```
 <!-- vale Google.Will = NO -->
-> __Note__  
+> [!NOTE]
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
 > calling `function() require("spider").motion("w") end` as third argument of
 > the keymap, dot-repeatability will *not* work.
