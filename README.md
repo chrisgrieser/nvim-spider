@@ -19,6 +19,7 @@ mode. Supports counts and dot-repeat.
 	* [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
+	* [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
 - [Subword Text Object](#subword-text-object)
 - [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
 - [Credits](#credits)
@@ -124,14 +125,14 @@ vim.keymap.set(
 > the keymap, dot-repeatability will *not* work.
 
 ## Configuration
-The `.setup()` call is optional. Currently, its only option is to disable the
-skipping of insignificant punctuation:
+The `.setup()` call is optional.
 
 ```lua
 -- default values
 require("spider").setup {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
+	customPatterns = {}, -- overrides other settings if not-empty. See README.
 }
 ```
 
@@ -143,6 +144,45 @@ require("spider").motion("w", { skipInsignificantPunctuation = false })
 
 Any options passed here will be used, and override the options set in the
 `setup()` call.
+
+### Advanced: Custom Movement Patterns
+You can use the `customPatterns` table to define custom movement patterns. These
+must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
+they must be symmetrical (work the same backwards and forwards) to also work
+correctly with `b` and `ge`. If multiple patterns are listed, the motion
+searches for all of them and stops at the closest one. When there is no match, the
+search continues in the next line, allowing for movements similar to a search.
+
+If you have interesting ideas for custom patterns, please share them in the
+[GitHub discussions](./discussions).
+
+A few examples:
+
+```lua
+-- The motion stops at the beginning of the next number.
+require("spider").motion("w", {
+	customPatterns = { "%d+" },
+})
+
+-- The motion stops only at hashes like `ef82a2`. (There is not quantifier like
+-- `{5,}` in lua patterns, making the repetition necessary.)
+require("spider").motion("w", {
+	customPatterns = { "[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+" },
+})
+
+-- The motion stops at the next declaration of a variable in -- javascript.
+-- (The `e` motion combined with the `.` matching any character in
+-- lua ensures that you stop at beginning of the variable name.)
+require("spider").motion("e", {
+	customPatterns = { "const .", "let ." },
+})
+```
+
+> [!NOTE]
+> Setting the option overrides `nvim-spider`'s default behavior, meaning subword
+> movement and skipping of punctuation are disabled. You can add
+> `customPatterns` as an option to the `.motion` call to create extra motions,
+> while still having access `nvim-spider`'s default behavior.
 
 ## Subword Text Object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not

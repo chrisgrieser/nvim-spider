@@ -6,10 +6,13 @@ local patternVariants = require("spider.pattern-variants")
 ---@class (exact) optsObj
 ---@field skipInsignificantPunctuation boolean
 ---@field subwordMovement boolean
+---@field customPatterns string[]
 
+---@type optsObj
 local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
+	customPatterns = {},
 }
 local globalOpts = defaultOpts
 

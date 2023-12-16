@@ -40,6 +40,9 @@ local allPunctuationPatterns = {
 ---@return patternList
 ---@nodiscard
 function M.get(opts, backwards)
+	-- any custom patterns take precedence
+	if opts.customPatterns and #opts.customPatterns > 0 then return opts.customPatterns end
+
 	local punctuationPatterns = opts.skipInsignificantPunctuation and skipPunctuationPatterns
 		or allPunctuationPatterns
 
