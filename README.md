@@ -154,7 +154,8 @@ searches for all of them and stops at the closest one. When there is no match, t
 search continues in the next line, allowing for movements similar to a search.
 
 If you have interesting ideas for custom patterns, please share them in the
-[GitHub discussions](./discussions).
+[GitHub discussions](./discussions), or make a PR to add them as built-in
+options.
 
 A few examples:
 
