@@ -2,7 +2,7 @@
 # nvim-spider 🕷️🕸️
 <!-- LTeX: enabled=true -->
 <a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
-<img src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield" /></a>
+<img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
 
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
@@ -160,13 +160,18 @@ options.
 A few examples:
 
 ```lua
--- The motion stops at the beginning of the next number.
+-- The motion stops only at numbers.
 require("spider").motion("w", {
 	customPatterns = { "%d+" },
 })
 
--- The motion stops only at hashes like `ef82a2`. (There is not quantifier like
--- `{5,}` in lua patterns, making the repetition necessary.)
+-- The motion stops at only at words with at least 3 chars or at any punctuation.
+-- (Lua patterns have no quantifier like `{3,}`, thus the repetition.)
+require("spider").motion("w", {
+	customPatterns = { "%w%w%w+", "%p+" },
+})
+
+-- The motion stops only at hashes like `ef82a2`.
 require("spider").motion("w", {
 	customPatterns = { "[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+" },
 })
