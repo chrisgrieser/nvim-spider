@@ -79,9 +79,6 @@ call.
 ## Installation
 
 ```lua
--- packer
-use { "chrisgrieser/nvim-spider" }
-
 -- lazy.nvim
 {
 	"chrisgrieser/nvim-spider",
@@ -93,6 +90,9 @@ use { "chrisgrieser/nvim-spider" }
 		},
 	},
 },
+
+-- packer
+use { "chrisgrieser/nvim-spider" }
 ```
 
 No keybindings are created by default. Below are the mappings to replace the
@@ -121,8 +121,8 @@ vim.keymap.set(
 <!-- vale Google.Will = NO -->
 > [!NOTE]
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
-> calling `function() require("spider").motion("w") end` as third argument of
-> the keymap, dot-repeatability will *not* work.
+> using `function() require("spider").motion("w") end` as third argument of
+> the keymap, dot-repeatability will not work.
 
 ## Configuration
 The `.setup()` call is optional.
@@ -148,10 +148,10 @@ Any options passed here will be used, and override the options set in the
 ### Advanced: Custom Movement Patterns
 You can use the `customPatterns` table to define custom movement patterns. These
 must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
-they must be symmetrical (work the same backwards and forwards) to also work
-correctly with `b` and `ge`. If multiple patterns are listed, the motion
+they must be symmetrical (work the same backwards and forwards) to work
+correctly with `b` and `ge`. If multiple patterns are given, the motion
 searches for all of them and stops at the closest one. When there is no match, the
-search continues in the next line, allowing for movements similar to a search.
+search continues in the next line.
 
 If you have interesting ideas for custom patterns, please share them in the
 [GitHub discussions](./discussions), or make a PR to add them as built-in
@@ -178,9 +178,9 @@ require("spider").motion("w", {
 
 -- The motion stops at the next declaration of a variable in -- javascript.
 -- (The `e` motion combined with the `.` matching any character in
--- lua ensures that you stop at beginning of the variable name.)
+-- lua patterns ensures that you stop at beginning of the variable name.)
 require("spider").motion("e", {
-	customPatterns = { "const .", "let ." },
+	customPatterns = { "const .", "let .", "var ." },
 })
 ```
 
