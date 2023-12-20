@@ -8,10 +8,10 @@ local M = {}
 
 ---@type patternList
 local subwordPatterns = {
-	camelCaseWordForward = "%u?[%l]+",
-	camelCaseWordBackward = "[%l%d]+%u?",
-	ALL_UPPER_CASE_WORD = "%f[%w][%u]+%f[^%w]",
-	number = "%d+", -- see issue #31
+	camelCaseWordForward = "%u?%l+",
+	camelCaseWordBackward = "%l+%u?",
+	ALL_UPPER_CASE_WORD = "%u%u+",
+	number = "%d+", 
 }
 
 ---@type patternList
