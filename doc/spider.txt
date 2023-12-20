@@ -1,4 +1,4 @@
-*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 19
+*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 20
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -94,9 +94,6 @@ call.
 INSTALLATION                                *spider-nvim-spider--installation*
 
 >lua
-    -- packer
-    use { "chrisgrieser/nvim-spider" }
-    
     -- lazy.nvim
     {
         "chrisgrieser/nvim-spider",
@@ -108,6 +105,9 @@ INSTALLATION                                *spider-nvim-spider--installation*
             },
         },
     },
+    
+    -- packer
+    use { "chrisgrieser/nvim-spider" }
 <
 
 No keybindings are created by default. Below are the mappings to replace the
@@ -136,8 +136,8 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
 
 
   [!NOTE] For dot-repeat to work, you have to call the motions as Ex-commands.
-  When calling `function() require("spider").motion("w") end` as third argument
-  of the keymap, dot-repeatability will _not_ work.
+  When using `function() require("spider").motion("w") end` as third argument of
+  the keymap, dot-repeatability will not work.
 
 CONFIGURATION                              *spider-nvim-spider--configuration*
 
@@ -166,11 +166,10 @@ ADVANCED: CUSTOM MOVEMENT PATTERNS ~
 
 You can use the `customPatterns` table to define custom movement patterns.
 These must be lua patterns <https://www.lua.org/manual/5.4/manual.html#6.4.1>,
-and they must be symmetrical (work the same backwards and forwards) to also
-work correctly with `b` and `ge`. If multiple patterns are listed, the motion
+and they must be symmetrical (work the same backwards and forwards) to work
+correctly with `b` and `ge`. If multiple patterns are given, the motion
 searches for all of them and stops at the closest one. When there is no match,
-the search continues in the next line, allowing for movements similar to a
-search.
+the search continues in the next line.
 
 If you have interesting ideas for custom patterns, please share them in the
 GitHub discussions <./discussions>, or make a PR to add them as built-in
@@ -197,9 +196,9 @@ A few examples:
     
     -- The motion stops at the next declaration of a variable in -- javascript.
     -- (The `e` motion combined with the `.` matching any character in
-    -- lua ensures that you stop at beginning of the variable name.)
+    -- lua patterns ensures that you stop at beginning of the variable name.)
     require("spider").motion("e", {
-        customPatterns = { "const .", "let ." },
+        customPatterns = { "const .", "let .", "var ." },
     })
 <
 
