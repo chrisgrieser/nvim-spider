@@ -101,42 +101,6 @@ use { "chrisgrieser/nvim-spider" }
 { "chrisgrieser/nvim-spider", lazy = true },
 ```
 
-No keybindings are created by default. Below are the mappings to replace the default `w`, `e`, and `b` motions with this plugin's version of them.
-
-```lua
-vim.keymap.set({"n", "o", "x"}, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
-vim.keymap.set({"n", "o", "x"}, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
-vim.keymap.set({"n", "o", "x"}, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
-vim.keymap.set({"n", "o", "x"}, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge" })
-```
-
-> __Note__  
-> For dot-repeat to work, you have to call the motions as Ex-commands. When calling `function() require("spider").motion("w") end` as third argument of the keymap, dot-repeatability <!-- vale Google.Will = NO -->will *not* work.
-
-## UTF-8 support
-
-For adding UTF-8 support for matching non-ASCII text, add rocks `luautf8` in packer.nvim. Or add [dependency](https://github.com/theHamsta/nvim_rocks) like below, in lazy.nvim example.
-
-```lua
--- packer
-{ "chrisgrieser/nvim-spider", rocks = "luautf8" }
-
--- lazy.nvim
-{
-    "chrisgrieser/nvim-spider",
-    lazy = true,
-    dependencies = {
-        "theHamsta/nvim_rocks",
-        event = "VeryLazy",
-        build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-        config = function()
-            local rocks = require("nvim_rocks")
-            rocks.ensure_installed("luautf8")
-        end,
-    }
-},
-```
-
 No keybindings are created by default. Below are the mappings to replace the
 default `w`, `e`, and `b` motions with this plugin's version of them.
 
@@ -165,6 +129,30 @@ vim.keymap.set(
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
 > using `function() require("spider").motion("w") end` as third argument of
 > the keymap, dot-repeatability will not work.
+
+## UTF-8 support
+
+For adding UTF-8 support for matching non-ASCII text, add rocks `luautf8` in packer.nvim. Or add [dependency](https://github.com/theHamsta/nvim_rocks) like below, in lazy.nvim example.
+
+```lua
+-- packer
+{ "chrisgrieser/nvim-spider", rocks = "luautf8" }
+
+-- lazy.nvim
+{
+    "chrisgrieser/nvim-spider",
+    lazy = true,
+    dependencies = {
+        "theHamsta/nvim_rocks",
+        event = "VeryLazy",
+        build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+        config = function()
+            local rocks = require("nvim_rocks")
+            rocks.ensure_installed("luautf8")
+        end,
+    }
+},
+```
 
 ## Configuration
 The `.setup()` call is optional.
