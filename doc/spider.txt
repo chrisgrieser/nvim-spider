@@ -6,11 +6,8 @@ Table of Contents                                   *spider-table-of-contents*
 1. nvim-spider                                           |spider-nvim-spider-|
   - Features                                    |spider-nvim-spider--features|
   - Installation                            |spider-nvim-spider--installation|
-  - UTF-8 support                          |spider-nvim-spider--utf-8-support|
   - Configuration                          |spider-nvim-spider--configuration|
-  - Subword Text Object              |spider-nvim-spider--subword-text-object|
-  - Notes on Operator-pending Mode|spider-nvim-spider--notes-on-operator-pending-mode|
-  - Cookbook                                    |spider-nvim-spider--cookbook|
+  - Special Cases                          |spider-nvim-spider--special-cases|
   - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
@@ -32,9 +29,10 @@ counts and dot-repeat.
 - |spider-installation|
 - |spider-configuration|
     - |spider-advanced:-custom-movement-patterns|
-- |spider-subword-text-object|
-- |spider-notes-on-operator-pending-mode|
-- |spider-cookbook|
+- |spider-special-cases|
+    - |spider-utf-8-support|
+    - |spider-subword-text-object|
+    - |spider-notes-on-operator-pending-mode|
     - |spider-motions-in-insert-mode|
     - |spider-make-`cw`-behave-like-in-original-vim|
 - |spider-credits|
@@ -147,33 +145,6 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
   When using `function() require("spider").motion("w") end` as third argument of
   the keymap, dot-repeatability will not work.
 
-UTF-8 SUPPORT                              *spider-nvim-spider--utf-8-support*
-
-For adding UTF-8 support for matching non-ASCII text, add rocks `luautf8` in
-packer.nvim. Or add dependency <https://github.com/theHamsta/nvim_rocks> like
-below, in lazy.nvim example.
-
->lua
-    -- packer
-    { "chrisgrieser/nvim-spider", rocks = "luautf8" }
-    
-    -- lazy.nvim
-    {
-        "chrisgrieser/nvim-spider",
-        lazy = true,
-        dependencies = {
-            "theHamsta/nvim_rocks",
-            event = "VeryLazy",
-            build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-            config = function()
-                local rocks = require("nvim_rocks")
-                rocks.ensure_installed("luautf8")
-            end,
-        }
-    },
-<
-
-
 CONFIGURATION                              *spider-nvim-spider--configuration*
 
 The `.setup()` call is optional.
@@ -244,7 +215,33 @@ A few examples:
   `customPatterns` as an option to the `.motion` call to create extra motions,
   while still having access `nvim-spider`’s default behavior.
 
-SUBWORD TEXT OBJECT                  *spider-nvim-spider--subword-text-object*
+SPECIAL CASES                              *spider-nvim-spider--special-cases*
+
+
+UTF-8 SUPPORT ~
+
+For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
+You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
+`lazy.nvim`.
+
+>lua
+    -- packer
+    { "chrisgrieser/nvim-spider", rocks = "luautf8" }
+    
+    -- lazy.nvim
+    {
+        "chrisgrieser/nvim-spider",
+        lazy = true,
+        dependencies = {
+            "theHamsta/nvim_rocks",
+            build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+            config = function() require("nvim_rocks").ensure_installed("luautf8") end,
+        },
+    },
+<
+
+
+SUBWORD TEXT OBJECT ~
 
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
@@ -252,7 +249,7 @@ camelCase, check out the `subword` text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
-NOTES ON OPERATOR-PENDING MODE*spider-nvim-spider--notes-on-operator-pending-mode*
+NOTES ON OPERATOR-PENDING MODE ~
 
 In operator pending mode, vim’s `web` motions are actually a bit
 inconsistent. For instance, `cw` will change to the _end_ of a word instead of
@@ -264,27 +261,7 @@ behavior.
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create
 unexpected results when used in subwords or near punctuation. If you
-nevertheless want to, you can achieve that behavior
-|spider-by-mapping-`cw`-to-`ce`-though|.
-
-
-COOKBOOK                                        *spider-nvim-spider--cookbook*
-
-
-MOTIONS IN INSERT MODE ~
-
-Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
-the `l` on backwards motions.)
-
->lua
-    vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
-    vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
-<
-
-
-MAKE CW BEHAVE LIKE IN ORIGINAL VIM ~
-
-Simple and pragmatic: Create a mapping.
+nevertheless want to, you can achieve that behavior by mapping `cw` to `ce`
 
 >lua
     vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
@@ -292,6 +269,17 @@ Simple and pragmatic: Create a mapping.
     
     -- or the same with as one mapping without `remap = true`
     vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
+<
+
+
+MOTIONSIN INSERT MODE ~
+
+Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
+the `l` on backwards motions.)
+
+>lua
+    vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
+    vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 <
 
 
