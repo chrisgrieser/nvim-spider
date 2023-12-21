@@ -23,9 +23,8 @@ mode. Supports counts and dot-repeat.
 - [Special Cases](#special-cases)
 	* [UTF-8 support](#utf-8-support)
 	* [Subword Text Object](#subword-text-object)
-	* [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
+	* [Operator-pending Mode: The case of `cw`](#operator-pending-mode-the-case-of-cw)
 	* [Motions in Insert Mode](#motions-in-insert-mode)
-	* [Make `cw` behave like in original vim](#make-cw-behave-like-in-original-vim)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -228,7 +227,7 @@ camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 <!-- vale Google.FirstPerson = NO -->
-### Notes on Operator-pending Mode
+### Operator-pending Mode: The case of `cw`
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in vi's

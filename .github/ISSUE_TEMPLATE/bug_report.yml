@@ -14,10 +14,9 @@ body:
     id: reproduction-steps
     attributes:
       label: Reproduction & Sample Text
-      description: > 
-        Include sample text and mark clearly where the cursor is before the 
-        operation, the exact operation you used, where it is afterwards, and 
-        where you expected it be.
+      description: >
+        Include sample text and mark clearly where the cursor is before the  operation, the exact operation you used,
+        where it is afterwards, and  where you expected it be.
       placeholder: |
         operation used: `e`
         before  : Sample Text
@@ -39,14 +38,13 @@ body:
     id: special-settings
     attributes:
       label: Special Settings
-      description: Do you have any special settings enabled that alter vim's editing behavior, like `virtualedit=onemore`?
+      description:
+        Do you have any special settings enabled that alter vim's editing behavior, like `virtualedit=onemore`?
       render: Text
   - type: checkboxes
     id: checklist
     attributes:
       label: Make sure you have done the following
       options:
-        - label: In case I have an issue with using the motions in operater-pending mode (`cw`, `de`, …), I read the [notes on operator-pending mode in the README](https://github.com/chrisgrieser/nvim-spider#notes-on-operator-pending-mode).
-          required: true
         - label: I have updated to the latest version of the plugin.
           required: true
