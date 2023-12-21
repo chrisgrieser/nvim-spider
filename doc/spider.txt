@@ -1,4 +1,4 @@
-*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 20
+*spider.txt*           For NVIM v0.8.0           Last change: 2023 December 21
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -9,6 +9,7 @@ Table of Contents                                   *spider-table-of-contents*
   - Configuration                          |spider-nvim-spider--configuration|
   - Subword Text Object              |spider-nvim-spider--subword-text-object|
   - Notes on Operator-pending Mode|spider-nvim-spider--notes-on-operator-pending-mode|
+  - Cookbook                                    |spider-nvim-spider--cookbook|
   - Credits                                      |spider-nvim-spider--credits|
 
 ==============================================================================
@@ -32,6 +33,9 @@ counts and dot-repeat.
     - |spider-advanced:-custom-movement-patterns|
 - |spider-subword-text-object|
 - |spider-notes-on-operator-pending-mode|
+- |spider-cookbook|
+    - |spider-motions-in-insert-mode|
+    - |spider-make-`cw`-behave-like-in-original-vim|
 - |spider-credits|
 
 
@@ -189,9 +193,10 @@ A few examples:
         customPatterns = { "%w%w%w+", "%p+" },
     })
     
-    -- The motion stops only at hashes like `ef82a2`.
+    -- The motion stops only at hashes like `ef82a2`, avoiding repetition by using
+    -- `string.rep()`.
     require("spider").motion("w", {
-        customPatterns = { "[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+" },
+        customPatterns = { ("%x"):rep(6) .. "+" },
     })
     
     -- The motion stops at the next declaration of a variable in -- javascript.
@@ -227,9 +232,36 @@ behavior.
 
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create
-unexpected results when used in subwords or near punctuation. If you absolutely
-want to, you can map `cw` to `ce` though. (Remember to add `remap = true` as
-option for the keymap.)
+unexpected results when used in subwords or near punctuation. If you
+nevertheless want to, you can achieve that behavior
+|spider-by-mapping-`cw`-to-`ce`-though|.
+
+
+COOKBOOK                                        *spider-nvim-spider--cookbook*
+
+
+MOTIONS IN INSERT MODE ~
+
+Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
+the `l` on backwards motions.)
+
+>lua
+    vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
+    vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
+<
+
+
+MAKE CW BEHAVE LIKE IN ORIGINAL VIM ~
+
+Simple and pragmatic: Create a mapping.
+
+>lua
+    vim.keymap.set("n", "w", "<cmd>lua require('spider').motion('w')<CR>")
+    vim.keymap.set("n", "cw", "ce", { remap = true })
+    
+    -- or the same with as one mapping without `remap = true`
+    vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
+<
 
 
 CREDITS                                          *spider-nvim-spider--credits*
