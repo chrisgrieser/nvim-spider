@@ -2,9 +2,9 @@ local M = {}
 --------------------------------------------------------------------------------
 ---@alias patternList table<string, string>
 
--- INFO all patterns need to be symmetric to also work for backward motions
--- in case they are asymmetric, they need to be reversed. Currently, this is
--- only the case for the camelCase pattern
+-- INFO Currently, all patterns need to be symmetric to also work for backward
+-- motions. In case they are asymmetric, they need to be reversed. Currently,
+-- this is only the case for the camelCase pattern.
 
 ---@type patternList
 local subwordPatterns = {

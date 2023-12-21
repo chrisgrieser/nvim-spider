@@ -174,9 +174,10 @@ require("spider").motion("w", {
 	customPatterns = { "%w%w%w+", "%p+" },
 })
 
--- The motion stops only at hashes like `ef82a2`.
+-- The motion stops only at hashes like `ef82a2`, avoiding repetition by using
+-- `string.rep()`.
 require("spider").motion("w", {
-	customPatterns = { "[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+" },
+	customPatterns = { ("%x"):rep(6) .. "+" },
 })
 
 -- The motion stops at the next declaration of a variable in -- javascript.
