@@ -1,31 +1,28 @@
 local M = {}
 local patternVariants = require("spider.pattern-variants")
+--------------------------------------------------------------------------------
 
-local str_func = {
+-- original lua string functions
+local stringFuncs = {
 	reverse = string.reverse,
 	find = string.find,
 	gmatch = string.gmatch,
-	len =  string.len,
+	len = string.len,
 	init_pos = function(_, col)
 		col = col + 1 -- from 0-based indexing to 1-based
 		local startCol = col
 		return col, startCol
 	end,
-	offset = function(_, pos)
-		return pos
-	end,
+	offset = function(_, pos) return pos end,
 }
 
+-- automatic remapping functions to utf8 supported functions
 local ok, utf8 = pcall(require, "lua-utf8")
-
 if ok then
-	-- remapping functions to utf8 supported functions
-	for name, _ in pairs(str_func) do
-		if utf8[name] then
-			str_func[name] = utf8[name]
-		end
+	for name, _ in pairs(stringFuncs) do
+		if utf8[name] then stringFuncs[name] = utf8[name] end
 	end
-	str_func.init_pos = function(s, col)
+	stringFuncs.init_pos = function(s, col)
 		local offset = 1
 		for p, _ in utf8.codes(s) do
 			if p > col then break end
@@ -77,10 +74,10 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 	-- special case: pattern with ^/$, since there can only be one match
 	-- and since gmatch won't work with them
 	if pattern:find("^%^") or pattern:find("%$$") then
-		if pattern:find("%$$") and offset > str_func.len(line) then return nil end -- checking for high col count for virtualedit
+		if pattern:find("%$$") and offset > stringFuncs.len(line) then return nil end -- checking for high col count for virtualedit
 		if pattern:find("^%^") and offset ~= 0 then return nil end
 
-		local start, endPos = str_func.find(line, pattern)
+		local start, endPos = stringFuncs.find(line, pattern)
 		if start == nil or endPos == nil then return nil end
 
 		local pos = endOfWord and endPos or start
@@ -95,7 +92,7 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 	-- `:gmatch` will return all locations in the string where the pattern is
 	-- found, the loop looks for the first one that is higher than the offset
 	-- to look from
-	for pos in str_func.gmatch(line, pattern) do
+	for pos in stringFuncs.gmatch(line, pattern) do
 		if type(pos) == "string" then return nil end
 
 		if endOfWord then pos = pos - 1 end
@@ -116,11 +113,11 @@ local function getNextPosition(line, offset, key, opts)
 	local patterns = patternVariants.get(opts, backwards)
 
 	if backwards then
-		line = str_func.reverse(line)
+		line = stringFuncs.reverse(line)
 		endOfWord = not endOfWord
 
 		local isSameLine = offset ~= 0
-		if isSameLine then offset = str_func.len(line) - offset + 1 end
+		if isSameLine then offset = stringFuncs.len(line) - offset + 1 end
 	end
 
 	-- search for patterns, get closest one
@@ -132,7 +129,7 @@ local function getNextPosition(line, offset, key, opts)
 	if vim.tbl_isempty(matches) then return nil end -- none found in this line
 	local nextPos = math.min(unpack(matches))
 
-	if backwards then nextPos = str_func.len(line) - nextPos + 1 end
+	if backwards then nextPos = stringFuncs.len(line) - nextPos + 1 end
 	return nextPos
 end
 
@@ -155,11 +152,11 @@ function M.motion(key, motionOpts)
 
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local startRow = row
-	local lastRow = vim.fn.line("$")
+	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
 	local line = getline(row)
-	local offset, startOffset = str_func.init_pos(line, col)
+	local offset, startOffset = stringFuncs.init_pos(line, col)
 
 	-- looping through counts
 	for _ = 1, vim.v.count1, 1 do
@@ -179,7 +176,7 @@ function M.motion(key, motionOpts)
 		end
 	end
 
-	col = str_func.offset(line, offset) - 1 -- lua string indices different
+	col = stringFuncs.offset(line, offset) - 1 -- lua string indices different
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
@@ -188,7 +185,7 @@ function M.motion(key, motionOpts)
 		local lastCol = vim.fn.col("$")
 		if key == "e" then
 			offset = offset + 1
-			col = str_func.offset(line, offset) - 1
+			col = stringFuncs.offset(line, offset) - 1
 		end
 
 		if lastCol - 1 == col then
@@ -196,11 +193,11 @@ function M.motion(key, motionOpts)
 			-- in the line otherwise without switching to visual mode?!
 			vim.cmd.normal { "v", bang = true }
 			offset = offset - 1
-			col = str_func.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
+			col = stringFuncs.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
 		end
 	end
 
-	-- consider opt.foldopen
+	-- respect `opt.foldopen = "hor"`
 	local shouldOpenFold = vim.tbl_contains(vim.opt_local.foldopen:get(), "hor")
 	if mode == "n" and shouldOpenFold then vim.cmd.normal { "zv", bang = true } end
 
