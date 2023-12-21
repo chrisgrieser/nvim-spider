@@ -8,10 +8,14 @@ local M = {}
 
 ---@type patternList
 local subwordPatterns = {
+	number = "%d+", 
 	camelCaseWordForward = "%u?%l+",
 	camelCaseWordBackward = "%l+%u?",
 	ALL_UPPER_CASE_WORD = "%u%u+",
-	number = "%d+", 
+	-- Since the previous patterns don't match `A_B_C`, we need to match single
+	-- uppercase letters. The frontier-pattern is required to avoid matching
+	-- camelCase words only with a single letter.
+	SINGLE_UPPERCASE_CHAR = "%f[%w][%u]+%f[^%w]",
 }
 
 ---@type patternList
