@@ -20,9 +20,10 @@ mode. Supports counts and dot-repeat.
 - [Installation](#installation)
 - [Configuration](#configuration)
 	* [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
-- [Subword Text Object](#subword-text-object)
-- [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
-- [Cookbook](#cookbook)
+- [Special Cases](#special-cases)
+	* [UTF-8 support](#utf-8-support)
+	* [Subword Text Object](#subword-text-object)
+	* [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
 	* [Motions in Insert Mode](#motions-in-insert-mode)
 	* [Make `cw` behave like in original vim](#make-cw-behave-like-in-original-vim)
 - [Credits](#credits)
@@ -130,30 +131,6 @@ vim.keymap.set(
 > using `function() require("spider").motion("w") end` as third argument of
 > the keymap, dot-repeatability will not work.
 
-## UTF-8 support
-
-For adding UTF-8 support for matching non-ASCII text, add rocks `luautf8` in packer.nvim. Or add [dependency](https://github.com/theHamsta/nvim_rocks) like below, in lazy.nvim example.
-
-```lua
--- packer
-{ "chrisgrieser/nvim-spider", rocks = "luautf8" }
-
--- lazy.nvim
-{
-    "chrisgrieser/nvim-spider",
-    lazy = true,
-    dependencies = {
-        "theHamsta/nvim_rocks",
-        event = "VeryLazy",
-        build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-        config = function()
-            local rocks = require("nvim_rocks")
-            rocks.ensure_installed("luautf8")
-        end,
-    }
-},
-```
-
 ## Configuration
 The `.setup()` call is optional.
 
@@ -221,14 +198,37 @@ require("spider").motion("e", {
 > `customPatterns` as an option to the `.motion` call to create extra motions,
 > while still having access `nvim-spider`'s default behavior.
 
-## Subword Text Object
+## Special Cases
+
+### UTF-8 support
+For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
+You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
+`lazy.nvim`.
+
+```lua
+-- packer
+{ "chrisgrieser/nvim-spider", rocks = "luautf8" }
+
+-- lazy.nvim
+{
+    "chrisgrieser/nvim-spider",
+    lazy = true,
+    dependencies = {
+    	"theHamsta/nvim_rocks",
+    	build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+    	config = function() require("nvim_rocks").ensure_installed("luautf8") end,
+    },
+},
+```
+
+### Subword Text Object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 <!-- vale Google.FirstPerson = NO -->
-## Notes on Operator-pending Mode
+### Notes on Operator-pending Mode
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in vi's
@@ -238,9 +238,15 @@ since it makes people habitualize inconsistent motion behavior.
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create unexpected
 results when used in subwords or near punctuation. If you nevertheless want to,
-you can achieve that behavior [by mapping `cw` to `ce` though](#make-cw-behave-like-in-original-vim).
+you can achieve that behavior by mapping `cw` to `ce`:
 
-## Cookbook
+```lua
+vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
+vim.keymap.set("n", "cw", "ce", { remap = true })
+
+-- or the same with as one mapping without `remap = true`
+vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
+```
 
 ### Motions in Insert Mode
 
@@ -250,18 +256,6 @@ the `l` on backwards motions.)
 ```lua
 vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
-```
-
-### Make `cw` behave like in original vim
-
-Simple and pragmatic: Create a mapping.
-
-```lua
-vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
-vim.keymap.set("n", "cw", "ce", { remap = true })
-
--- or the same with as one mapping without `remap = true`
-vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
 
 ## Credits
