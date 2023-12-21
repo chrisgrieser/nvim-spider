@@ -230,7 +230,7 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 Simple and pragmatic: Create a mapping.
 
 ```lua
-vim.keymap.set("n", "w", "<cmd>lua require('spider').motion('w')<CR>")
+vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
 vim.keymap.set("n", "cw", "ce", { remap = true })
 
 -- or the same with as one mapping without `remap = true`
