@@ -3,26 +3,27 @@ local patternVariants = require("spider.pattern-variants")
 
 --------------------------------------------------------------------------------
 -- UTF-8 SUPPORT
+
+local originalLuaStringFuncs = {
+	reverse = string.reverse,
+	find = string.find,
+	gmatch = string.gmatch,
+	len = string.len,
+	init_pos = function(_, col)
+		col = col + 1 -- from 0-based indexing to 1-based
+		local startCol = col
+		return col, startCol
+	end,
+	offset = function(_, pos) return pos end,
+}
+
 local luaUtf8Installed, utf8 = pcall(require, "lua-utf8")
-local stringFuncs
+local stringFuncs = {}
 
 if not luaUtf8Installed then
-	-- use original lua string functions
-	stringFuncs = {
-		reverse = string.reverse,
-		find = string.find,
-		gmatch = string.gmatch,
-		len = string.len,
-		init_pos = function(_, col)
-			col = col + 1 -- from 0-based indexing to 1-based
-			local startCol = col
-			return col, startCol
-		end,
-		offset = function(_, pos) return pos end,
-	}
+	stringFuncs = originalLuaStringFuncs
 else
-	-- remapping functions to utf8 equivalents
-	for name, _ in pairs(stringFuncs) do
+	for name, _ in pairs(originalLuaStringFuncs) do
 		if utf8[name] then stringFuncs[name] = utf8[name] end
 	end
 	stringFuncs.init_pos = function(s, col)
@@ -136,7 +137,7 @@ local function getNextPosition(line, offset, key, opts)
 	return nextPos
 end
 
-local function normal(keys) vim.cmd.normal{ keys, bang = true } end
+local function normal(keys) vim.cmd.normal { keys, bang = true } end
 
 --------------------------------------------------------------------------------
 
