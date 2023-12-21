@@ -32,9 +32,8 @@ counts and dot-repeat.
 - |spider-special-cases|
     - |spider-utf-8-support|
     - |spider-subword-text-object|
-    - |spider-notes-on-operator-pending-mode|
+    - |spider-operator-pending-mode:-the-case-of-`cw`|
     - |spider-motions-in-insert-mode|
-    - |spider-make-`cw`-behave-like-in-original-vim|
 - |spider-credits|
 
 
@@ -249,7 +248,7 @@ camelCase, check out the `subword` text object of nvim-various-textobjs
 <https://github.com/chrisgrieser/nvim-various-textobjs>.
 
 
-NOTES ON OPERATOR-PENDING MODE ~
+OPERATOR-PENDING MODE: THE CASE OF CW ~
 
 In operator pending mode, vim’s `web` motions are actually a bit
 inconsistent. For instance, `cw` will change to the _end_ of a word instead of
