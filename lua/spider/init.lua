@@ -1,24 +1,27 @@
 local M = {}
 local patternVariants = require("spider.pattern-variants")
+
 --------------------------------------------------------------------------------
+-- UTF-8 SUPPORT
+local luaUtf8Installed, utf8 = pcall(require, "lua-utf8")
+local stringFuncs
 
--- original lua string functions
-local stringFuncs = {
-	reverse = string.reverse,
-	find = string.find,
-	gmatch = string.gmatch,
-	len = string.len,
-	init_pos = function(_, col)
-		col = col + 1 -- from 0-based indexing to 1-based
-		local startCol = col
-		return col, startCol
-	end,
-	offset = function(_, pos) return pos end,
-}
-
--- automatic remapping functions to utf8 supported functions
-local ok, utf8 = pcall(require, "lua-utf8")
-if ok then
+if not luaUtf8Installed then
+	-- use original lua string functions
+	stringFuncs = {
+		reverse = string.reverse,
+		find = string.find,
+		gmatch = string.gmatch,
+		len = string.len,
+		init_pos = function(_, col)
+			col = col + 1 -- from 0-based indexing to 1-based
+			local startCol = col
+			return col, startCol
+		end,
+		offset = function(_, pos) return pos end,
+	}
+else
+	-- remapping functions to utf8 equivalents
 	for name, _ in pairs(stringFuncs) do
 		if utf8[name] then stringFuncs[name] = utf8[name] end
 	end
@@ -133,6 +136,8 @@ local function getNextPosition(line, offset, key, opts)
 	return nextPos
 end
 
+local function normal(keys) vim.cmd.normal{ keys, bang = true } end
+
 --------------------------------------------------------------------------------
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
@@ -180,7 +185,7 @@ function M.motion(key, motionOpts)
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
-	local isOperatorPending = mode == "no" -- = [n]ormal & [o]perator, not the word "no"
+	local isOperatorPending = mode == "no" -- [n]ormal & [o]perator, not the word "no"
 	if isOperatorPending then
 		local lastCol = vim.fn.col("$")
 		if key == "e" then
@@ -189,9 +194,9 @@ function M.motion(key, motionOpts)
 		end
 
 		if lastCol - 1 == col then
-			-- HACK columns are end-exclusive, cannot actually target the last character
-			-- in the line otherwise without switching to visual mode?!
-			vim.cmd.normal { "v", bang = true }
+			-- HACK columns are end-exclusive, cannot actually target the last
+			-- character in the line without switching to visual mode
+			normal("v")
 			offset = offset - 1
 			col = stringFuncs.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
 		end
@@ -199,7 +204,7 @@ function M.motion(key, motionOpts)
 
 	-- respect `opt.foldopen = "hor"`
 	local shouldOpenFold = vim.tbl_contains(vim.opt_local.foldopen:get(), "hor")
-	if mode == "n" and shouldOpenFold then vim.cmd.normal { "zv", bang = true } end
+	if mode == "n" and shouldOpenFold then normal("zv") end
 
 	vim.api.nvim_win_set_cursor(0, { row, col })
 end
