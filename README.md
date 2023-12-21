@@ -22,6 +22,9 @@ mode. Supports counts and dot-repeat.
 	* [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
 - [Subword Text Object](#subword-text-object)
 - [Notes on Operator-pending Mode](#notes-on-operator-pending-mode)
+- [Cookbook](#cookbook)
+	* [Motions in Insert Mode](#motions-in-insert-mode)
+	* [Make `cw` behave like in original vim](#make-cw-behave-like-in-original-vim)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -206,9 +209,32 @@ since it makes people habitualize inconsistent motion behavior.
 
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create unexpected
-results when used in subwords or near punctuation. If you absolutely want to,
-you can map `cw` to `ce` though. (Remember to add `remap = true` as option for
-the keymap.)
+results when used in subwords or near punctuation. If you nevertheless want to,
+you can achieve that behavior [by mapping `cw` to `ce` though](#make-cw-behave-like-in-original-vim).
+
+## Cookbook
+
+### Motions in Insert Mode
+
+Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
+the `l` on backwards motions.)
+
+```lua
+vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
+vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
+```
+
+### Make `cw` behave like in original vim
+
+Simple and pragmatic: Create a mapping.
+
+```lua
+vim.keymap.set("n", "w", "<cmd>lua require('spider').motion('w')<CR>")
+vim.keymap.set("n", "cw", "ce", { remap = true })
+
+-- or the same with as one mapping without `remap = true`
+vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
+```
 
 ## Credits
 __Thanks__  
