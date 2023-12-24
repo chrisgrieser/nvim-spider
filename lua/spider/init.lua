@@ -52,8 +52,10 @@ local defaultOpts = {
 }
 local globalOpts = defaultOpts
 
----@param userOpts optsObj
-function M.setup(userOpts) globalOpts = vim.tbl_deep_extend("force", defaultOpts, userOpts) end
+---@param userOpts? optsObj
+function M.setup(userOpts)
+	globalOpts = vim.tbl_deep_extend("force", defaultOpts, userOpts or {})
+end
 
 --------------------------------------------------------------------------------
 
