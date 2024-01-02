@@ -91,6 +91,18 @@ call.
 			"<cmd>lua require('spider').motion('e')<CR>",
 			mode = { "n", "o", "x" },
 		},
+		{ -- example using an explicit function
+			"w",
+			function()
+				require('spider').motion('w', {
+					customPatterns = {
+							patterns = { ('%x'):rep(6) .. '+' },
+							overrideDefault = true,
+					},
+				})
+			end,
+			mode = { 'n', 'o', 'x' },
+		},
 	},
 },
 
@@ -138,7 +150,7 @@ The `.setup()` call is optional.
 require("spider").setup {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
-	customPatterns = {}, -- overrides other settings if not-empty. See README.
+	customPatterns = {}, -- check Custom Movement Patterns for details
 }
 ```
 
@@ -179,8 +191,14 @@ require("spider").motion("w", {
 
 -- The motion stops only at hashes like `ef82a2`, avoiding repetition by using
 -- `string.rep()`.
+-- Extend default patterns by passing a `patterns` table and
+-- setting `overrideDefault` to false.
 require("spider").motion("w", {
-	customPatterns = { ("%x"):rep(6) .. "+" },
+	customPatterns = {
+		patterns = {
+			("%x"):rep(6) .. "+" },
+		},
+		overrideDefault = false,
 })
 
 -- The motion stops at the next declaration of a variable in -- javascript.
@@ -192,10 +210,12 @@ require("spider").motion("e", {
 ```
 
 > [!NOTE]
-> Setting the option overrides `nvim-spider`'s default behavior, meaning subword
+> The `customPatterns` option overrides `nvim-spider`'s default behavior, meaning subword
 > movement and skipping of punctuation are disabled. You can add
-> `customPatterns` as an option to the `.motion` call to create extra motions,
+> `customPatterns` as an option to the `.motion` call to create new motions,
 > while still having access `nvim-spider`'s default behavior.
+> Pass a patterns table and set overrideDefault to false to extend
+> `nvim-spider`'s default behavior with a new pattern.
 
 ## Special Cases
 
@@ -270,7 +290,7 @@ compatibility. If you are interested in this subject, feel free to get in touch.
 __Blog__  
 I also occasionally blog about vim: [Nano Tips for Vim](https://nanotipsforvim.prose.sh)
 
-__Profiles__  
+__Profiles__
 - [reddit](https://www.reddit.com/user/pseudometapseudo)
 - [Discord](https://discordapp.com/users/462774483044794368/)
 - [Academic Website](https://chris-grieser.de/)

@@ -38,17 +38,24 @@ else
 end
 
 --------------------------------------------------------------------------------
+---@class customPatterns
+---@field patterns string[]? string array of lua patterns to match against.
+---@field overrideDefault boolean? set to false to extend the default patterns with customPatterns. Defaults to true.
+
 -- CONFIG
 ---@class (exact) optsObj
----@field skipInsignificantPunctuation boolean
----@field subwordMovement boolean
----@field customPatterns string[]
+---@field skipInsignificantPunctuation boolean?
+---@field subwordMovement boolean? determines movement through camelCase and snake_case. Defaults to true.
+---@field customPatterns customPatterns|string[]? user defined patterns to match for motion movement
 
 ---@type optsObj
 local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
-	customPatterns = {},
+	customPatterns = {
+		patterns = {},
+		overrideDefault = true,
+	},
 }
 local globalOpts = defaultOpts
 
