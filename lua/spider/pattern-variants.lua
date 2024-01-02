@@ -8,7 +8,7 @@ local M = {}
 
 ---@type patternList
 local subwordPatterns = {
-	number = "%d+", 
+	number = "%d+",
 	camelCaseWordForward = "%u?%l+",
 	camelCaseWordBackward = "%l+%u?",
 	ALL_UPPER_CASE_WORD = "%u%u+",
@@ -37,6 +37,18 @@ local allPunctuationPatterns = {
 	punctuation = "%p+",
 }
 
+---@param table table table to verify.
+---@return boolean
+local function isStringArray(table)
+	if type(table) ~= "table" then return false end
+
+	for _, value in ipairs(table) do
+		if type(value) ~= "string" then return false end
+	end
+
+	return true
+end
+
 --------------------------------------------------------------------------------
 
 ---@param opts optsObj configuration table as in setup()
@@ -44,8 +56,22 @@ local allPunctuationPatterns = {
 ---@return patternList
 ---@nodiscard
 function M.get(opts, backwards)
+	-- opts.customPatterns.overrideDefault will default to true if it is not passed in.
+	-- This preserves the original behavior of spider.
+	-- Users can set overrideDefault to true, but spider will behave the same as the original behavior.
+	-- Behavior will change if a user sets the overrideDefault key to true within a customPatterns.patterns table.
 	-- any custom patterns take precedence
-	if opts.customPatterns and #opts.customPatterns > 0 then return opts.customPatterns end
+
+	-- need to check if opts.customPatterns is a string array to avoid breaking changes.
+	if opts.customPatterns and isStringArray(opts.customPatterns) then
+		if #opts.customPatterns > 0 then return opts.customPatterns end
+	end
+
+	-- this checks if a user set a custom pattern in the patterns table
+	-- then it checks if overrideDefault was set
+	if opts.customPatterns.patterns and #opts.customPatterns.patterns > 0 then
+		if opts.customPatterns.overrideDefault then return opts.customPatterns.patterns end
+	end
 
 	local punctuationPatterns = opts.skipInsignificantPunctuation and skipPunctuationPatterns
 		or allPunctuationPatterns
@@ -54,7 +80,10 @@ function M.get(opts, backwards)
 	if backwards then wordPatterns.camelCaseWordForward = nil end
 	if not backwards then wordPatterns.camelCaseWordBackward = nil end
 
-	local patternsToUse = vim.tbl_extend("force", wordPatterns, punctuationPatterns)
+	-- user patterns default to {}
+	-- user patterns table only changes patterntsToUse if patterns has a pattern and overrideDefaults was set to false.
+	local patternsToUse =
+		vim.tbl_extend("force", wordPatterns, punctuationPatterns, opts.customPatterns.patterns)
 	return patternsToUse
 end
 
