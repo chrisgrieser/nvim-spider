@@ -1,7 +1,5 @@
 <!-- LTeX: enabled=false -->
-
 # nvim-spider 🕷️🕸️
-
 <!-- LTeX: enabled=true -->
 <a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
 <img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
@@ -16,28 +14,26 @@ mode. Supports counts and dot-repeat.
 
 <!-- toc -->
 
--   [Features](#features)
-    -   [Subword Motion](#subword-motion)
-    -   [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
--   [Installation](#installation)
--   [Configuration](#configuration)
-    -   [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
--   [Special Cases](#special-cases)
-    -   [UTF-8 support](#utf-8-support)
-    -   [Subword Text Object](#subword-text-object)
-    -   [Operator-pending Mode: The case of `cw`](#operator-pending-mode-the-case-of-cw)
-    -   [Motions in Insert Mode](#motions-in-insert-mode)
--   [Credits](#credits)
+- [Features](#features)
+	* [Subword Motion](#subword-motion)
+	* [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
+- [Installation](#installation)
+- [Configuration](#configuration)
+	* [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
+- [Special Cases](#special-cases)
+	* [UTF-8 support](#utf-8-support)
+	* [Subword Text Object](#subword-text-object)
+	* [Operator-pending Mode: The case of `cw`](#operator-pending-mode-the-case-of-cw)
+	* [Motions in Insert Mode](#motions-in-insert-mode)
+- [Credits](#credits)
 
 <!-- tocstop -->
 
 ## Features
-
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
 except for two differences:
 
 ### Subword Motion
-
 The movements happen by subwords, meaning it stops at the sub-parts of a
 camelCase, SCREAMING_SNAKE_CASE, or kebab-case variable.
 
@@ -52,7 +48,6 @@ local myVariableName = FOO_BAR_BAZ
 ```
 
 ### Skipping Insignificant Punctuation
-
 A sequence of one or more punctuation characters is considered significant if it
 is surrounded by whitespace and does not include any non-punctuation characters.
 
@@ -141,16 +136,13 @@ vim.keymap.set(
 	{ desc = "Spider-b" }
 )
 ```
-
 <!-- vale Google.Will = NO -->
-
 > [!NOTE]
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
 > using `function() require("spider").motion("w") end` as third argument of
 > the keymap, dot-repeatability will not work.
 
 ## Configuration
-
 The `.setup()` call is optional.
 
 ```lua
@@ -172,7 +164,6 @@ Any options passed here will be used, and override the options set in the
 `setup()` call.
 
 ### Advanced: Custom Movement Patterns
-
 You can use the `customPatterns` table to define custom movement patterns. These
 must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
 they must be symmetrical (work the same backwards and forwards) to work
@@ -219,7 +210,7 @@ require("spider").motion("e", {
 ```
 
 > [!NOTE]
-> The customPatterns option overrides `nvim-spider`'s default behavior, meaning subword
+> The `customPatterns` option overrides `nvim-spider`'s default behavior, meaning subword
 > movement and skipping of punctuation are disabled. You can add
 > `customPatterns` as an option to the `.motion` call to create new motions,
 > while still having access `nvim-spider`'s default behavior.
@@ -229,7 +220,6 @@ require("spider").motion("e", {
 ## Special Cases
 
 ### UTF-8 support
-
 For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
 You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
@@ -251,18 +241,15 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 ```
 
 ### Subword Text Object
-
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 <!-- vale Google.FirstPerson = NO -->
-
 ### Operator-pending Mode: The case of `cw`
-
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
-For instance, `cw` will change to the _end_ of a word instead of the start of
+For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in vi's
 early days before there were text objects. In my view, this is quite problematic
 since it makes people habitualize inconsistent motion behavior.
@@ -291,28 +278,26 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
 ## Credits
-
-**Thanks**  
+__Thanks__  
 To `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
 
-**About Me**  
+__About Me__  
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
 compatibility. If you are interested in this subject, feel free to get in touch.
 
-**Blog**  
+__Blog__  
 I also occasionally blog about vim: [Nano Tips for Vim](https://nanotipsforvim.prose.sh)
 
-**Profiles**
-
--   [reddit](https://www.reddit.com/user/pseudometapseudo)
--   [Discord](https://discordapp.com/users/462774483044794368/)
--   [Academic Website](https://chris-grieser.de/)
--   [Twitter](https://twitter.com/pseudo_meta)
--   [Mastodon](https://pkm.social/@pseudometa)
--   [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
--   [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
+__Profiles__
+- [reddit](https://www.reddit.com/user/pseudometapseudo)
+- [Discord](https://discordapp.com/users/462774483044794368/)
+- [Academic Website](https://chris-grieser.de/)
+- [Twitter](https://twitter.com/pseudo_meta)
+- [Mastodon](https://pkm.social/@pseudometa)
+- [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
+- [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
 
 <a href='https://ko-fi.com/Y8Y86SQ91' target='_blank'><img
 	height='36'
