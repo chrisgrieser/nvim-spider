@@ -82,30 +82,6 @@ call.
 ## Installation
 
 ```lua
--- lazy.nvim
-{
-	"chrisgrieser/nvim-spider",
-	keys = {
-		{ -- example for lazy-loading on keystroke
-			"e",
-			"<cmd>lua require('spider').motion('e')<CR>",
-			mode = { "n", "o", "x" },
-		},
-		{ -- example using an explicit function
-			"w",
-			function()
-				require('spider').motion('w', {
-					customPatterns = {
-							patterns = { ('%x'):rep(6) .. '+' },
-							overrideDefault = true,
-					},
-				})
-			end,
-			mode = { 'n', 'o', 'x' },
-		},
-	},
-},
-
 -- packer
 use { "chrisgrieser/nvim-spider" }
 
@@ -135,7 +111,22 @@ vim.keymap.set(
 	"<cmd>lua require('spider').motion('b')<CR>",
 	{ desc = "Spider-b" }
 )
+
+-- OR: lazy-load on keystroke
+-- lazy.nvim
+{
+	"chrisgrieser/nvim-spider",
+	keys = {
+		{
+			"e",
+			"<cmd>lua require('spider').motion('e')<CR>",
+			mode = { "n", "o", "x" },
+		},
+		-- ...
+	},
+},
 ```
+
 <!-- vale Google.Will = NO -->
 > [!NOTE]
 > For dot-repeat to work, you have to call the motions as Ex-commands. When
@@ -150,7 +141,7 @@ The `.setup()` call is optional.
 require("spider").setup {
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
-	customPatterns = {}, -- check Custom Movement Patterns for details
+	customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
 }
 ```
 
@@ -263,7 +254,7 @@ you can achieve that behavior by mapping `cw` to `ce`:
 vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
 vim.keymap.set("n", "cw", "ce", { remap = true })
 
--- or the same with as one mapping without `remap = true`
+-- or the same in one mapping without `remap = true`
 vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
 
