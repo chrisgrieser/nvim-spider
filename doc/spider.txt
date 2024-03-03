@@ -1,4 +1,4 @@
-*spider.txt*            For NVIM v0.8.0           Last change: 2024 January 02
+*spider.txt*             For NVIM v0.8.0            Last change: 2024 March 03
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -96,30 +96,6 @@ call.
 INSTALLATION                                *spider-nvim-spider--installation*
 
 >lua
-    -- lazy.nvim
-    {
-        "chrisgrieser/nvim-spider",
-        keys = {
-            { -- example for lazy-loading on keystroke
-                "e",
-                "<cmd>lua require('spider').motion('e')<CR>",
-                mode = { "n", "o", "x" },
-            },
-            { -- example using an explicit function
-                "w",
-                function()
-                    require('spider').motion('w', {
-                        customPatterns = {
-                                patterns = { ('%x'):rep(6) .. '+' },
-                                overrideDefault = true,
-                        },
-                    })
-                end,
-                mode = { 'n', 'o', 'x' },
-            },
-        },
-    },
-    
     -- packer
     use { "chrisgrieser/nvim-spider" }
     
@@ -149,6 +125,20 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
         "<cmd>lua require('spider').motion('b')<CR>",
         { desc = "Spider-b" }
     )
+    
+    -- OR: lazy-load on keystroke
+    -- lazy.nvim
+    {
+        "chrisgrieser/nvim-spider",
+        keys = {
+            {
+                "e",
+                "<cmd>lua require('spider').motion('e')<CR>",
+                mode = { "n", "o", "x" },
+            },
+            -- ...
+        },
+    },
 <
 
 
@@ -165,7 +155,7 @@ The `.setup()` call is optional.
     require("spider").setup {
         skipInsignificantPunctuation = true,
         subwordMovement = true,
-        customPatterns = {}, -- check Custom Movement Patterns for details
+        customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
     }
 <
 
@@ -286,7 +276,7 @@ nevertheless want to, you can achieve that behavior by mapping `cw` to `ce`
     vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
     vim.keymap.set("n", "cw", "ce", { remap = true })
     
-    -- or the same with as one mapping without `remap = true`
+    -- or the same in one mapping without `remap = true`
     vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 <
 
