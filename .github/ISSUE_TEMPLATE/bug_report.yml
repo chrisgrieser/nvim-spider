@@ -3,6 +3,19 @@ description: File a bug report
 title: "[Bug]: "
 labels: ["bug"]
 body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Make sure you have done the following
+      options:
+        - label: I have updated to the latest version of the plugin.
+          required: true
+        - label: I have read the README.
+          required: true
+        - label: >
+            If the issue is about `cw` or `dw`, I have read [the note on `w` in operator pending
+            mode](https://github.com/chrisgrieser/nvim-spider#operator-pending-mode-the-case-of-cw).
+          required: true
   - type: textarea
     id: bug-description
     attributes:
@@ -15,8 +28,8 @@ body:
     attributes:
       label: Reproduction & Sample Text
       description: >
-        Include sample text and mark clearly where the cursor is before the  operation, the exact operation you used,
-        where it is afterwards, and  where you expected it be.
+        Include sample text and mark clearly where the cursor is before the operation, the exact
+        operation you used, where it is afterwards, and where you expected it be.
       placeholder: |
         operation used: `e`
         before  : Sample Text
@@ -39,12 +52,6 @@ body:
     attributes:
       label: Special Settings
       description:
-        Do you have any special settings enabled that alter vim's editing behavior, like `virtualedit=onemore`?
+        Do you have any special settings enabled that alter vim's editing behavior, such as
+        `virtualedit=onemore`?
       render: Text
-  - type: checkboxes
-    id: checklist
-    attributes:
-      label: Make sure you have done the following
-      options:
-        - label: I have updated to the latest version of the plugin.
-          required: true
