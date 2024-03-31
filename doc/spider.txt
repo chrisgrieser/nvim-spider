@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0            Last change: 2024 March 15
+*spider.txt*             For NVIM v0.8.0            Last change: 2024 March 31
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -9,6 +9,7 @@ Table of Contents                                   *spider-table-of-contents*
   - Configuration                          |spider-nvim-spider--configuration|
   - Special Cases                          |spider-nvim-spider--special-cases|
   - Credits                                      |spider-nvim-spider--credits|
+  - About the developer              |spider-nvim-spider--about-the-developer|
 
 ==============================================================================
 1. nvim-spider                                           *spider-nvim-spider-*
@@ -35,6 +36,7 @@ counts and dot-repeat.
     - |spider-operator-pending-mode:-the-case-of-`cw`|
     - |spider-motions-in-insert-mode|
 - |spider-credits|
+- |spider-about-the-devleoper|
 
 
 FEATURES                                        *spider-nvim-spider--features*
@@ -294,24 +296,25 @@ the `l` on backwards motions.)
 
 CREDITS                                          *spider-nvim-spider--credits*
 
-**Thanks** To `@vypxl` and `@ii14` for figuring out dot-repeatability
+Thanks to `@vypxl` and `@ii14` for figuring out dot-repeatability
 <https://github.com/chrisgrieser/nvim-spider/pull/4>.
 
-**About Me** In my day job, I am a sociologist studying the social mechanisms
-underlying the digital economy. For my PhD project, I investigate the
-governance of the app economy and how software ecosystems manage the tension
-between innovation and compatibility. If you are interested in this subject,
-feel free to get in touch.
 
-**Blog** I also occasionally blog about vim: Nano Tips for Vim
+ABOUT THE DEVELOPER                  *spider-nvim-spider--about-the-developer*
+
+In my day job, I am a sociologist studying the social mechanisms underlying the
+digital economy. For my PhD project, I investigate the governance of the app
+economy and how software ecosystems manage the tension between innovation and
+compatibility. If you are interested in this subject, feel free to get in
+touch.
+
+I also occasionally blog about vim: Nano Tips for Vim
 <https://nanotipsforvim.prose.sh>
 
-**Profiles** - reddit <https://www.reddit.com/user/pseudometapseudo> - Discord
-<https://discordapp.com/users/462774483044794368/> - Academic Website
-<https://chris-grieser.de/> - Twitter <https://twitter.com/pseudo_meta> -
-Mastodon <https://pkm.social/@pseudometa> - ResearchGate
-<https://www.researchgate.net/profile/Christopher-Grieser> - LinkedIn
-<https://www.linkedin.com/in/christopher-grieser-ba693b17a/>
+- Academic Website <https://chris-grieser.de/>
+- Mastodon <https://pkm.social/@pseudometa>
+- ResearchGate <https://www.researchgate.net/profile/Christopher-Grieser>
+- LinkedIn <https://www.linkedin.com/in/christopher-grieser-ba693b17a/>
 
 
 
