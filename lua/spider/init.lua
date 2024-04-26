@@ -94,7 +94,8 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 		if start == nil or endPos == nil then return nil end
 
 		local pos = endOfWord and endPos or start
-		return pos
+		if pos > offset then return pos
+		else return nil end
 	end
 
 	if endOfWord then
@@ -180,8 +181,7 @@ function M.motion(key, motionOpts)
 			local result = getNextPosition(line, offset, key, opts)
 			if result then
 				offset = result
-				local onTheSamePos = (offset == startOffset and row == startRow)
-				if not onTheSamePos then break end
+				break
 			end
 
 			offset = 0
