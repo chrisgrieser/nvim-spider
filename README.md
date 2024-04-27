@@ -191,6 +191,7 @@ require("spider").motion("w", {
 			("%x"):rep(6) .. "+" },
 		},
 		overrideDefault = false,
+	},
 })
 
 -- The motion stops at the next declaration of a variable in -- javascript.
