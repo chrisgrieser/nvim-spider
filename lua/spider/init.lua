@@ -167,12 +167,11 @@ function M.motion(key, motionOpts)
 	end
 
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	local startRow = row
 	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
 	local line = getline(row)
-	local offset, startOffset = stringFuncs.init_pos(line, col)
+	local offset, _ = stringFuncs.init_pos(line, col)
 
 	-- looping through counts
 	for _ = 1, vim.v.count1, 1 do
