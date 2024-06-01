@@ -1,5 +1,6 @@
 local M = {}
 local patternVariants = require("spider.pattern-variants")
+local operatorPending = require("spider.operator-pending")
 
 --------------------------------------------------------------------------------
 -- UTF-8 SUPPORT
@@ -51,6 +52,7 @@ end
 ---@type optsObj
 local defaultOpts = {
 	skipInsignificantPunctuation = true,
+	consistentOperatorPending = false,
 	subwordMovement = true,
 	customPatterns = {
 		patterns = {},
@@ -166,7 +168,8 @@ function M.motion(key, motionOpts)
 		return
 	end
 
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+	local start_pos = vim.api.nvim_win_get_cursor(0)
+	local row, col = unpack(start_pos)
 	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
@@ -194,19 +197,25 @@ function M.motion(key, motionOpts)
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
-	local isOperatorPending = mode == "no" -- [n]ormal & [o]perator, not the word "no"
-	if isOperatorPending then
-		if key == "e" then
-			offset = offset + 1
-			col = stringFuncs.offset(line, offset) - 1
+	if opts.consistentOperatorPending then
+		if mode:sub(1, 2) == "no" then
+			operatorPending.setEndpoints(start_pos, { row, col }, { inclusive = key == 'e' })
+			return
 		end
+	else
+		if mode == "no" then -- [n]ormal & [o]perator, not the word "no"
+			if key == "e" then
+				offset = offset + 1
+				col = stringFuncs.offset(line, offset) - 1
+			end
 
-		if col == #line then
-			-- HACK columns are end-exclusive, cannot actually target the last
-			-- character in the line without switching to visual mode
-			normal("v")
-			offset = offset - 1
-			col = stringFuncs.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
+			if col == #line then
+				-- HACK columns are end-exclusive, cannot actually target the last
+				-- character in the line without switching to visual mode
+				normal("v")
+				offset = offset - 1
+				col = stringFuncs.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
+			end
 		end
 	end
 
