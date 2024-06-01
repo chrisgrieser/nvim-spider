@@ -192,14 +192,14 @@ A few examples:
         customPatterns = { "%d+" },
     })
     
-    -- The motion stops at only at words with at least 3 chars or at any punctuation.
+    -- The motion stops only at words with 3 or more chars or at any punctuation.
     -- (Lua patterns have no quantifier like `{3,}`, thus the repetition.)
     require("spider").motion("w", {
         customPatterns = { "%w%w%w+", "%p+" },
     })
     
-    -- The motion stops only at hashes like `ef82a2`, avoiding repetition by using
-    -- `string.rep()`.
+    -- The motion stops only at hashes like `ef82a2`
+    -- (here avoiding repetition by using `string.rep()`)
     -- Extend default patterns by passing a `patterns` table and
     -- setting `overrideDefault` to false.
     require("spider").motion("w", {
@@ -211,7 +211,7 @@ A few examples:
         },
     })
     
-    -- The motion stops at the next declaration of a variable in -- javascript.
+    -- The motion stops at the next declaration of a javascript variable.
     -- (The `e` motion combined with the `.` matching any character in
     -- lua patterns ensures that you stop at beginning of the variable name.)
     require("spider").motion("e", {
