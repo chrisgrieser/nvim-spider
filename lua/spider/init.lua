@@ -196,13 +196,12 @@ function M.motion(key, motionOpts)
 	local mode = vim.api.nvim_get_mode().mode
 	local isOperatorPending = mode == "no" -- [n]ormal & [o]perator, not the word "no"
 	if isOperatorPending then
-		local lastCol = vim.fn.col("$")
 		if key == "e" then
 			offset = offset + 1
 			col = stringFuncs.offset(line, offset) - 1
 		end
 
-		if lastCol - 1 == col then
+		if col == #line then
 			-- HACK columns are end-exclusive, cannot actually target the last
 			-- character in the line without switching to visual mode
 			normal("v")
