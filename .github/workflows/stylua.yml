@@ -2,8 +2,11 @@ name: Format with Stylua
 
 on:
   push:
-    branches: [ main ]
-    paths: [ '**.lua' ]
+    branches: [main]
+    paths: ["**.lua"]
+
+permissions:
+  contents: write
 
 jobs:
   postprocessing:
