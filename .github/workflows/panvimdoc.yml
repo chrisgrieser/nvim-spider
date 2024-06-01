@@ -1,22 +1,26 @@
-name: panvimdoc
+name: Auto-generate vimdocs
 
-# yamllint disable rule:truthy
-on: [push]
+on:
+  push:
+    branches: [main]
+    paths: [README.md]
+
+permissions:
+  contents: write
 
 jobs:
   docs:
     runs-on: ubuntu-latest
-    name: pandoc to vimdoc
+    name: README.md to vimdoc
     steps:
-      - uses: actions/checkout@v2
-      - name: panvimdoc
-        uses: kdheepak/panvimdoc@main
+      - uses: actions/checkout@v4
+      - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: spider
-          toc: true 
+          toc: true
           treesitter: true
           demojify: true
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "chore: Auto generate docs"
+          commit_message: "chore: Auto-generate vimdocs"
           branch: ${{ github.head_ref }}
