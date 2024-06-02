@@ -1,0 +1,12 @@
+name: nvim type check
+on:
+  pull_request: ~
+  push: { branches: [main] }
+
+jobs:
+  build:
+    name: nvim type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: stevearc/nvim-typecheck-action@v2
