@@ -17,7 +17,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check .
+          args: .
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "style: format with stylua"
+          commit_message: "style: auto-format with stylua"
