@@ -27,7 +27,6 @@ mode. Supports counts and dot-repeat.
 	* [Consistent Operator-pending Mode](#consistent-operator-pending-mode)
 	* [Motions in Insert Mode](#motions-in-insert-mode)
 - [Credits](#credits)
-- [About the devleoper](#about-the-developer)
 
 <!-- tocstop -->
 
@@ -309,9 +308,11 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
 ## Credits
-Thanks to `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
+- Thanks to `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
+- Thanks to `@vanaigr` for a large contribution with regard to operator-pending
+  mode.
 
-## About the developer
+**About the developer**
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
