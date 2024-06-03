@@ -1,4 +1,4 @@
-*spider.txt*             For NVIM v0.8.0             Last change: 2024 June 01
+*spider.txt*  Auto-generated from the README.md. Do not make PRs to this file.
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
@@ -7,9 +7,8 @@ Table of Contents                                   *spider-table-of-contents*
   - Features                                    |spider-nvim-spider--features|
   - Installation                            |spider-nvim-spider--installation|
   - Configuration                          |spider-nvim-spider--configuration|
-  - Special Cases                          |spider-nvim-spider--special-cases|
+  - Special cases                          |spider-nvim-spider--special-cases|
   - Credits                                      |spider-nvim-spider--credits|
-  - About the developer              |spider-nvim-spider--about-the-developer|
 
 ==============================================================================
 1. nvim-spider                                           *spider-nvim-spider-*
@@ -34,9 +33,9 @@ counts and dot-repeat.
     - |spider-utf-8-support|
     - |spider-subword-text-object|
     - |spider-operator-pending-mode:-the-case-of-`cw`|
+    - |spider-consistent-operator-pending-mode|
     - |spider-motions-in-insert-mode|
 - |spider-credits|
-- |spider-about-the-devleoper|
 
 
 FEATURES                                        *spider-nvim-spider--features*
@@ -48,7 +47,7 @@ except for two differences:
 SUBWORD MOTION ~
 
 The movements happen by subwords, meaning it stops at the sub-parts of a
-camelCase, SCREAMING_SNAKE_CASE, or kebab-case variable.
+`camelCase`, `SCREAMING_SNAKE_CASE`, or `kebab-case` variable.
 
 >lua
     -- positions vim's `w` will move to
@@ -156,6 +155,7 @@ The `.setup()` call is optional.
     -- default values
     require("spider").setup {
         skipInsignificantPunctuation = true,
+        consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
         subwordMovement = true,
         customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
     }
@@ -224,7 +224,7 @@ A few examples:
   behavior, meaning subword movement and skipping of punctuation are disabled.
   You can add `customPatterns` as an option to the `.motion` call to create new
   motions, while still having access `nvim-spider`’s default behavior. Pass a
-  patterns table and set overrideDefault to false to extend `nvim-spider`’s
+  patterns table and set `overrideDefault = false` to extend `nvim-spider`’s
   default behavior with a new pattern.
 
 SPECIAL CASES                              *spider-nvim-spider--special-cases*
@@ -284,7 +284,44 @@ nevertheless want to, you can achieve that behavior by mapping `cw` to `ce`
 <
 
 
-MOTIONSIN INSERT MODE ~
+CONSISTENTOPERATOR-PENDING MODE ~
+
+Vim has more inconsistencies related to how the motion range is interpreted
+(see |exclusive|). For example, if the end of the motion is at the beginning of
+a line, the endpoint is moved to the last character of the previous line.
+
+>lua
+    foo bar
+    --  ^
+    baz
+<
+
+Typing `dw` deletes only `bar`. `baz` stays on the next line.
+
+Similarly, if the start of the motion is before or at the first non-blank
+character in a line, and the end is at the beginning of a line, the motion is
+changed to `linewise`.
+
+>lua
+        foo
+    --  ^
+    bar
+<
+
+Typing `yw` yanks `foo\r`, i.e., the indentation before the cursor is included,
+and the register type is set to `linewise`.
+
+Setting `consistentOperatorPending = true` removes these special cases. In the
+first example, `bar\r` would be deleted charwise. In the second example,
+`foo\r` would be yanked charwise.
+
+**Caveats:** 1. Last visual selection marks (``[` and ``]`) are updated and
+point to the endpoints of the motion. This was not always the case before. 2.
+Forced blockwise motion may be cancelled if it cannot be correctly represented
+with the current `selection` option.
+
+
+MOTIONS IN INSERT MODE ~
 
 Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
 the `l` on backwards motions.)
@@ -297,17 +334,15 @@ the `l` on backwards motions.)
 
 CREDITS                                          *spider-nvim-spider--credits*
 
-Thanks to `@vypxl` and `@ii14` for figuring out dot-repeatability
-<https://github.com/chrisgrieser/nvim-spider/pull/4>.
+- Thanks to `@vypxl` and `@ii14` for figuring out dot-repeatability <https://github.com/chrisgrieser/nvim-spider/pull/4>.
+- Thanks to `@vanaigr` for a large contribution with regard to operator-pending
+    mode.
 
-
-ABOUT THE DEVELOPER                  *spider-nvim-spider--about-the-developer*
-
-In my day job, I am a sociologist studying the social mechanisms underlying the
-digital economy. For my PhD project, I investigate the governance of the app
-economy and how software ecosystems manage the tension between innovation and
-compatibility. If you are interested in this subject, feel free to get in
-touch.
+**About the developer** In my day job, I am a sociologist studying the social
+mechanisms underlying the digital economy. For my PhD project, I investigate
+the governance of the app economy and how software ecosystems manage the
+tension between innovation and compatibility. If you are interested in this
+subject, feel free to get in touch.
 
 I also occasionally blog about vim: Nano Tips for Vim
 <https://nanotipsforvim.prose.sh>
