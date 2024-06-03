@@ -19,7 +19,7 @@ jobs:
           vimdoc: scissors
           demojify: true
           treesitter: true
-          version: "" # by default adds nvim 0.8 as version number…
+          description: "Auto-generated from the README.md. Do not make PRs to this file."
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto-generate vimdocs"
