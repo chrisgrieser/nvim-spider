@@ -194,25 +194,24 @@ function M.motion(key, motionOpts)
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
-	if opts.consistentOperatorPending then
-		if mode:sub(1, 2) == "no" then
-			require("spider.operator-pending").setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
+	local isOpPendingMode = mode:sub(1, 2) == "no" -- [n]ormal & [o]perator, not the word "no"
+	if isOpPendingMode then
+		if opts.consistentOperatorPending then
+			local opPending = require("spider.operator-pending")
+			opPending.setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
 			return
 		end
-	else
-		if mode == "no" then -- [n]ormal & [o]perator, not the word "no"
-			if key == "e" then
-				offset = offset + 1
-				col = stringFuncs.offset(line, offset) - 1
-			end
 
-			if col == #line then
-				-- HACK columns are end-exclusive, cannot actually target the last
-				-- character in the line without switching to visual mode
-				normal("v")
-				offset = offset - 1
-				col = stringFuncs.offset(line, offset) - 1 -- SIC indices in visual off-by-one compared to normal
-			end
+		if key == "e" then
+			offset = offset + 1
+			col = stringFuncs.offset(line, offset) - 1
+		end
+		if col == #line then
+			-- HACK columns are end-exclusive, cannot actually target the last
+			-- character in the line without switching to visual mode
+			normal("v")
+			offset = offset - 1
+			col = stringFuncs.offset(line, offset) - 1 
 		end
 	end
 
