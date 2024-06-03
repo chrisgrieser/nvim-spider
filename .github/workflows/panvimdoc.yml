@@ -16,10 +16,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: spider
-          toc: true
-          treesitter: true
+          vimdoc: scissors
           demojify: true
+          treesitter: true
+          version: "" # by default adds nvim 0.8 as version number…
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto-generate vimdocs"
