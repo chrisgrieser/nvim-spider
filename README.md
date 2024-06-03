@@ -24,6 +24,7 @@ mode. Supports counts and dot-repeat.
 	* [UTF-8 support](#utf-8-support)
 	* [Subword Text Object](#subword-text-object)
 	* [Operator-pending Mode: The case of `cw`](#operator-pending-mode-the-case-of-cw)
+	* [Consistent Operator-pending Mode](#consistent-operator-pending-mode)
 	* [Motions in Insert Mode](#motions-in-insert-mode)
 - [Credits](#credits)
 - [About the devleoper](#about-the-developer)
@@ -141,6 +142,7 @@ The `.setup()` call is optional.
 -- default values
 require("spider").setup {
 	skipInsignificantPunctuation = true,
+	consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
 	subwordMovement = true,
 	customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
 }
@@ -259,6 +261,42 @@ vim.keymap.set("n", "cw", "ce", { remap = true })
 -- or the same in one mapping without `remap = true`
 vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
+
+### Consistent Operator-pending Mode
+Vim has more inconsistencies related to how the motion range is
+interpreted (see `:h exclusive`). For example, if the end of the motion is at
+the beginning of a line, the endpoint is moved to the last character of the previous line.
+
+```
+foo bar
+--- ^
+baz
+```
+
+Typing `dw` deletes only `bar`. `baz` stays on the next line.
+
+Similarly, if the start of the motion is before or at the first non-blank
+character in a line, and the end is at the beginning of a line, the motion
+is changed to linewise.
+
+```
+    foo
+--- ^
+bar
+```
+
+Typing `yw` yanks `    foo\r`, i.e. the indentation before the cursor is included,
+and the register type is set to linewise.
+
+Setting `consistentOperatorPending = true` removes these special cases. In the
+first example, `bar\r` would be deleted charwise. In the second example, `foo\r` would
+be yanked charwise.
+
+Caveats:
+1. Last visual selection marks (`` `[ `` and `` `] ``) are updated
+   and point to the endpoints of the motion. This was not always the case before.
+2. Forced blockwise motion may be cancelled if it cannot be correctly
+   represented with the current `selection` option.
 
 ### Motions in Insert Mode
 
