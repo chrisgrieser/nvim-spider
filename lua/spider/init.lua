@@ -1,7 +1,6 @@
 local M = {}
-local patternVariants = require("spider.pattern-variants")
-local operatorPending = require("spider.operator-pending")
-
+-- PERF do not import submodules here, since it results in them all being loaded
+-- on initialization instead of lazy-loading them when needed.
 --------------------------------------------------------------------------------
 -- UTF-8 SUPPORT
 
@@ -127,7 +126,7 @@ end
 local function getNextPosition(line, offset, key, opts)
 	local endOfWord = (key == "ge") or (key == "e")
 	local backwards = (key == "b") or (key == "ge")
-	local patterns = patternVariants.get(opts, backwards)
+	local patterns = require("spider.pattern-variants").get(opts, backwards)
 
 	if backwards then
 		line = stringFuncs.reverse(line)
@@ -197,7 +196,7 @@ function M.motion(key, motionOpts)
 	local mode = vim.api.nvim_get_mode().mode
 	if opts.consistentOperatorPending then
 		if mode:sub(1, 2) == "no" then
-			operatorPending.setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
+			require("spider.operator-pending").setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
 			return
 		end
 	else
