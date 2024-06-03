@@ -36,7 +36,7 @@ except for two differences:
 
 ### Subword Motion
 The movements happen by subwords, meaning it stops at the sub-parts of a
-camelCase, SCREAMING_SNAKE_CASE, or kebab-case variable.
+`camelCase`, `SCREAMING_SNAKE_CASE`, or `kebab-case` variable.
 
 ```lua
 -- positions vim's `w` will move to
@@ -204,12 +204,12 @@ require("spider").motion("e", {
 ```
 
 > [!NOTE]
-> The `customPatterns` option overrides `nvim-spider`'s default behavior, meaning subword
-> movement and skipping of punctuation are disabled. You can add
+> The `customPatterns` option overrides `nvim-spider`'s default behavior,
+> meaning subword movement and skipping of punctuation are disabled. You can add
 > `customPatterns` as an option to the `.motion` call to create new motions,
-> while still having access `nvim-spider`'s default behavior.
-> Pass a patterns table and set overrideDefault to false to extend
-> `nvim-spider`'s default behavior with a new pattern.
+> while still having access `nvim-spider`'s default behavior. Pass a patterns
+> table and set `overrideDefault = false` to extend `nvim-spider`'s default
+> behavior with a new pattern.
 
 ## Special Cases
 
@@ -266,9 +266,9 @@ Vim has more inconsistencies related to how the motion range is
 interpreted (see `:h exclusive`). For example, if the end of the motion is at
 the beginning of a line, the endpoint is moved to the last character of the previous line.
 
-```
+```lua
 foo bar
---- ^
+--  ^
 baz
 ```
 
@@ -276,22 +276,22 @@ Typing `dw` deletes only `bar`. `baz` stays on the next line.
 
 Similarly, if the start of the motion is before or at the first non-blank
 character in a line, and the end is at the beginning of a line, the motion
-is changed to linewise.
+is changed to `linewise`.
 
-```
+```lua
     foo
---- ^
+--  ^
 bar
 ```
 
-Typing `yw` yanks `    foo\r`, i.e. the indentation before the cursor is included,
-and the register type is set to linewise.
+Typing `yw` yanks `foo\r`, i.e., the indentation before the cursor is included,
+and the register type is set to `linewise`.
 
 Setting `consistentOperatorPending = true` removes these special cases. In the
 first example, `bar\r` would be deleted charwise. In the second example, `foo\r` would
 be yanked charwise.
 
-Caveats:
+**Caveats:**
 1. Last visual selection marks (`` `[ `` and `` `] ``) are updated
    and point to the endpoints of the motion. This was not always the case before.
 2. Forced blockwise motion may be cancelled if it cannot be correctly
