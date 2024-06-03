@@ -62,9 +62,7 @@ local defaultOpts = {
 local globalOpts = defaultOpts
 
 ---@param userOpts? optsObj
-function M.setup(userOpts)
-	globalOpts = vim.tbl_deep_extend("force", defaultOpts, userOpts or {})
-end
+function M.setup(userOpts) globalOpts = vim.tbl_deep_extend("force", defaultOpts, userOpts or {}) end
 
 --------------------------------------------------------------------------------
 
@@ -96,8 +94,11 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 		if start == nil or endPos == nil then return nil end
 
 		local pos = endOfWord and endPos or start
-		if pos > offset then return pos
-		else return nil end
+		if pos > offset then
+			return pos
+		else
+			return nil
+		end
 	end
 
 	if endOfWord then
@@ -199,7 +200,7 @@ function M.motion(key, motionOpts)
 	local mode = vim.api.nvim_get_mode().mode
 	if opts.consistentOperatorPending then
 		if mode:sub(1, 2) == "no" then
-			operatorPending.setEndpoints(start_pos, { row, col }, { inclusive = key == 'e' })
+			operatorPending.setEndpoints(start_pos, { row, col }, { inclusive = key == "e" })
 			return
 		end
 	else
