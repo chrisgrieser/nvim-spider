@@ -34,7 +34,7 @@ mode. Supports counts and dot-repeat.
 The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
 except for two differences:
 
-### Subword Motion
+### Subword motion
 The movements happen by subwords, meaning it stops at the sub-parts of a
 `camelCase`, `SCREAMING_SNAKE_CASE`, or `kebab-case` variable.
 
@@ -48,7 +48,7 @@ local myVariableName = FOO_BAR_BAZ
 --    ^ ^       ^    ^ ^   ^   ^
 ```
 
-### Skipping Insignificant Punctuation
+### Skipping insignificant punctuation
 A sequence of one or more punctuation characters is considered significant if it
 is surrounded by whitespace and does not include any non-punctuation characters.
 
@@ -156,7 +156,7 @@ require("spider").motion("w", { skipInsignificantPunctuation = false })
 Any options passed here will be used, and override the options set in the
 `setup()` call.
 
-### Advanced: Custom Movement Patterns
+### Advanced: custom movement patterns
 You can use the `customPatterns` table to define custom movement patterns. These
 must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
 they must be symmetrical (work the same backwards and forwards) to work
@@ -211,7 +211,7 @@ require("spider").motion("e", {
 > table and set `overrideDefault = false` to extend `nvim-spider`'s default
 > behavior with a new pattern.
 
-## Special Cases
+## Special cases
 
 ### UTF-8 support
 For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
@@ -234,14 +234,14 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 },
 ```
 
-### Subword Text Object
+### Subword text object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
 <!-- vale Google.FirstPerson = NO -->
-### Operator-pending Mode: The case of `cw`
+### Operator-pending mode: the case of `cw`
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in vi's
@@ -261,7 +261,7 @@ vim.keymap.set("n", "cw", "ce", { remap = true })
 vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
 
-### Consistent Operator-pending Mode
+### Consistent operator-pending mode
 Vim has more inconsistencies related to how the motion range is
 interpreted (see `:h exclusive`). For example, if the end of the motion is at
 the beginning of a line, the endpoint is moved to the last character of the previous line.
@@ -297,7 +297,7 @@ be yanked charwise.
 2. Forced blockwise motion may be cancelled if it cannot be correctly
    represented with the current `selection` option.
 
-### Motions in Insert Mode
+### Motions in insert mode
 
 Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
 the `l` on backwards motions.)
