@@ -10,7 +10,7 @@ local originalLuaStringFuncs = {
 	find = string.find,
 	gmatch = string.gmatch,
 	len = string.len,
-	init_pos = function(_, col)
+	initPos = function(_, col)
 		col = col + 1 -- from 0-based indexing to 1-based
 		local startCol = col
 		return col, startCol
@@ -159,23 +159,20 @@ local function normal(keys) vim.cmd.normal { keys, bang = true } end
 function M.motion(key, motionOpts)
 	local opts = motionOpts and vim.tbl_deep_extend("force", globalOpts, motionOpts) or globalOpts
 
-	-- GUARD: validate motion parameter
+	-- GUARD validate motion parameter
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
-		vim.notify(
-			"Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported.",
-			vim.log.levels.ERROR,
-			{ title = "nvim-spider" }
-		)
+		local msg = "Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported."
+		vim.notify(msg, vim.log.levels.ERROR, { title = "nvim-spider" })
 		return
 	end
 
-	local start_pos = vim.api.nvim_win_get_cursor(0)
-	local row, col = unpack(start_pos)
+	local startPos = vim.api.nvim_win_get_cursor(0)
+	local row, col = unpack(startPos)
 	local lastRow = vim.api.nvim_buf_line_count(0)
 	local forwards = key == "w" or key == "e"
 
 	local line = getline(row)
-	local offset, _ = stringFuncs.init_pos(line, col)
+	local offset, _ = stringFuncs.initPos(line, col)
 
 	-- looping through counts
 	for _ = 1, vim.v.count1, 1 do
@@ -200,7 +197,7 @@ function M.motion(key, motionOpts)
 	local mode = vim.api.nvim_get_mode().mode
 	if opts.consistentOperatorPending then
 		if mode:sub(1, 2) == "no" then
-			operatorPending.setEndpoints(start_pos, { row, col }, { inclusive = key == "e" })
+			operatorPending.setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
 			return
 		end
 	else
