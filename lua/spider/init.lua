@@ -1,43 +1,11 @@
 local M = {}
--- PERF do not import submodules here, since it results in them all being loaded
+
+-- PERF avoid importing submodules here, since it results in them all being loaded
 -- on initialization instead of lazy-loading them when needed.
+
+local strFuncs = require("utf8-support").stringFuncs
 --------------------------------------------------------------------------------
--- UTF-8 SUPPORT
 
-local originalLuaStringFuncs = {
-	reverse = string.reverse,
-	find = string.find,
-	gmatch = string.gmatch,
-	len = string.len,
-	initPos = function(_, col)
-		col = col + 1 -- from 0-based indexing to 1-based
-		local startCol = col
-		return col, startCol
-	end,
-	offset = function(_, pos) return pos end,
-}
-
-local luaUtf8Installed, utf8 = pcall(require, "lua-utf8")
-local stringFuncs = {}
-
-if not luaUtf8Installed then
-	stringFuncs = originalLuaStringFuncs
-else
-	for name, _ in pairs(originalLuaStringFuncs) do
-		if utf8[name] then stringFuncs[name] = utf8[name] end
-	end
-	stringFuncs.init_pos = function(s, col)
-		local offset = 1
-		for p, _ in utf8.codes(s) do
-			if p > col then break end
-			offset = offset + 1
-		end
-		local startOffset = offset
-		return offset, startOffset
-	end
-end
-
---------------------------------------------------------------------------------
 ---@class customPatterns
 ---@field patterns string[]? string array of lua patterns to match against.
 ---@field overrideDefault boolean? set to false to extend the default patterns with customPatterns. Defaults to true.
@@ -86,10 +54,10 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 	-- special case: pattern with ^/$, since there can only be one match
 	-- and since gmatch won't work with them
 	if pattern:find("^%^") or pattern:find("%$$") then
-		if pattern:find("%$$") and offset > stringFuncs.len(line) then return nil end -- checking for high col count for virtualedit
+		if pattern:find("%$$") and offset > strFuncs.len(line) then return nil end -- checking for high col count for virtualedit
 		if pattern:find("^%^") and offset ~= 0 then return nil end
 
-		local start, endPos = stringFuncs.find(line, pattern)
+		local start, endPos = strFuncs.find(line, pattern)
 		if start == nil or endPos == nil then return nil end
 
 		local pos = endOfWord and endPos or start
@@ -108,7 +76,7 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 	-- `:gmatch` will return all locations in the string where the pattern is
 	-- found, the loop looks for the first one that is higher than the offset
 	-- to look from
-	for pos in stringFuncs.gmatch(line, pattern) do
+	for pos in strFuncs.gmatch(line, pattern) do
 		if type(pos) == "string" then return nil end
 
 		if endOfWord then pos = pos - 1 end
@@ -129,11 +97,11 @@ local function getNextPosition(line, offset, key, opts)
 	local patterns = require("spider.pattern-variants").get(opts, backwards)
 
 	if backwards then
-		line = stringFuncs.reverse(line)
+		line = strFuncs.reverse(line)
 		endOfWord = not endOfWord
 
 		local isSameLine = offset ~= 0
-		if isSameLine then offset = stringFuncs.len(line) - offset + 1 end
+		if isSameLine then offset = strFuncs.len(line) - offset + 1 end
 	end
 
 	-- search for patterns, get closest one
@@ -145,7 +113,7 @@ local function getNextPosition(line, offset, key, opts)
 	if vim.tbl_isempty(matches) then return nil end -- none found in this line
 	local nextPos = math.min(unpack(matches))
 
-	if backwards then nextPos = stringFuncs.len(line) - nextPos + 1 end
+	if backwards then nextPos = strFuncs.len(line) - nextPos + 1 end
 	return nextPos
 end
 
@@ -171,7 +139,7 @@ function M.motion(key, motionOpts)
 	local forwards = key == "w" or key == "e"
 
 	local line = getline(row)
-	local offset, _ = stringFuncs.initPos(line, col)
+	local offset, _ = strFuncs.initPos(line, col)
 
 	-- looping through counts
 	for _ = 1, vim.v.count1, 1 do
@@ -190,7 +158,7 @@ function M.motion(key, motionOpts)
 		end
 	end
 
-	col = stringFuncs.offset(line, offset) - 1 -- lua string indices different
+	col = strFuncs.offset(line, offset) - 1 -- lua string indices different
 
 	-- operator-pending specific considerations (see issues #3 and #5)
 	local mode = vim.api.nvim_get_mode().mode
@@ -204,14 +172,14 @@ function M.motion(key, motionOpts)
 
 		if key == "e" then
 			offset = offset + 1
-			col = stringFuncs.offset(line, offset) - 1
+			col = strFuncs.offset(line, offset) - 1
 		end
 		if col == #line then
 			-- HACK columns are end-exclusive, cannot actually target the last
 			-- character in the line without switching to visual mode
 			normal("v")
 			offset = offset - 1
-			col = stringFuncs.offset(line, offset) - 1 
+			col = strFuncs.offset(line, offset) - 1
 		end
 	end
 
