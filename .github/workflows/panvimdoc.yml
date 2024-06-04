@@ -3,7 +3,10 @@ name: Auto-generate vimdocs
 on:
   push:
     branches: [main]
-    paths: [README.md]
+    paths:
+      - README.md # source file
+      - .github/workflows/panvimdoc.yml # updates to this file itself
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,7 +22,7 @@ jobs:
           vimdoc: spider
           demojify: true
           treesitter: true
-          description: "Auto-generated from the README.md. Do not make PRs to this file."
+          description: " Auto-generated from README.md. Do not make PRs to this file."
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: Auto-generate vimdocs"
