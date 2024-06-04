@@ -23,7 +23,7 @@ else
 	for name, _ in pairs(originalLuaStringFuncs) do
 		if utf8[name] then M.stringFuncs[name] = utf8[name] end
 	end
-	M.stringFuncs.init_pos = function(s, col)
+	M.stringFuncs.initPos = function(s, col)
 		local offset = 1
 		for p, _ in utf8.codes(s) do
 			if p > col then break end
