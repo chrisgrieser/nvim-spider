@@ -1,4 +1,4 @@
-*spider.txt*  Auto-generated from the README.md. Do not make PRs to this file.
+*spider.txt*      Auto-generated from README.md. Do not make PRs to this file.
 
 ==============================================================================
 Table of Contents                                   *spider-table-of-contents*
