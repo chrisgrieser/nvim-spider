@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: scissors
+          vimdoc: spider
           demojify: true
           treesitter: true
           description: " Auto-generated from README.md. Do not make PRs to this file."
