@@ -308,8 +308,8 @@ changed to `linewise`.
     bar
 <
 
-Typing `yw` yanks `foo\r`, i.e., the indentation before the cursor is included,
-and the register type is set to `linewise`.
+Typing `yw` yanks `foo\r`, that is, the indentation before the cursor is
+included, and the register type is set to `linewise`.
 
 Setting `consistentOperatorPending = true` removes these special cases. In the
 first example, `bar\r` would be deleted charwise. In the second example,
