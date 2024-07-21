@@ -15,17 +15,17 @@ mode. Supports counts and dot-repeat.
 <!-- toc -->
 
 - [Features](#features)
-	* [Subword Motion](#subword-motion)
-	* [Skipping Insignificant Punctuation](#skipping-insignificant-punctuation)
+	* [Subword motion](#subword-motion)
+	* [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
-	* [Advanced: Custom Movement Patterns](#advanced-custom-movement-patterns)
-- [Special Cases](#special-cases)
+	* [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
+- [Special cases](#special-cases)
 	* [UTF-8 support](#utf-8-support)
-	* [Subword Text Object](#subword-text-object)
-	* [Operator-pending Mode: The case of `cw`](#operator-pending-mode-the-case-of-cw)
-	* [Consistent Operator-pending Mode](#consistent-operator-pending-mode)
-	* [Motions in Insert Mode](#motions-in-insert-mode)
+	* [Subword text object](#subword-text-object)
+	* [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
+	* [Consistent operator-pending mode](#consistent-operator-pending-mode)
+	* [Motions in insert mode](#motions-in-insert-mode)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -284,7 +284,7 @@ is changed to `linewise`.
 bar
 ```
 
-Typing `yw` yanks `foo\r`, i.e., the indentation before the cursor is included,
+Typing `yw` yanks `foo\r`, that is, the indentation before the cursor is included,
 and the register type is set to `linewise`.
 
 Setting `consistentOperatorPending = true` removes these special cases. In the
