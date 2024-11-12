@@ -88,6 +88,9 @@ use { "chrisgrieser/nvim-spider" }
 
 -- lazy.nvim
 { "chrisgrieser/nvim-spider", lazy = true },
+
+-- vim-plug
+Plug("chrisgrieser/nvim-spider")
 ```
 
 No keybindings are created by default. Below are the mappings to replace the
