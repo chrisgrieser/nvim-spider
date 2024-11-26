@@ -29,7 +29,6 @@ jobs:
           version: "Neovim"
           demojify: true
           treesitter: true
-          toc: false # already has a table of contents in the README
 
       - run: git pull
       - name: push changes
