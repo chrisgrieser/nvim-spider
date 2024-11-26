@@ -1,15 +1,17 @@
-name: Auto-generate vimdocs
+name: panvimdoc
 
 on:
   push:
     branches: [main]
     paths:
-      - README.md # source file
-      - .github/workflows/panvimdoc.yml # updates to this file itself
-  workflow_dispatch:
+      - README.md
+      - .github/workflows/panvimdoc.yml
+  workflow_dispatch: {} # allows manual execution
 
 permissions:
   contents: write
+
+#───────────────────────────────────────────────────────────────────────────────
 
 jobs:
   docs:
@@ -17,13 +19,21 @@ jobs:
     name: README.md to vimdoc
     steps:
       - uses: actions/checkout@v4
-      - uses: kdheepak/panvimdoc@main
+      - run: git pull # fix failure when multiple commits are pushed in succession
+      - run: mkdir -p doc
+
+      - name: panvimdoc
+        uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: spider
+          vimdoc: ${{ github.event.repository.name }}
+          version: "Neovim"
           demojify: true
           treesitter: true
-          description: " Auto-generated from README.md. Do not make PRs to this file."
-      - uses: stefanzweifel/git-auto-commit-action@v5
+          toc: false # already has a table of contents in the README
+
+      - run: git pull
+      - name: push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: auto-generate vimdocs"
           branch: ${{ github.head_ref }}
