@@ -1,6 +1,16 @@
 *nvim-spider.txt*           For Neovim           Last change: 2024 November 26
 
 ==============================================================================
+Table of Contents                              *nvim-spider-table-of-contents*
+
+1. nvim-spider                                      |nvim-spider-nvim-spider-|
+  - Features                               |nvim-spider-nvim-spider--features|
+  - Installation                       |nvim-spider-nvim-spider--installation|
+  - Configuration                     |nvim-spider-nvim-spider--configuration|
+  - Special cases                     |nvim-spider-nvim-spider--special-cases|
+  - Credits                                 |nvim-spider-nvim-spider--credits|
+
+==============================================================================
 1. nvim-spider                                      *nvim-spider-nvim-spider-*
 
 
