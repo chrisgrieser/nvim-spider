@@ -1,7 +1,9 @@
 name: nvim type check
 on:
   pull_request: ~
-  push: { branches: [main] }
+  push:
+    branches: [main]
+    paths: ["**.lua"]
 
 jobs:
   build:
