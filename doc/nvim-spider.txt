@@ -1,4 +1,4 @@
-*nvim-spider.txt*           For Neovim           Last change: 2024 November 26
+*nvim-spider.txt*           For Neovim           Last change: 2024 December 14
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -18,16 +18,12 @@ Table of Contents                              *nvim-spider-table-of-contents*
 Usethe `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
 
-A lua implementation of CamelCaseMotion
-<https://github.com/bkad/CamelCaseMotion>, with extra consideration of
-punctuation. Works in normal, visual, and operator-pending mode. Supports
-counts and dot-repeat.
-
 - |nvim-spider-features|
     - |nvim-spider-subword-motion|
     - |nvim-spider-skipping-insignificant-punctuation|
 - |nvim-spider-installation|
 - |nvim-spider-configuration|
+    - |nvim-spider-basic-configuration|
     - |nvim-spider-advanced:-custom-movement-patterns|
 - |nvim-spider-special-cases|
     - |nvim-spider-utf-8-support|
@@ -46,8 +42,8 @@ except for two differences:
 
 SUBWORD MOTION ~
 
-The movements happen by subwords, meaning it stops at the sub-parts of a
-`camelCase`, `SCREAMING_SNAKE_CASE`, or `kebab-case` variable.
+The motions are based on subwords, meaning they stop at the segments of a
+`camelCase`, `SNAKE_CASE`, or `kebab-case` variable.
 
 >lua
     -- positions vim's `w` will move to
@@ -147,10 +143,13 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
 
 
   [!NOTE] For dot-repeat to work, you have to call the motions as Ex-commands.
-  When using `function() require("spider").motion("w") end` as third argument of
-  the keymap, dot-repeatability will not work.
+  Dot-repeat will not work when using `function() require("spider").motion("w")
+  end` as third argument,
 
 CONFIGURATION                         *nvim-spider-nvim-spider--configuration*
+
+
+BASIC CONFIGURATION ~
 
 The `.setup()` call is optional.
 
@@ -337,9 +336,9 @@ the `l` on backwards motions.)
 
 CREDITS                                     *nvim-spider-nvim-spider--credits*
 
-- Thanks to `@vypxl` and `@ii14` for figuring out dot-repeatability <https://github.com/chrisgrieser/nvim-spider/pull/4>.
-- Thanks to `@vanaigr` for a large contribution with regard to operator-pending
-    mode.
+**Thanks** - `@vypxl` and `@ii14` for figuring out dot-repeatability of
+textobjects <https://github.com/chrisgrieser/nvim-spider/pull/4>. - `@vanaigr`
+for a large contribution regarding operator-pending mode.
 
 **About the developer** In my day job, I am a sociologist studying the social
 mechanisms underlying the digital economy. For my PhD project, I investigate
