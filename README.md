@@ -1,16 +1,10 @@
 <!-- LTeX: enabled=false -->
 # nvim-spider 🕷️🕸️
 <!-- LTeX: enabled=true -->
-<a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
-<img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
+<a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider"><img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
 
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
-
-A lua implementation of
-[CamelCaseMotion](https://github.com/bkad/CamelCaseMotion), with extra
-consideration of punctuation. Works in normal, visual, and operator-pending
-mode. Supports counts and dot-repeat.
 
 <!-- toc -->
 
@@ -19,6 +13,7 @@ mode. Supports counts and dot-repeat.
 	* [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
+	* [Basic configuration](#basic-configuration)
 	* [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
 - [Special cases](#special-cases)
 	* [UTF-8 support](#utf-8-support)
@@ -35,8 +30,8 @@ The `w`, `e`, `b` (and `ge`) motions work the same as the default ones by vim,
 except for two differences:
 
 ### Subword motion
-The movements happen by subwords, meaning it stops at the sub-parts of a
-`camelCase`, `SCREAMING_SNAKE_CASE`, or `kebab-case` variable.
+The motions are based on subwords, meaning they stop at the segments of a
+`camelCase`, `SNAKE_CASE`, or `kebab-case` variable.
 
 ```lua
 -- positions vim's `w` will move to
@@ -133,11 +128,13 @@ vim.keymap.set(
 
 <!-- vale Google.Will = NO -->
 > [!NOTE]
-> For dot-repeat to work, you have to call the motions as Ex-commands. When
-> using `function() require("spider").motion("w") end` as third argument of
-> the keymap, dot-repeatability will not work.
+> For dot-repeat to work, you have to call the motions as Ex-commands.
+> Dot-repeat will not work when using `function() require("spider").motion("w")
+> end` as third argument,
 
 ## Configuration
+
+### Basic configuration
 The `.setup()` call is optional.
 
 ```lua
@@ -163,9 +160,9 @@ Any options passed here will be used, and override the options set in the
 You can use the `customPatterns` table to define custom movement patterns. These
 must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
 they must be symmetrical (work the same backwards and forwards) to work
-correctly with `b` and `ge`. If multiple patterns are given, the motion
-searches for all of them and stops at the closest one. When there is no match, the
-search continues in the next line.
+correctly with `b` and `ge`. If multiple patterns are given, the motion searches
+for all of them and stops at the closest one. When there is no match, the search
+continues in the next line.
 
 If you have interesting ideas for custom patterns, please share them in the
 [GitHub discussions](./discussions), or make a PR to add them as built-in
@@ -301,7 +298,6 @@ be yanked charwise.
    represented with the current `selection` option.
 
 ### Motions in insert mode
-
 Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
 the `l` on backwards motions.)
 
@@ -311,9 +307,10 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
 ## Credits
-- Thanks to `@vypxl` and `@ii14` [for figuring out dot-repeatability](https://github.com/chrisgrieser/nvim-spider/pull/4).
-- Thanks to `@vanaigr` for a large contribution with regard to operator-pending
-  mode.
+**Thanks**
+- `@vypxl` and `@ii14` [for figuring out dot-repeatability of
+  textobjects](https://github.com/chrisgrieser/nvim-spider/pull/4).
+- `@vanaigr` for a large contribution regarding operator-pending mode.
 
 **About the developer**
 In my day job, I am a sociologist studying the social mechanisms underlying the
