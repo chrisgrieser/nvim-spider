@@ -1,15 +1,14 @@
-name: Format with Stylua
+name: Stylua check
 
 on:
   push:
     branches: [main]
     paths: ["**.lua"]
-
-permissions:
-  contents: write
+  pull_request:
 
 jobs:
-  postprocessing:
+  stylua:
+    name: Stylua
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +16,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: .
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "style: auto-format with stylua"
+          args: --check .
