@@ -264,7 +264,8 @@ vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ### Consistent operator-pending mode
 Vim has more inconsistencies related to how the motion range is
 interpreted (see `:h exclusive`). For example, if the end of the motion is at
-the beginning of a line, the endpoint is moved to the last character of the previous line.
+the beginning of a line, the endpoint is moved to the last character of the
+previous line.
 
 ```lua
 foo bar
@@ -288,10 +289,10 @@ Typing `yw` yanks `foo\r`, that is, the indentation before the cursor is include
 and the register type is set to `linewise`.
 
 Setting `consistentOperatorPending = true` removes these special cases. In the
-first example, `bar\r` would be deleted charwise. In the second example, `foo\r` would
-be yanked charwise.
+first example, `bar\r` would be deleted charwise. In the second example, `foo\r`
+would be yanked charwise.
 
-**Caveats:**
+**Caveats**
 1. Last visual selection marks (`` `[ `` and `` `] ``) are updated
    and point to the endpoints of the motion. This was not always the case before.
 2. Forced blockwise motion may be cancelled if it cannot be correctly
