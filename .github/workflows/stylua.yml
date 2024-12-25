@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths: ["**.lua"]
   pull_request:
+    paths: ["**.lua"]
 
 jobs:
   stylua:
