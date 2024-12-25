@@ -1,4 +1,4 @@
-*nvim-spider.txt*           For Neovim           Last change: 2024 December 14
+*nvim-spider.txt*           For Neovim           Last change: 2024 December 25
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -317,7 +317,7 @@ Setting `consistentOperatorPending = true` removes these special cases. In the
 first example, `bar\r` would be deleted charwise. In the second example,
 `foo\r` would be yanked charwise.
 
-**Caveats:** 1. Last visual selection marks (``[` and ``]`) are updated and
+**Caveats** 1. Last visual selection marks (``[` and ``]`) are updated and
 point to the endpoints of the motion. This was not always the case before. 2.
 Forced blockwise motion may be cancelled if it cannot be correctly represented
 with the current `selection` option.
