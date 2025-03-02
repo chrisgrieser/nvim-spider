@@ -51,7 +51,7 @@ end
 
 --------------------------------------------------------------------------------
 
----@param opts optsObj configuration table as in setup()
+---@param opts Spider.config configuration table as in setup()
 ---@param backwards boolean whether to adjust patterns for backward motions
 ---@return patternList
 ---@nodiscard

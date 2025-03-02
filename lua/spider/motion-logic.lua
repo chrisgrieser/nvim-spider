@@ -2,14 +2,14 @@ local M = {}
 local strFuncs = require("spider.utf8-support").stringFuncs
 --------------------------------------------------------------------------------
 
--- INFO This method is necessary as opposed to a simple `:find`, to correctly
+-- This method is necessary as opposed to a simple `:find` to correctly
 -- determine a word the cursor is already standing on.
 ---@param line string
 ---@param pattern string
 ---@param endOfWord boolean look for the end of the pattern instead of the start
----@param offset number -- look for the first match after this number
+---@param offset number look for the first match after this number
 ---@nodiscard
----@return number|nil returns nil if none is found
+---@return number|nil -- returns nil if none is found
 local function firstMatchAfter(line, pattern, endOfWord, offset)
 	-- special case: pattern with ^/$, since there can only be one match
 	-- and since gmatch won't work with them
@@ -29,7 +29,7 @@ local function firstMatchAfter(line, pattern, endOfWord, offset)
 	end
 
 	if endOfWord then
-		pattern = pattern .. "()" -- INFO "()" makes gmatch return the position of that group
+		pattern = pattern .. "()" -- `()` makes gmatch return the position of that group
 	else
 		pattern = "()" .. pattern
 	end
@@ -48,7 +48,7 @@ end
 ---@param line string input string where to find the pattern
 ---@param offset number position to start looking from
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
----@param opts optsObj configuration table as in setup()
+---@param opts Spider.config configuration table as in setup()
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 function M.getNextPosition(line, offset, key, opts)

@@ -1,5 +1,4 @@
 local M = {}
-local strFuncs = require("spider.utf8-support").stringFuncs
 
 -- PERF avoid importing submodules here, since it results in them all being loaded
 -- on initialization instead of lazy-loading them when needed.
@@ -18,20 +17,20 @@ local function normal(keys) vim.cmd.normal { keys, bang = true } end
 
 --------------------------------------------------------------------------------
 
----@param userOpts? optsObj
+---@param userOpts? Spider.config
 function M.setup(userOpts) require("spider.config").setup(userOpts) end
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
----@param motionOpts? optsObj configuration table as in setup()
+---@param motionOpts? Spider.config command-specific config table
 function M.motion(key, motionOpts)
+	local strFuncs = require("spider.utf8-support").stringFuncs
 	local globalOpts = require("spider.config").globalOpts
-	local getNextPosition = require("spider.motion-logic").getNextPosition
 
 	local opts = motionOpts and vim.tbl_deep_extend("force", globalOpts, motionOpts) or globalOpts
 
 	-- GUARD validate motion parameter
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
-		local msg = "Invalid key: " .. key .. "\nOnly w, e, b, and ge are supported."
+		local msg = "Invalid key: " .. key .. "\nOnly `w`, `e`, `b`, and `ge` are supported."
 		vim.notify(msg, vim.log.levels.ERROR, { title = "nvim-spider" })
 		return
 	end
@@ -48,7 +47,7 @@ function M.motion(key, motionOpts)
 	for _ = 1, vim.v.count1, 1 do
 		-- looping through rows (if next location not found in line)
 		while true do
-			local result = getNextPosition(line, offset, key, opts)
+			local result = require("spider.motion-logic").getNextPosition(line, offset, key, opts)
 			if result then
 				offset = result
 				break
