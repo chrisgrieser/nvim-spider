@@ -92,45 +92,25 @@ No keybindings are created by default. Below are the mappings to replace the
 default `w`, `e`, and `b` motions with this plugin's version of them.
 
 ```lua
-vim.keymap.set(
-	{ "n", "o", "x" },
-	"w",
-	"<cmd>lua require('spider').motion('w')<CR>",
-	{ desc = "Spider-w" }
-)
-vim.keymap.set(
-	{ "n", "o", "x" },
-	"e",
-	"<cmd>lua require('spider').motion('e')<CR>",
-	{ desc = "Spider-e" }
-)
-vim.keymap.set(
-	{ "n", "o", "x" },
-	"b",
-	"<cmd>lua require('spider').motion('b')<CR>",
-	{ desc = "Spider-b" }
-)
+vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>")
+vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>")
+vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>")
 
--- OR: lazy-load on keystroke
--- lazy.nvim
+-- OR: lazy-load on keystroke (lazy.nvim)
 {
 	"chrisgrieser/nvim-spider",
 	keys = {
-		{
-			"e",
-			"<cmd>lua require('spider').motion('e')<CR>",
-			mode = { "n", "o", "x" },
-		},
-		-- ...
+		{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+		{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+		{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
 	},
 },
 ```
 
-<!-- vale Google.Will = NO -->
 > [!NOTE]
 > For dot-repeat to work, you have to call the motions as Ex-commands.
 > Dot-repeat will not work when using `function() require("spider").motion("w")
-> end` as third argument,
+> end` as third argument.
 
 ## Configuration
 
@@ -188,9 +168,7 @@ require("spider").motion("w", {
 -- setting `overrideDefault` to false.
 require("spider").motion("w", {
 	customPatterns = {
-		patterns = {
-			("%x"):rep(6) .. "+" },
-		},
+		patterns = { ("%x"):rep(6) .. "+" } },
 		overrideDefault = false,
 	},
 })
@@ -244,20 +222,20 @@ camelCase, check out the `subword` text object of
 ### Operator-pending mode: the case of `cw`
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
-the next word, like `dw` does. This is probably done for convenience in vi's
+the next word, like `dw` does. This is probably done for convenience in `vi`'s
 early days before there were text objects. In my view, this is quite problematic
 since it makes people habitualize inconsistent motion behavior.
 
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create unexpected
-results when used in subwords or near punctuation. If you nevertheless want to,
-you can achieve that behavior by mapping `cw` to `ce`:
+results when used in subwords or near punctuation. If you nevertheless prefer
+that behavior, you can achieve that behavior by mapping `cw` to `ce`:
 
 ```lua
 vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
 vim.keymap.set("n", "cw", "ce", { remap = true })
 
--- or the same in one mapping without `remap = true`
+-- OR in one mapping
 vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
 
@@ -295,7 +273,7 @@ would be yanked charwise.
 **Caveats**
 1. Last visual selection marks (`` `[ `` and `` `] ``) are updated
    and point to the endpoints of the motion. This was not always the case before.
-2. Forced blockwise motion may be cancelled if it cannot be correctly
+2. Forced blockwise motion may be canceled if it cannot be correctly
    represented with the current `selection` option.
 
 ### Motions in insert mode
@@ -308,12 +286,12 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
 ## Credits
-**Thanks**
+**Thanks**  
 - `@vypxl` and `@ii14` [for figuring out dot-repeatability of
   textobjects](https://github.com/chrisgrieser/nvim-spider/pull/4).
 - `@vanaigr` for a large contribution regarding operator-pending mode.
 
-**About the developer**
+**About the developer**  
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
