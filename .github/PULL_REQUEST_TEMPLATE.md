@@ -1,4 +1,9 @@
+## What problem does this PR solve?
+
+## How does the PR solve it?
+
 ## Checklist
-- [ ] Used only camelCase variable names.
+- [ ] Used only `camelCase` variable names.
 - [ ] If functionality is added or modified, also made respective changes to the
-  `README.md` (the `.txt` file is auto-generated and does not need to be modified).
+  `README.md` (the `.txt` file is auto-generated and does not need to be
+  modified).
