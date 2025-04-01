@@ -6,6 +6,7 @@ local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	consistentOperatorPending = false,
 	subwordMovement = true,
+	---@type Spider.config.customPatterns
 	customPatterns = {
 		patterns = {}, ---@type string[]
 		overrideDefault = true,
