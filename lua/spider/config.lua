@@ -10,6 +10,7 @@ local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	consistentOperatorPending = false,
 	subwordMovement = true,
+	precognitionIntegrationEnabled = false,
 	---@type Spider.config.customPatterns
 	customPatterns = {
 		patterns = {},
