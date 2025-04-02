@@ -277,7 +277,7 @@ vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i"
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
-### [Precognition.nvim Integration](https://github.com/tris203/precognition.nvim)
+### Precognition.nvim Integration
 
 Add `w`, `e`, and `b` motions from spider to precognition hints.
 
