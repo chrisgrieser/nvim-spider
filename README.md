@@ -289,14 +289,7 @@ Add `w`, `e`, and `b` motions from spider to precognition hints.
     dependencies = {
       "chrisgrieser/nvim-spider",
     },
-    config = function()
-      local ok, _spider_adapter = pcall(require, 'spider.precognition_adapter')
-      if ok then
-        local spider_adapter = vim.deepcopy(_spider_adapter)
-		require('precognition.motions').register_motions(spider_adapter)
-      end
-      require('precognition').setup {}
-    end,
+	opts = {},
   },
 ```
 
