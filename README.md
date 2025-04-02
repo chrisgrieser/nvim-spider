@@ -123,6 +123,7 @@ require("spider").setup {
 	skipInsignificantPunctuation = true,
 	consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
 	subwordMovement = true,
+	precognitionIntegrationEnabled = false, -- see "Integration precognition.nvim"
 	customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
 }
 ```
@@ -284,6 +285,15 @@ the `l` on backwards motions.)
 vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
+
+## Integrations
+
+### [precognition.nvim](https://github.com/tris203/precognition.nvim)
+
+Add `w`, `e`, and `b` motions from spider to precognition hints
+
+1. Set `precognitionIntegrationEnabled = true` in `opts` or inside `.setup()`
+2. Add `spider.nvim` as a dependency for `precognition.nvim`
 
 ## Credits
 **Thanks**  
