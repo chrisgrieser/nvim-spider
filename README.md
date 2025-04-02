@@ -21,8 +21,9 @@ insignificant punctuation.
 	* [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
 	* [Consistent operator-pending mode](#consistent-operator-pending-mode)
 	* [Motions in insert mode](#motions-in-insert-mode)
-- [Integrations](#integrations)
-	* [precognition.nvim](#precognitionnvim)
+	* [Precognition.nvim Integration](#precognitionnvim-integration)
+		+ [Precognition Example Config](#precognition-example-config)
+		+ [Spider Example Config](#spider-example-config)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -276,14 +277,42 @@ vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i"
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
-## Integrations
+### [Precognition.nvim Integration](https://github.com/tris203/precognition.nvim)
 
-### [precognition.nvim](https://github.com/tris203/precognition.nvim)
+Add `w`, `e`, and `b` motions from spider to precognition hints.
 
-Add `w`, `e`, and `b` motions from spider to precognition hints
+#### Precognition Example Config
 
-1. Set `precognitionIntegrationEnabled = true` in `opts` or inside `.setup()`
-2. Add `spider.nvim` as a dependency for `precognition.nvim`
+```lua
+  {
+    "tris203/precognition.nvim",
+    dependencies = {
+      "chrisgrieser/nvim-spider",
+    },
+    config = function()
+      local ok, _spider_adapter = pcall(require, 'spider.precognition_adapter')
+      if ok then
+        local spider_adapter = vim.deepcopy(_spider_adapter)
+		require('precognition.motions').register_motions(spider_adapter)
+      end
+      require('precognition').setup {}
+    end,
+  },
+```
+
+#### Spider Example Config
+
+```lua
+  {
+    'chrisgrieser/nvim-spider',
+    lazy = true,
+    keys = {
+      { 'w', "<cmd>lua require('spider').motion('w')<CR>", mode = { 'n', 'o', 'x' } },
+      { 'e', "<cmd>lua require('spider').motion('e')<CR>", mode = { 'n', 'o', 'x' } },
+      { 'b', "<cmd>lua require('spider').motion('b')<CR>", mode = { 'n', 'o', 'x' } },
+    },
+  }
+```
 
 ## Credits
 **Thanks**
