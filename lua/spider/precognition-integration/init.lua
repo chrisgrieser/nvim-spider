@@ -4,7 +4,7 @@ M.register_adapter = function()
 	local globalOpts = require("spider.config").globalOpts
 	local ok, vanillaMotions = pcall(require, "precognition.motions.vanilla_motions")
 	if not ok then
-		vim.api.nvim_echo({ { "[Spider] `precognition` not found" } }, true, { err = false })
+		vim.api.nvim_echo({ { "[Spider] `precognition` not found" } }, false, { err = false })
 		return
 	end
 	local spider = require("spider.motion-logic")

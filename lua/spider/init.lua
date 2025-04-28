@@ -18,7 +18,10 @@ local function normal(keys) vim.cmd.normal { keys, bang = true } end
 --------------------------------------------------------------------------------
 
 ---@param userOpts? Spider.config
-function M.setup(userOpts) require("spider.config").setup(userOpts) end
+function M.setup(userOpts)
+	require("spider.config").setup(userOpts)
+	require("spider.precognition-integration").register_adapter()
+end
 
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param motionOpts? Spider.config command-specific config table
