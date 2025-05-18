@@ -23,7 +23,7 @@ function M.setup(userOpts) require("spider.config").setup(userOpts) end
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param motionOpts? Spider.config command-specific config table
 function M.motion(key, motionOpts)
-	local strFuncs = require("spider.utf8-support").stringFuncs
+	local strFuncs = require("spider.extras.utf8-support").stringFuncs
 	local globalOpts = require("spider.config").globalOpts
 
 	local opts = motionOpts and vim.tbl_deep_extend("force", globalOpts, motionOpts) or globalOpts
@@ -67,7 +67,7 @@ function M.motion(key, motionOpts)
 	local isOpPendingMode = mode:sub(1, 2) == "no" -- [n]ormal & [o]perator, not the word "no"
 	if isOpPendingMode then
 		if opts.consistentOperatorPending then
-			local opPending = require("spider.operator-pending")
+			local opPending = require("spider.extras.operator-pending")
 			opPending.setEndpoints(startPos, { row, col }, { inclusive = key == "e" })
 			return
 		end
