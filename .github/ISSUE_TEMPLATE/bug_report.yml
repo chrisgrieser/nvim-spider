@@ -10,11 +10,9 @@ body:
       options:
         - label: I have updated to the latest version of the plugin.
           required: true
-        - label: I have read the README.
+        - label: I have read the README, including the section "Special cases."
           required: true
-        - label: >
-            If the issue is about `cw` or `dw`, I have read [the note on `w` in operator pending
-            mode](https://github.com/chrisgrieser/nvim-spider#operator-pending-mode-the-case-of-cw).
+        - label: I have searched the existing issues for this plugin.
           required: true
   - type: textarea
     id: bug-description
