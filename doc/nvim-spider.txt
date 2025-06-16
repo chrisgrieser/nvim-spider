@@ -1,4 +1,4 @@
-*nvim-spider.txt*              For Neovim             Last change: 2025 May 03
+*nvim-spider.txt*             For Neovim             Last change: 2025 June 16
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
