@@ -133,20 +133,25 @@ You can also pass this configuration table to the `motion` function:
 require("spider").motion("w", { skipInsignificantPunctuation = false })
 ```
 
-Any options passed here will be used, and override the options set in the
-`setup()` call.
+Any options passed to `.motion` take precedence over the options set in
+`.setup`.
 
 ### Advanced: custom movement patterns
-You can use the `customPatterns` table to define custom movement patterns. These
-must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1), and
-they must be symmetrical (work the same backwards and forwards) to work
-correctly with `b` and `ge`. If multiple patterns are given, the motion searches
-for all of them and stops at the closest one. When there is no match, the search
-continues in the next line.
-
-If you have interesting ideas for custom patterns, please share them in the
-[GitHub discussions](./discussions), or make a PR to add them as built-in
-options.
+You can use the `customPatterns` table to define custom movement patterns.
+- These must be [lua
+  patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1).
+- If multiple patterns are given, the motion searches for all of them and stops
+  at the closest one. When there is no match, the search continues in the next
+  line.
+- The `customPatterns` option overrides `nvim-spider`'s default behavior,
+  meaning no subword movement and skipping of punctuation. Pass a `pattern`
+  table and set `overrideDefault = false` to extend `nvim-spider`'s default
+  behavior with a new pattern.
+- You can use `customPatterns` in the `.motion` call to create new motions,
+  while still having access `nvim-spider`'s default behavior.
+- They must be symmetrical (work the same backwards and forwards) to work for
+  the backwards and forwards motions. If your patterns are not symmetric, you
+  must define them for each direction via `.motion`.
 
 A few examples:
 
@@ -156,19 +161,11 @@ require("spider").motion("w", {
 	customPatterns = { "%d+" },
 })
 
--- The motion stops only at words with 3 or more chars or at any punctuation.
--- (Lua patterns have no quantifier like `{3,}`, thus the repetition.)
-require("spider").motion("w", {
-	customPatterns = { "%w%w%w+", "%p+" },
-})
-
--- The motion stops only at hashes like `ef82a2`
--- (here avoiding repetition by using `string.rep()`)
--- Extend default patterns by passing a `patterns` table and
--- setting `overrideDefault` to false.
+-- The motion stops at any occurrence of the ltters "A" or "C", in addition 
+-- to spider's default behavior.
 require("spider").motion("w", {
 	customPatterns = {
-		patterns = { ("%x"):rep(6) .. "+" } },
+		patterns = { "A", "C" },
 		overrideDefault = false,
 	},
 })
@@ -180,14 +177,6 @@ require("spider").motion("e", {
 	customPatterns = { "const .", "let .", "var ." },
 })
 ```
-
-> [!NOTE]
-> The `customPatterns` option overrides `nvim-spider`'s default behavior,
-> meaning subword movement and skipping of punctuation are disabled. You can add
-> `customPatterns` as an option to the `.motion` call to create new motions,
-> while still having access `nvim-spider`'s default behavior. Pass a patterns
-> table and set `overrideDefault = false` to extend `nvim-spider`'s default
-> behavior with a new pattern.
 
 ## Special cases
 
