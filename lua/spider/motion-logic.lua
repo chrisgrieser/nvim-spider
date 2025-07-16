@@ -48,7 +48,7 @@ end
 ---@param line string input string where to find the pattern
 ---@param offset number position to start looking from
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
----@param opts Spider.config configuration table as in setup()
+---@param opts Spider.config
 ---@nodiscard
 ---@return number|nil pattern position, returns nil if no pattern was found
 function M.getNextPosition(line, offset, key, opts)
@@ -70,7 +70,7 @@ function M.getNextPosition(line, offset, key, opts)
 		local match = firstMatchAfter(line, pattern, endOfWord, offset)
 		if match then table.insert(matches, match) end
 	end
-	if vim.tbl_isempty(matches) then return nil end -- none found in this line
+	if #matches == 0 then return nil end -- none found in this line
 	local nextPos = math.min(unpack(matches))
 
 	if backwards then nextPos = strFuncs.len(line) - nextPos + 1 end

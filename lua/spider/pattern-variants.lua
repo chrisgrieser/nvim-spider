@@ -2,9 +2,9 @@ local M = {}
 --------------------------------------------------------------------------------
 ---@alias patternList table<string, string>
 
--- INFO Currently, all patterns need to be symmetric to also work for backward
--- motions. In case they are asymmetric, they need to be reversed. Currently,
--- this is only the case for the camelCase pattern.
+-- INFO All patterns need to be symmetric to also work for backward motions. In
+-- case they are asymmetric, they need to be reversed. (Currently, this is only
+-- the case for the camelCase pattern.)
 
 ---@type patternList
 local subwordPatterns = {
@@ -28,62 +28,50 @@ local skipPunctuationPatterns = {
 }
 
 ---@type patternList
-local fullWordPatterns = {
+local fullWord = {
 	word = "[%w_]+", -- `_` is usually considered a word character
 }
 
 ---@type patternList
-local allPunctuationPatterns = {
+local anyPunctuation = {
 	punctuation = "%p+",
 }
 
----@param table table table to verify.
+---@param var any
 ---@return boolean
-local function isStringArray(table)
-	if type(table) ~= "table" then return false end
-
-	for _, value in ipairs(table) do
+local function isStringArray(var)
+	if type(var) ~= "table" then return false end
+	for _, value in ipairs(var) do
 		if type(value) ~= "string" then return false end
 	end
-
 	return true
 end
 
 --------------------------------------------------------------------------------
 
----@param opts Spider.config configuration table as in setup()
----@param backwards boolean whether to adjust patterns for backward motions
+---@param opts Spider.config
+---@param backwards boolean
 ---@return patternList
 ---@nodiscard
 function M.get(opts, backwards)
-	-- opts.customPatterns.overrideDefault will default to true if it is not passed in.
-	-- This preserves the original behavior of spider.
-	-- Users can set overrideDefault to true, but spider will behave the same as the original behavior.
-	-- Behavior will change if a user sets the overrideDefault key to true within a customPatterns.patterns table.
-	-- any custom patterns take precedence
-
-	-- need to check if opts.customPatterns is a string array to avoid breaking changes.
-	if opts.customPatterns and isStringArray(opts.customPatterns) then
-		if #opts.customPatterns > 0 then return opts.customPatterns end
+	-- user set custom pattern that will override spider's default patterns
+	local customPat = opts.customPatterns
+	if customPat and isStringArray(customPat) and #customPat > 0 then return customPat end
+	if customPat.patterns and #customPat.patterns > 0 and customPat.overrideDefault then
+		return customPat.patterns
 	end
 
-	-- this checks if a user set a custom pattern in the patterns table
-	-- then it checks if overrideDefault was set
-	if opts.customPatterns.patterns and #opts.customPatterns.patterns > 0 then
-		if opts.customPatterns.overrideDefault then return opts.customPatterns.patterns end
-	end
-
+	-- spider's default patterns, depending on user settings
 	local punctuationPatterns = opts.skipInsignificantPunctuation and skipPunctuationPatterns
-		or allPunctuationPatterns
+		or anyPunctuation
 
-	local wordPatterns = vim.deepcopy(opts.subwordMovement and subwordPatterns or fullWordPatterns)
+	local wordPatterns = vim.deepcopy(opts.subwordMovement and subwordPatterns or fullWord)
 	if backwards then wordPatterns.camelCaseWordForward = nil end
 	if not backwards then wordPatterns.camelCaseWordBackward = nil end
 
-	-- user patterns default to {}
-	-- user patterns table only changes patterntsToUse if patterns has a pattern and overrideDefaults was set to false.
+	-- merge user patterns with spider's default patterns
 	local patternsToUse =
-		vim.tbl_extend("force", wordPatterns, punctuationPatterns, opts.customPatterns.patterns)
+		vim.tbl_extend("force", wordPatterns, punctuationPatterns, customPat.patterns or {})
 	return patternsToUse
 end
 

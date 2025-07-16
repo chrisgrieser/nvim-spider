@@ -1,23 +1,16 @@
 local M = {}
 --------------------------------------------------------------------------------
 
----@class Spider.config.customPatterns
----@field patterns string[]? string array of lua patterns to match against.
----@field overrideDefault boolean? set to false to extend the default patterns with customPatterns. Defaults to true.
-
 ---@class Spider.config
 local defaultOpts = {
 	skipInsignificantPunctuation = true,
 	consistentOperatorPending = false,
 	subwordMovement = true,
-	---@type Spider.config.customPatterns
 	customPatterns = {
-		patterns = {},
+		patterns = {}, ---@type string[]
 		overrideDefault = true,
 	},
 }
-
---------------------------------------------------------------------------------
 
 M.globalOpts = defaultOpts
 
