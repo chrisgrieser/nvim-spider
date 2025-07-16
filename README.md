@@ -121,9 +121,9 @@ The `.setup()` call is optional.
 -- default values
 require("spider").setup {
 	skipInsignificantPunctuation = true,
-	consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
+	consistentOperatorPending = false, -- see the README for details
 	subwordMovement = true,
-	customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
+	customPatterns = {}, -- see the README for details
 }
 ```
 
@@ -212,8 +212,9 @@ camelCase, check out the `subword` text object of
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in `vi`'s
-early days before there were text objects. In my view, this is quite problematic
-since it makes people habitualize inconsistent motion behavior.
+early days before <!-- harper: ignore -->there were text objects. In my view,
+this is quite problematic since it makes people habitualize inconsistent motion
+behavior.
 
 In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create unexpected
@@ -229,10 +230,9 @@ vim.keymap.set("n", "cw", "c<cmd>lua require('spider').motion('e')<CR>")
 ```
 
 ### Consistent operator-pending mode
-Vim has more inconsistencies related to how the motion range is
-interpreted (see `:h exclusive`). For example, if the end of the motion is at
-the beginning of a line, the endpoint is moved to the last character of the
-previous line.
+Vim has more inconsistencies related to how the motion range is interpreted (see
+`:h exclusive`). For example, if the end of the motion is at the beginning of a
+line, the endpoint is moved to the last character of the previous line.
 
 ```lua
 foo bar
@@ -243,8 +243,8 @@ baz
 Typing `dw` deletes only `bar`. `baz` stays on the next line.
 
 Similarly, if the start of the motion is before or at the first non-blank
-character in a line, and the end is at the beginning of a line, the motion
-is changed to `linewise`.
+character in a line, and the end is at the beginning of a line, the motion is
+changed to `linewise`.
 
 ```lua
     foo
@@ -252,18 +252,18 @@ is changed to `linewise`.
 bar
 ```
 
-Typing `yw` yanks `foo\r`, that is, the indentation before the cursor is included,
-and the register type is set to `linewise`.
+Typing `yw` yanks `foo\r`, that is, the indentation before the cursor is
+included, and the register type is set to `linewise`.
 
 Setting `consistentOperatorPending = true` removes these special cases. In the
 first example, `bar\r` would be deleted charwise. In the second example, `foo\r`
 would be yanked charwise.
 
 **Caveats**
-1. Last visual selection marks (`` `[ `` and `` `] ``) are updated
-   and point to the endpoints of the motion. This was not always the case before.
-2. Forced blockwise motion may be canceled if it cannot be correctly
-   represented with the current `selection` option.
+1. Last visual selection marks (`` `[ `` and `` `] ``) are updated and point to
+   the endpoints of the motion. This was not always the case before.
+2. Forced blockwise motion may be canceled if it cannot be correctly represented
+   with the current `selection` option.
 
 ### Motions in insert mode
 Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
@@ -275,7 +275,7 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
 ## Credits
-**Thanks**  
+**Thanks**
 - `@vypxl` and `@ii14` [for figuring out dot-repeatability of
   textobjects](https://github.com/chrisgrieser/nvim-spider/pull/4).
 - `@vanaigr` for a large contribution regarding operator-pending mode.
