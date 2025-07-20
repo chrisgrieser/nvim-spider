@@ -25,8 +25,7 @@ function M.setup(userOpts) require("spider.config").setup(userOpts) end
 function M.motion(key, motionOpts)
 	local strFuncs = require("spider.extras.utf8-support").stringFuncs
 	local globalOpts = require("spider.config").globalOpts
-
-	local opts = motionOpts and vim.tbl_deep_extend("force", globalOpts, motionOpts) or globalOpts
+	local opts = vim.tbl_deep_extend("force", globalOpts, motionOpts or {})
 
 	-- GUARD validate motion parameter
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then
@@ -38,12 +37,12 @@ function M.motion(key, motionOpts)
 	local startPos = vim.api.nvim_win_get_cursor(0)
 	local row, col = unpack(startPos)
 	local lastRow = vim.api.nvim_buf_line_count(0)
-	local forwards = key == "w" or key == "e"
+	local forwards = (key == "w") or (key == "e")
 
 	local line = getline(row)
 	local offset, _ = strFuncs.initPos(line, col)
 
-	-- looping through counts
+ -- looping through counts
 	for _ = 1, vim.v.count1, 1 do
 		-- looping through rows (if next location not found in line)
 		while true do
