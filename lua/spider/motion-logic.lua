@@ -11,12 +11,15 @@ local strFuncs = require("spider.extras.utf8-support").stringFuncs
 ---@nodiscard
 ---@return number|false matchPos false if no match was found
 local function getMatchpos(line, pattern, endOfWord, searchOffset)
-	-- special case: pattern with ^/$, since there can only be one match
-	-- and since gmatch won't work with them
-	if pattern:find("^^") or pattern:find("$$") then
+	-- special case: pattern with unescaped ^/$, since there can only be one
+	-- match and since gmatch won't work with them
+
+	-- trailing $ could be escaped $, see #63
+	local endsWithUnescapedDollar = vim.endswith(pattern, "$") and not vim.endswith(pattern, "%$")
+	if vim.startswith(pattern, "^") or endsWithUnescapedDollar then
 		-- checking for high col count for virtualedit
-		if pattern:find("$$") and searchOffset > strFuncs.len(line) then return false end
-		if pattern:find("^^") and searchOffset ~= 0 then return false end
+		if endsWithUnescapedDollar and searchOffset > strFuncs.len(line) then return false end
+		if vim.startswith(pattern, "^") and searchOffset ~= 0 then return false end
 
 		local startPos, endPos = strFuncs.find(line, pattern)
 		if not startPos or not endPos then return false end
@@ -25,6 +28,8 @@ local function getMatchpos(line, pattern, endOfWord, searchOffset)
 		if matchPos > searchOffset then return matchPos end
 		return false
 	end
+
+	-----------------------------------------------------------------------------
 
 	-- `()` makes gmatch return the position of that group
 	pattern = endOfWord and (pattern .. "()") or ("()" .. pattern)
