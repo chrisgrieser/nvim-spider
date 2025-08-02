@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest an idea
-title: "Feature Request: "
+title: "FR: "
 labels: ["enhancement"]
 body:
   - type: textarea
@@ -8,8 +8,7 @@ body:
     attributes:
       label: Feature Requested
       description: A clear and concise description of the feature.
-    validations:
-      required: true
+    validations: { required: true }
   - type: textarea
     id: screenshot
     attributes:
@@ -21,4 +20,6 @@ body:
       label: Checklist
       options:
         - label: The feature would be useful to more users than just me.
+          required: true
+        - label: I have searched the existing issues for this plugin.
           required: true

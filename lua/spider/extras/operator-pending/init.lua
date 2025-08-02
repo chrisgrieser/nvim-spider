@@ -2,7 +2,7 @@
 
 local vim = vim
 
-local u = require("spider.operator-pending.util")
+local u = require("spider.extras.operator-pending.util")
 
 local M = {}
 

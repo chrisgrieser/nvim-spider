@@ -1,5 +1,5 @@
 local M = {}
-local strFuncs = require("spider.utf8-support").stringFuncs
+local strFuncs = require("spider.extras.utf8-support").stringFuncs
 --------------------------------------------------------------------------------
 
 -- This method is necessary as opposed to a simple `:find` to correctly
