@@ -21,6 +21,7 @@ insignificant punctuation.
 	* [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
 	* [Consistent operator-pending mode](#consistent-operator-pending-mode)
 	* [Motions in insert mode](#motions-in-insert-mode)
+	* [Precognition.nvim Integration](#precognition.nvim-integration)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -272,6 +273,42 @@ the `l` on backwards motions.)
 ```lua
 vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
+```
+
+### Precognition.nvim Integration
+Add `w`, `e`, and `b` motions from spider to precognition hints.
+To use, add `nvim-spider` as a dependency to `precognition.nvim`, see example below for reference.
+The motions adapter is registered in `require('spider').setup()`, so when loading `nvim-spider` as a dependency to `precognition.nvim` make sure to either
+
+1. call `require('spider').setup()` inside `config`
+2. set `opts = {}` if using `lazy`
+3. set `config = true` if using `lazy`
+
+#### Precognition Example Config
+
+```lua
+  {
+    "tris203/precognition.nvim",
+    dependencies = {
+      { 'chrisgrieser/nvim-spider', opts = {}, lazy = true },
+    },
+	opts = {},
+  },
+```
+
+#### Spider Example Config
+
+```lua
+  {
+    'chrisgrieser/nvim-spider',
+    lazy = true,
+    keys = {
+      { 'w', "<cmd>lua require('spider').motion('w')<CR>", mode = { 'n', 'o', 'x' } },
+      { 'e', "<cmd>lua require('spider').motion('e')<CR>", mode = { 'n', 'o', 'x' } },
+      { 'b', "<cmd>lua require('spider').motion('b')<CR>", mode = { 'n', 'o', 'x' } },
+    },
+	opts = {},
+  }
 ```
 
 ## Credits
