@@ -1,4 +1,4 @@
-*nvim-spider.txt*            For Neovim            Last change: 2025 August 11
+*nvim-spider.txt*            For Neovim           Last change: 2025 October 13
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -243,7 +243,7 @@ In this plugin, such small inconsistencies are therefore deliberately not
 implemented. Apart from the inconsistency, such a behavior can create
 unexpected results when used in subwords or near punctuation. If you
 nevertheless prefer that behavior, you can achieve that behavior by mapping
-`cw` to `ce`
+`cw` to `ce`:
 
 >lua
     vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
@@ -254,7 +254,7 @@ nevertheless prefer that behavior, you can achieve that behavior by mapping
 <
 
 
-CONSISTENTOPERATOR-PENDING MODE ~
+CONSISTENT OPERATOR-PENDING MODE ~
 
 Vim has more inconsistencies related to how the motion range is interpreted
 (see |exclusive|). For example, if the end of the motion is at the beginning of
