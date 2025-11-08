@@ -292,7 +292,7 @@ The motions adapter is registered in `require('spider').setup()`, so when loadin
   {
     "tris203/precognition.nvim",
     dependencies = {
-      { 'chrisgrieser/nvim-spider', opts = {}, lazy = true },
+      { 'chrisgrieser/nvim-spider' },
     },
 	opts = {},
   },
@@ -303,7 +303,6 @@ The motions adapter is registered in `require('spider').setup()`, so when loadin
 ```lua
   {
     'chrisgrieser/nvim-spider',
-    lazy = true,
     keys = {
       { 'w', "<cmd>lua require('spider').motion('w')<CR>", mode = { 'n', 'o', 'x' } },
       { 'e', "<cmd>lua require('spider').motion('e')<CR>", mode = { 'n', 'o', 'x' } },

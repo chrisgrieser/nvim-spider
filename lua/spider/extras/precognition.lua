@@ -3,10 +3,7 @@ local M = {}
 M.register_adapter = function()
 	local globalOpts = require("spider.config").globalOpts
 	local ok, vanillaMotions = pcall(require, "precognition.motions.vanilla_motions")
-	if not ok then
-		vim.api.nvim_echo({ { "[Spider] `precognition` not found" } }, false, { err = false })
-		return
-	end
+	if not ok then return end
 	local spider = require("spider.motion-logic")
 	local adapter = {
 		next_word_boundary = function(str, cursorcol, linelen, bigWord)
