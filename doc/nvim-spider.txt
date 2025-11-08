@@ -1,4 +1,4 @@
-*nvim-spider.txt*            For Neovim           Last change: 2025 October 13
+*nvim-spider.txt*           For Neovim           Last change: 2025 November 08
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -7,7 +7,7 @@ Table of Contents                              *nvim-spider-table-of-contents*
   - Features                               |nvim-spider-nvim-spider--features|
   - Installation                       |nvim-spider-nvim-spider--installation|
   - Configuration                     |nvim-spider-nvim-spider--configuration|
-  - Special cases                     |nvim-spider-nvim-spider--special-cases|
+  - Extras & special cases   |nvim-spider-nvim-spider--extras-&-special-cases|
   - Credits                                 |nvim-spider-nvim-spider--credits|
 
 ==============================================================================
@@ -25,12 +25,13 @@ insignificant punctuation.
 - |nvim-spider-configuration|
     - |nvim-spider-basic-configuration|
     - |nvim-spider-advanced:-custom-movement-patterns|
-- |nvim-spider-special-cases|
+- |nvim-spider-extras-&-special-cases|
     - |nvim-spider-utf-8-support|
     - |nvim-spider-subword-text-object|
     - |nvim-spider-operator-pending-mode:-the-case-of-`cw`|
     - |nvim-spider-consistent-operator-pending-mode|
     - |nvim-spider-motions-in-insert-mode|
+    - |nvim-spider-`precognition.nvim`-integration|
 - |nvim-spider-credits|
 
 
@@ -196,7 +197,7 @@ A few examples:
 <
 
 
-SPECIAL CASES                         *nvim-spider-nvim-spider--special-cases*
+EXTRAS & SPECIAL CASES       *nvim-spider-nvim-spider--extras-&-special-cases*
 
 
 UTF-8 SUPPORT ~
@@ -214,9 +215,9 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
         "chrisgrieser/nvim-spider",
         lazy = true,
         dependencies = {
-            "theHamsta/nvim_rocks",
-            build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-            config = function() require("nvim_rocks").ensure_installed("luautf8") end,
+        "theHamsta/nvim_rocks",
+        build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+        config = function() require("nvim_rocks").ensure_installed("luautf8") end,
         },
     },
 <
@@ -299,6 +300,35 @@ the `l` on backwards motions.)
 >lua
     vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
     vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
+<
+
+
+PRECOGNITION.NVIM INTEGRATION ~
+
+You can use precognition.nvim <https://github.com/tris203/precognition.nvim>
+with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
+
+`nvim-spider` automatically registers the `precognition` adapter on calling
+`require("spider").setup()`.
+
+>lua
+    -- lazy.nvim
+    return {
+        {
+            "tris203/precognition.nvim",
+            dependencies = { "chrisgrieser/nvim-spider" },
+            opts = {},
+        },
+        {
+            "chrisgrieser/nvim-spider",
+            keys = {
+                { "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+                { "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+                { "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+            },
+            opts = {}, -- calls `setup()`, which registers the precognition adapter
+        },
+    }
 <
 
 
