@@ -279,9 +279,9 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 
 ### Precognition.nvim Integration
 Add `w`, `e`, and `b` motions from spider to precognition hints.
-To use, add `nvim-spider` as a dependency to `precognition.nvim`, see example below for reference.
-The motions adapter is registered in `require('spider').setup()`, so when loading `nvim-spider` as a dependency to `precognition.nvim` make sure to either
-
+To use, add `nvim-spider` as a dependency to `precognition.nvim`.
+The motions adapter is registered in `require('spider').setup()`.
+When loading `nvim-spider` as a dependency to `precognition.nvim` make sure to:
 1. call `require('spider').setup()` inside `config`
 2. set `opts = {}` if using `lazy`
 3. set `config = true` if using `lazy`
