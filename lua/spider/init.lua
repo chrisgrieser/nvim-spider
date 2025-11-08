@@ -42,7 +42,7 @@ function M.motion(key, motionOpts)
 	local line = getline(row)
 	local offset, _ = strFuncs.initPos(line, col)
 
- -- looping through counts
+	-- looping through counts
 	for _ = 1, vim.v.count1, 1 do
 		-- looping through rows (if next location not found in line)
 		while true do

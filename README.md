@@ -15,12 +15,13 @@ insignificant punctuation.
 - [Configuration](#configuration)
 	* [Basic configuration](#basic-configuration)
 	* [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
-- [Special cases](#special-cases)
+- [Extras & special cases](#extras--special-cases)
 	* [UTF-8 support](#utf-8-support)
 	* [Subword text object](#subword-text-object)
 	* [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
 	* [Consistent operator-pending mode](#consistent-operator-pending-mode)
 	* [Motions in insert mode](#motions-in-insert-mode)
+	* [`precognition.nvim` integration](#precognitionnvim-integration)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -178,7 +179,7 @@ require("spider").motion("e", {
 })
 ```
 
-## Special cases
+## Extras & special cases
 
 ### UTF-8 support
 For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
@@ -191,13 +192,13 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 
 -- lazy.nvim
 {
-    "chrisgrieser/nvim-spider",
-    lazy = true,
-    dependencies = {
-    	"theHamsta/nvim_rocks",
-    	build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-    	config = function() require("nvim_rocks").ensure_installed("luautf8") end,
-    },
+	"chrisgrieser/nvim-spider",
+	lazy = true,
+	dependencies = {
+ 	"theHamsta/nvim_rocks",
+ 	build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
+ 	config = function() require("nvim_rocks").ensure_installed("luautf8") end,
+	},
 },
 ```
 
@@ -272,6 +273,33 @@ the `l` on backwards motions.)
 ```lua
 vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
+```
+
+### `precognition.nvim` integration
+You can use [precognition.nvim](https://github.com/tris203/precognition.nvim)
+with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
+
+`nvim-spider` automatically registers the `precognition` adapter on calling
+`require("spider").setup()`.
+
+```lua
+-- lazy.nvim
+return {
+	{
+		"tris203/precognition.nvim",
+		dependencies = { "chrisgrieser/nvim-spider" },
+		opts = {},
+	},
+	{
+		"chrisgrieser/nvim-spider",
+		keys = {
+			{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+			{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+			{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+		},
+		opts = {}, -- calls `setup()`, which registers the precognition adapter
+	},
+}
 ```
 
 ## Credits
