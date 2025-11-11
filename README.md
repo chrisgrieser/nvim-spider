@@ -122,8 +122,8 @@ The `.setup()` call is optional.
 -- default values
 require("spider").setup {
 	skipInsignificantPunctuation = true,
-	consistentOperatorPending = false, -- see the README for details
 	subwordMovement = true,
+	consistentOperatorPending = false, -- see the README for details
 	customPatterns = {}, -- see the README for details
 }
 ```
@@ -162,7 +162,7 @@ require("spider").motion("w", {
 	customPatterns = { "%d+" },
 })
 
--- The motion stops at any occurrence of the ltters "A" or "C", in addition 
+-- The motion stops at any occurrence of the letters "A" or "C", in addition 
 -- to spider's default behavior.
 require("spider").motion("w", {
 	customPatterns = {
