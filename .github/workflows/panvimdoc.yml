@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: README.md to vimdoc
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: git pull # fix failure when multiple commits are pushed in succession
       - run: mkdir -p doc
 
