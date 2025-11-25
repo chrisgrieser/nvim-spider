@@ -1,0 +1,10 @@
+{
+	"runtime.version": "LuaJIT",
+	"workspace": {
+		"library": [
+			"$VIMRUNTIME/lua", // nvim-lua runtime
+			"${3rd}/luv/library" // vim.uv
+		]
+	},
+	"$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json"
+}
