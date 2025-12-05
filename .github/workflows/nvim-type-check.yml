@@ -13,4 +13,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with: { luals-version: 3.15.0 } # PENDING https://github.com/stevearc/nvim-typecheck-action/issues/5
       - uses: stevearc/nvim-typecheck-action@v2
