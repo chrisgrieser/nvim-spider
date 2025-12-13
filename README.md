@@ -1,7 +1,6 @@
-<!-- LTeX: enabled=false -->
 # nvim-spider 🕷️🕸️
-<!-- LTeX: enabled=true -->
-<a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider"><img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
+<a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
+<img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
 
 Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip
 insignificant punctuation.
@@ -186,6 +185,7 @@ For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
 You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
 
+<!-- markdownlint-disable line-length # build line needs to be that long -->
 ```lua
 -- packer
 { "chrisgrieser/nvim-spider", rocks = "luautf8" }
@@ -201,6 +201,7 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 	},
 },
 ```
+<!-- markdownlint-enable line-length -->
 
 ### Subword text object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
