@@ -1,8 +1,18 @@
 {
 	"runtime.version": "LuaJIT",
+
 	"workspace.library": [
 		"$VIMRUNTIME/lua", // nvim-lua runtime
 		"${3rd}/luv/library" // vim.uv
 	],
+
+	"diagnostics": {
+		"unusedLocalExclude": ["_*"], // allow `_varname` for unused variables
+		"groupFileStatus": {
+			"luadoc": "Any", // require stricter annotations
+			"conventions": "Any" // disallow global variables
+		}
+	},
+
 	"$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json"
 }
