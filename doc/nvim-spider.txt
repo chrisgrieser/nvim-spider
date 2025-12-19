@@ -202,7 +202,7 @@ EXTRAS & SPECIAL CASES       *nvim-spider-nvim-spider--extras-&-special-cases*
 
 UTF-8 SUPPORT ~
 
-For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
+For adding utf-8 support for matching non-ASCII text, add `luautf8` as rocks.
 You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
 
