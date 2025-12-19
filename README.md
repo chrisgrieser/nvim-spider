@@ -8,19 +8,19 @@ insignificant punctuation.
 <!-- toc -->
 
 - [Features](#features)
-	* [Subword motion](#subword-motion)
-	* [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
+    - [Subword motion](#subword-motion)
+    - [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
-	* [Basic configuration](#basic-configuration)
-	* [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
+    - [Basic configuration](#basic-configuration)
+    - [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
 - [Extras & special cases](#extras--special-cases)
-	* [UTF-8 support](#utf-8-support)
-	* [Subword text object](#subword-text-object)
-	* [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
-	* [Consistent operator-pending mode](#consistent-operator-pending-mode)
-	* [Motions in insert mode](#motions-in-insert-mode)
-	* [`precognition.nvim` integration](#precognitionnvim-integration)
+    - [UTF-8 support](#utf-8-support)
+    - [Subword text object](#subword-text-object)
+    - [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
+    - [Consistent operator-pending mode](#consistent-operator-pending-mode)
+    - [Motions in insert mode](#motions-in-insert-mode)
+    - [`precognition.nvim` integration](#precognitionnvim-integration)
 - [Credits](#credits)
 
 <!-- tocstop -->
@@ -186,6 +186,7 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
 
 <!-- markdownlint-disable line-length # build line needs to be that long -->
+
 ```lua
 -- packer
 { "chrisgrieser/nvim-spider", rocks = "luautf8" }
@@ -201,6 +202,7 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 	},
 },
 ```
+
 <!-- markdownlint-enable line-length -->
 
 ### Subword text object
