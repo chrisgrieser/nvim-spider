@@ -1,4 +1,4 @@
-# nvim-spider 🕷️🕸️
+# nvim-spider 🕷️🕸️ <!-- rumdl-disable-line MD063 `nvim` lowercased -->
 <a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
 <img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
 
@@ -278,7 +278,7 @@ vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i"
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
-### `precognition.nvim` integration
+### `precognition.nvim` Integration
 You can use [precognition.nvim](https://github.com/tris203/precognition.nvim)
 with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
 
