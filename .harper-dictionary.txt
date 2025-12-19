@@ -1,0 +1,6 @@
+blockwise
+habitualize
+s
+subword
+subwords
+utf

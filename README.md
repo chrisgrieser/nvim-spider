@@ -181,7 +181,7 @@ require("spider").motion("e", {
 ## Extras & special cases
 
 ### UTF-8 support
-For adding UTF-8 support for matching non-ASCII text, add `luautf8` as rocks.
+For adding utf-8 support for matching non-ASCII text, add `luautf8` as rocks.
 You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
 
@@ -263,7 +263,7 @@ Setting `consistentOperatorPending = true` removes these special cases. In the
 first example, `bar\r` would be deleted charwise. In the second example, `foo\r`
 would be yanked charwise.
 
-**Caveats**
+**Caveats** <!-- rumdl-disable-line MD036 -->
 1. Last visual selection marks (`` `[ `` and `` `] ``) are updated and point to
    the endpoints of the motion. This was not always the case before.
 2. Forced blockwise motion may be canceled if it cannot be correctly represented
@@ -306,12 +306,12 @@ return {
 ```
 
 ## Credits
-**Thanks**
+**Thanks** <!-- rumdl-disable-line MD036 -->
 - `@vypxl` and `@ii14` [for figuring out dot-repeatability of
   textobjects](https://github.com/chrisgrieser/nvim-spider/pull/4).
 - `@vanaigr` for a large contribution regarding operator-pending mode.
 
-**About the developer**  
+**About the developer** <!-- rumdl-disable-line MD036 -->
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
