@@ -1,4 +1,4 @@
-# nvim-spider 🕷️🕸️ <!-- rumdl-disable-line MD063 `nvim` lowercased -->
+# nvim-spider 🕷️🕸️ <!-- rumdl-disable-line MD063 -->
 <a href="https://dotfyle.com/plugins/chrisgrieser/nvim-spider">
 <img alt="badge" src="https://dotfyle.com/plugins/chrisgrieser/nvim-spider/shield"/></a>
 
