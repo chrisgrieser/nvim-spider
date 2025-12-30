@@ -278,7 +278,7 @@ vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i"
 vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ```
 
-### `precognition.nvim` Integration
+### `precognition.nvim` integration
 You can use [precognition.nvim](https://github.com/tris203/precognition.nvim)
 with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
 
