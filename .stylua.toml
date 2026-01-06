@@ -1,7 +1,11 @@
 # https://github.com/JohnnyMorganz/StyLua#options
-column_width = 105
+#───────────────────────────────────────────────────────────────────────────────
+syntax = "LuaJIT"  # needed to support `::labels::`
+column_width = 100
+line_endings = "Unix"
 indent_type = "Tabs"
 indent_width = 3
 quote_style = "AutoPreferDouble"
 call_parentheses = "NoSingleTable"
 collapse_simple_statement = "Always"
+sort_requires.enabled = true
