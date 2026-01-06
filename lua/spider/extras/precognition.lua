@@ -7,7 +7,9 @@ M.register_adapter = function()
 	local spider = require("spider.motion-logic")
 	local adapter = {
 		next_word_boundary = function(str, cursorcol, linelen, bigWord)
-			if bigWord then return vanillaMotions.next_word_boundary(str, cursorcol, linelen, bigWord) end
+			if bigWord then
+				return vanillaMotions.next_word_boundary(str, cursorcol, linelen, bigWord)
+			end
 			return spider.getNextPosition(str, cursorcol, "w", globalOpts) or 0
 		end,
 		end_of_word = function(str, cursorcol, linelen, bigWord)
@@ -15,7 +17,9 @@ M.register_adapter = function()
 			return spider.getNextPosition(str, cursorcol, "e", globalOpts) or 0
 		end,
 		prev_word_boundary = function(str, cursorcol, linelen, bigWord)
-			if bigWord then return vanillaMotions.prev_word_boundary(str, cursorcol, linelen, bigWord) end
+			if bigWord then
+				return vanillaMotions.prev_word_boundary(str, cursorcol, linelen, bigWord)
+			end
 			return spider.getNextPosition(str, cursorcol, "b", globalOpts) or 0
 		end,
 		-- precognition.nvim currently does not support multi character motions (see https://github.com/tris203/precognition.nvim/issues/101#issuecomment-2676676721)

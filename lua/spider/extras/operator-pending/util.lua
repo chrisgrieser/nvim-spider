@@ -10,7 +10,8 @@ local Lines = {
 local Context = {
 	__index = function(tab, k)
 		if k == "__virtualedit" then
-			local v = vim.split(vim.api.nvim_get_option_value("virtualedit", {}), ",", { plain = true })
+			local v =
+				vim.split(vim.api.nvim_get_option_value("virtualedit", {}), ",", { plain = true })
 			rawset(tab, k, v)
 			return v
 		elseif k == "virtualedit" then
