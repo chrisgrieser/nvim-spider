@@ -89,12 +89,13 @@ Plug("chrisgrieser/nvim-spider")
 ```
 
 No keybindings are created by default. Below are the mappings to replace the
-default `w`, `e`, and `b` motions with this plugin's version of them.
+default `w`, `e`, `b`, and `ge` motions with this plugin's version of them.
 
 ```lua
 vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>")
 vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>")
 vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>")
+vim.keymap.set({ "n", "o", "x" }, "ge", "<cmd>lua require('spider').motion('ge')<CR>")
 
 -- OR: lazy-load on keystroke (lazy.nvim)
 {
@@ -103,6 +104,7 @@ vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<C
 		{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
 		{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
 		{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+		{ "ge", "<cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" } },
 	},
 },
 ```
@@ -127,7 +129,7 @@ require("spider").setup {
 }
 ```
 
-You can also pass this configuration table to the `motion` function:
+You can also pass this configuration table to the `.motion` function:
 
 ```lua
 require("spider").motion("w", { skipInsignificantPunctuation = false })
