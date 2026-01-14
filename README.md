@@ -15,7 +15,7 @@ insignificant punctuation.
     - [Basic configuration](#basic-configuration)
     - [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
 - [Extras & special cases](#extras--special-cases)
-    - [UTF-8 support](#utf-8-support)
+    - [UTF-8 support / special characters](#utf-8-support--special-characters)
     - [Subword text object](#subword-text-object)
     - [Operator-pending mode: the case of `cw`](#operator-pending-mode-the-case-of-cw)
     - [Consistent operator-pending mode](#consistent-operator-pending-mode)
@@ -179,26 +179,38 @@ require("spider").motion("e", {
 
 ## Extras & special cases
 
-### UTF-8 support
-For adding utf-8 support for matching non-ASCII text, add `luautf8` as rocks.
-You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
-`lazy.nvim`.
+### UTF-8 support / special characters
+For spider to support special characters, requires utf-8 support via the
+`luautf8` rock.
+
+```lua
+-- lazy.nvim
+return {
+	{ "chrisgrieser/nvim-spider", lazy = true },
+	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000, -- high priority required, luarocks.nvim should run as the first plugin in your config
+		lazy = false,
+		opts = {
+			rocks = { "luautf8" } -- specifies a list of rocks to install
+		},
+	},
+}
+```
 
 ```lua
 -- packer
 { "chrisgrieser/nvim-spider", rocks = "luautf8" }
-
--- lazy.nvim
-{
-	"chrisgrieser/nvim-spider",
-	lazy = true,
-	dependencies = {
- 	"theHamsta/nvim_rocks",
- 	build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
- 	config = function() require("nvim_rocks").ensure_installed("luautf8") end,
-	},
-},
 ```
+
+For troubleshooting issues with utf-8 support, refer to the alternative
+solutions described in the following issues:
+- [Issue #50](https://github.com/chrisgrieser/nvim-spider/issues/50)
+- [Issue #14](https://github.com/chrisgrieser/nvim-spider/issues/14)
+
+> [!NOTE]
+> CJK characters still [have some
+> issues](https://github.com/chrisgrieser/nvim-spider/issues/59), PRs for supporting them is welcome.
 
 ### Subword text object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not

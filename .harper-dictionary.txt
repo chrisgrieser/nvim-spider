@@ -1,3 +1,4 @@
+CJK
 blockwise
 camelCase
 charwise
