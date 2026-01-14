@@ -1,4 +1,6 @@
 blockwise
+camelCase
+charwise
 habitualize
 s
 subword

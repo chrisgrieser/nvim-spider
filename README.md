@@ -45,7 +45,7 @@ local myVariableName = FOO_BAR_BAZ
 
 ### Skipping insignificant punctuation
 A sequence of one or more punctuation characters is considered significant if it
-is surrounded by whitespace and does not include any non-punctuation characters.
+is surrounded by whitespace and does not include any non-punctuation characters:
 
 ```lua
 foo == bar .. "baz"
@@ -56,7 +56,7 @@ foo:find("a")
 ```
 
 This speeds up the movement across the line by reducing the number of mostly
-unnecessary stops.
+unnecessary stops:
 
 ```lua
 -- positions vim's `w` will move to
@@ -138,8 +138,7 @@ Any options passed to `.motion` take precedence over the options set in
 
 ### Advanced: custom movement patterns
 You can use the `customPatterns` table to define custom movement patterns.
-- These must be [lua
-  patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1).
+- These must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1).
 - If multiple patterns are given, the motion searches for all of them and stops
   at the closest one. When there is no match, the search continues in the next
   line.
@@ -185,8 +184,6 @@ For adding utf-8 support for matching non-ASCII text, add `luautf8` as rocks.
 You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 `lazy.nvim`.
 
-<!-- markdownlint-disable line-length # build line needs to be that long -->
-
 ```lua
 -- packer
 { "chrisgrieser/nvim-spider", rocks = "luautf8" }
@@ -203,27 +200,24 @@ You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
 },
 ```
 
-<!-- markdownlint-enable line-length -->
-
 ### Subword text object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
 include a subword variant of `iw`. For a version of `iw` that considers
 camelCase, check out the `subword` text object of
 [nvim-various-textobjs](https://github.com/chrisgrieser/nvim-various-textobjs).
 
-<!-- vale Google.FirstPerson = NO -->
 ### Operator-pending mode: the case of `cw`
 In operator pending mode, vim's `web` motions are actually a bit inconsistent.
 For instance, `cw` will change to the *end* of a word instead of the start of
 the next word, like `dw` does. This is probably done for convenience in `vi`'s
-early days before <!-- harper: ignore -->there were text objects. In my view,
-this is quite problematic since it makes people habitualize inconsistent motion
-behavior.
+early days before there were text objects. In my view, this is quite problematic
+since it makes people habitualize inconsistent motion behavior. In addition,
+such a behavior can create unexpected results when used in subwords or near
+punctuation.
 
-In this plugin, such small inconsistencies are therefore deliberately not
-implemented. Apart from the inconsistency, such a behavior can create unexpected
-results when used in subwords or near punctuation. If you nevertheless prefer
-that behavior, you can achieve that behavior by mapping `cw` to `ce`:
+Therefore, `nvim-spider` deliberately does not implement that `cw` behavior. If
+you nevertheless prefer `cw` to behave that way, you can achieve that by mapping
+`cw` to `ce`:
 
 ```lua
 vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
@@ -281,6 +275,8 @@ vim.keymap.set("i", "<C-b>", "<Esc><cmd>lua require('spider').motion('b')<CR>i")
 ### `precognition.nvim` integration
 You can use [precognition.nvim](https://github.com/tris203/precognition.nvim)
 with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
+(`precognition` does not support hints for multi-character motions, thus `ge` is
+not supported.)
 
 `nvim-spider` automatically registers the `precognition` adapter on calling
 `require("spider").setup()`.
