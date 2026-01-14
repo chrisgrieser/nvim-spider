@@ -1,4 +1,4 @@
-*nvim-spider.txt*           For Neovim           Last change: 2025 December 30
+*nvim-spider.txt*            For Neovim           Last change: 2026 January 14
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -26,7 +26,7 @@ insignificant punctuation.
     - |nvim-spider-basic-configuration|
     - |nvim-spider-advanced:-custom-movement-patterns|
 - |nvim-spider-extras-&-special-cases|
-    - |nvim-spider-utf-8-support|
+    - |nvim-spider-utf-8-support-/-special-characters|
     - |nvim-spider-subword-text-object|
     - |nvim-spider-operator-pending-mode:-the-case-of-`cw`|
     - |nvim-spider-consistent-operator-pending-mode|
@@ -61,7 +61,7 @@ SKIPPING INSIGNIFICANT PUNCTUATION ~
 
 A sequence of one or more punctuation characters is considered significant if
 it is surrounded by whitespace and does not include any non-punctuation
-characters.
+characters:
 
 >lua
     foo == bar .. "baz"
@@ -72,7 +72,7 @@ characters.
 <
 
 This speeds up the movement across the line by reducing the number of mostly
-unnecessary stops.
+unnecessary stops:
 
 >lua
     -- positions vim's `w` will move to
@@ -105,12 +105,13 @@ INSTALLATION                           *nvim-spider-nvim-spider--installation*
 <
 
 No keybindings are created by default. Below are the mappings to replace the
-default `w`, `e`, and `b` motions with this plugin’s version of them.
+default `w`, `e`, `b`, and `ge` motions with this plugin’s version of them.
 
 >lua
     vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>")
     vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>")
     vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>")
+    vim.keymap.set({ "n", "o", "x" }, "ge", "<cmd>lua require('spider').motion('ge')<CR>")
     
     -- OR: lazy-load on keystroke (lazy.nvim)
     {
@@ -119,6 +120,7 @@ default `w`, `e`, and `b` motions with this plugin’s version of them.
             { "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
             { "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
             { "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+            { "ge", "<cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" } },
         },
     },
 <
@@ -145,7 +147,7 @@ The `.setup()` call is optional.
     }
 <
 
-You can also pass this configuration table to the `motion` function:
+You can also pass this configuration table to the `.motion` function:
 
 >lua
     require("spider").motion("w", { skipInsignificantPunctuation = false })
@@ -200,28 +202,40 @@ A few examples:
 EXTRAS & SPECIAL CASES       *nvim-spider-nvim-spider--extras-&-special-cases*
 
 
-UTF-8 SUPPORT ~
+UTF-8 SUPPORT / SPECIAL CHARACTERS ~
 
-For adding utf-8 support for matching non-ASCII text, add `luautf8` as rocks.
-You can do so directly in `packer.nvim` or via dependency on `nvim_rocks` in
-`lazy.nvim`.
+For spider to support special characters, requires utf-8 support via the
+`luautf8` rock.
+
+>lua
+    -- lazy.nvim
+    return {
+        { "chrisgrieser/nvim-spider", lazy = true },
+        {
+            "vhyrro/luarocks.nvim",
+            priority = 1000, -- high priority required, luarocks.nvim should run as the first plugin in your config
+            lazy = false,
+            opts = {
+                rocks = { "luautf8" } -- specifies a list of rocks to install
+            },
+        },
+    }
+<
 
 >lua
     -- packer
     { "chrisgrieser/nvim-spider", rocks = "luautf8" }
-    
-    -- lazy.nvim
-    {
-        "chrisgrieser/nvim-spider",
-        lazy = true,
-        dependencies = {
-        "theHamsta/nvim_rocks",
-        build = "pip3 install --user hererocks && python3 -mhererocks . -j2.1.0-beta3 -r3.0.0 && cp nvim_rocks.lua lua",
-        config = function() require("nvim_rocks").ensure_installed("luautf8") end,
-        },
-    },
 <
 
+For troubleshooting issues with utf-8 support, refer to the alternative
+solutions described in the following issues: - Issue #50
+<https://github.com/chrisgrieser/nvim-spider/issues/50> - Issue #14
+<https://github.com/chrisgrieser/nvim-spider/issues/14>
+
+
+  [!NOTE] CJK characters still have some issues
+  <https://github.com/chrisgrieser/nvim-spider/issues/59>, PRs for supporting
+  them is welcome.
 
 SUBWORD TEXT OBJECT ~
 
@@ -238,13 +252,12 @@ inconsistent. For instance, `cw` will change to the _end_ of a word instead of
 the start of the next word, like `dw` does. This is probably done for
 convenience in `vi`’s early days before there were text objects. In my view,
 this is quite problematic since it makes people habitualize inconsistent motion
-behavior.
+behavior. In addition, such a behavior can create unexpected results when used
+in subwords or near punctuation.
 
-In this plugin, such small inconsistencies are therefore deliberately not
-implemented. Apart from the inconsistency, such a behavior can create
-unexpected results when used in subwords or near punctuation. If you
-nevertheless prefer that behavior, you can achieve that behavior by mapping
-`cw` to `ce`:
+Therefore, `nvim-spider` deliberately does not implement that `cw` behavior. If
+you nevertheless prefer `cw` to behave that way, you can achieve that by
+mapping `cw` to `ce`:
 
 >lua
     vim.keymap.set("o", "w", "<cmd>lua require('spider').motion('w')<CR>")
@@ -307,6 +320,8 @@ PRECOGNITION.NVIM INTEGRATION ~
 
 You can use precognition.nvim <https://github.com/tris203/precognition.nvim>
 with `nvim-spider` to get hints for the `w`, `e`, and `b` motions.
+(`precognition` does not support hints for multi-character motions, thus `ge`
+is not supported.)
 
 `nvim-spider` automatically registers the `precognition` adapter on calling
 `require("spider").setup()`.
