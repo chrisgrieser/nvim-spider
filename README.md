@@ -182,7 +182,7 @@ require("spider").motion("e", {
 ## Extras & special cases
 
 ### UTF-8 support / special characters
-For spider to support special characters, requires utf-8 support via the
+Support for special characters requires utf-8 support via the
 `luautf8` rock.
 
 ```lua
@@ -212,7 +212,7 @@ solutions described in the following issues:
 
 > [!NOTE]
 > CJK characters still [have some
-> issues](https://github.com/chrisgrieser/nvim-spider/issues/59), PRs for supporting them is welcome.
+> issues](https://github.com/chrisgrieser/nvim-spider/issues/59).
 
 ### Subword text object
 This plugin supports `w`, `e`, and `b` in operator-pending mode, but does not
@@ -278,7 +278,7 @@ would be yanked charwise.
    with the current `selection` option.
 
 ### Motions in insert mode
-Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
+Simply wrap the normal mode motions in `<Esc>l` and `i`. (Drop
 the `l` on backwards motions.)
 
 ```lua
