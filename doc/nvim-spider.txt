@@ -1,4 +1,4 @@
-*nvim-spider.txt*            For Neovim           Last change: 2026 January 14
+*nvim-spider.txt*            For Neovim           Last change: 2026 January 20
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -204,8 +204,7 @@ EXTRAS & SPECIAL CASES       *nvim-spider-nvim-spider--extras-&-special-cases*
 
 UTF-8 SUPPORT / SPECIAL CHARACTERS ~
 
-For spider to support special characters, requires utf-8 support via the
-`luautf8` rock.
+Support for special characters requires utf-8 support via the `luautf8` rock.
 
 >lua
     -- lazy.nvim
@@ -234,8 +233,7 @@ solutions described in the following issues: - Issue #50
 
 
   [!NOTE] CJK characters still have some issues
-  <https://github.com/chrisgrieser/nvim-spider/issues/59>, PRs for supporting
-  them is welcome.
+  <https://github.com/chrisgrieser/nvim-spider/issues/59>.
 
 SUBWORD TEXT OBJECT ~
 
@@ -307,8 +305,8 @@ with the current `selection` option.
 
 MOTIONS IN INSERT MODE ~
 
-Simple and pragmatic: Wrap the normal mode motions in `<Esc>l` and `i`. (Drop
-the `l` on backwards motions.)
+Simply wrap the normal mode motions in `<Esc>l` and `i`. (Drop the `l` on
+backwards motions.)
 
 >lua
     vim.keymap.set("i", "<C-f>", "<Esc>l<cmd>lua require('spider').motion('w')<CR>i")
