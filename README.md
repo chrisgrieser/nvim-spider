@@ -332,6 +332,5 @@ compatibility. If you are interested in this subject, feel free to get in touch.
 - [ResearchGate](https://www.researchgate.net/profile/Christopher-Grieser)
 - [LinkedIn](https://www.linkedin.com/in/christopher-grieser-ba693b17a/)
 
-<a href='https://ko-fi.com/Y8Y86SQ91' target='_blank'><img height='36'
-style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3'
-border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+If you find this project helpful, you can support me via [🩷 GitHub
+Sponsors](https://github.com/sponsors/chrisgrieser?frequency=one-time).
