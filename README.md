@@ -321,7 +321,7 @@ return {
   textobjects](https://github.com/chrisgrieser/nvim-spider/pull/4).
 - `@vanaigr` for a large contribution regarding operator-pending mode.
 
-**About the developer** <!-- rumdl-disable-line MD036 -->
+**About the developer** <!-- rumdl-disable-line MD036 -->  
 In my day job, I am a sociologist studying the social mechanisms underlying the
 digital economy. For my PhD project, I investigate the governance of the app
 economy and how software ecosystems manage the tension between innovation and
