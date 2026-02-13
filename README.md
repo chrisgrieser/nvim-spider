@@ -12,7 +12,7 @@ insignificant punctuation.
     - [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
-    - [Basic configuration](#basic-configuration)
+    - [Toggle spider motion](#toggle-spider-motion)
     - [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
 - [Extras & special cases](#extras--special-cases)
     - [UTF-8 support / special characters](#utf-8-support--special-characters)
@@ -139,7 +139,7 @@ require("spider").motion("w", { skipInsignificantPunctuation = false })
 Any options passed to `.motion` take precedence over the options set in
 `.setup`.
 
-### Toggle Spider Motion
+### Toggle spider motion
 
 Toggle spider motion at runtime.
 
