@@ -122,6 +122,7 @@ The `.setup()` call is optional.
 ```lua
 -- default values
 require("spider").setup {
+	enabled = true, -- true by default
 	skipInsignificantPunctuation = true,
 	subwordMovement = true,
 	consistentOperatorPending = false, -- see the README for details
@@ -137,6 +138,36 @@ require("spider").motion("w", { skipInsignificantPunctuation = false })
 
 Any options passed to `.motion` take precedence over the options set in
 `.setup`.
+
+### Toggle Spider Motion
+
+Toggle spider motion at runtime.
+
+```lua
+-- toggle
+require("spider").toggle()
+
+-- check if spider motions are enabled currently
+require("spider").is_enabled()
+
+-- Simple keymap (<leader>us) to toggle spider motion
+vim.keymap.set("n", "<leader>us", function()
+    require("spider").toggle()
+end)
+
+-- Keymap (<leader>us) to toggle using Snacks.toggle
+Snacks.toggle({
+  name = "Spider Motion",
+  get = function()
+    return require("spider").is_enabled()
+  end,
+  set = function(state)
+    if require("spider").is_enabled() ~= state then
+      require("spider").toggle()
+    end
+  end,
+}):map("<leader>us")
+```
 
 ### Advanced: custom movement patterns
 You can use the `customPatterns` table to define custom movement patterns.

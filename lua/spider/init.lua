@@ -20,12 +20,31 @@ local function normal(keys) vim.cmd.normal { keys, bang = true } end
 ---@param userOpts? Spider.config
 function M.setup(userOpts) require("spider.config").setup(userOpts) end
 
+---Toggle spider movement on/off
+---@return boolean enabled true if enabled, false if disabled
+function M.toggle()
+	local globalOpts = require("spider.config").globalOpts
+	globalOpts.enabled = not globalOpts.enabled
+	return globalOpts.enabled
+end
+
+---Check if spider movement is currently enabled
+---@return boolean enabled true if enabled, false if disabled
+function M.is_enabled() return require("spider.config").globalOpts.enabled end
+
 ---@param key "w"|"e"|"b"|"ge" the motion to perform
 ---@param motionOpts? Spider.config command-specific config table
 function M.motion(key, motionOpts)
-	local strFuncs = require("spider.extras.utf8-support").stringFuncs
 	local globalOpts = require("spider.config").globalOpts
 	local opts = vim.tbl_deep_extend("force", globalOpts, motionOpts or {})
+
+	-- If spider is disabled, use default vim motions
+	if not opts.enabled then
+		normal(key)
+		return
+	end
+
+	local strFuncs = require("spider.extras.utf8-support").stringFuncs
 
 	-- GUARD validate motion parameter
 	if not (key == "w" or key == "e" or key == "b" or key == "ge") then

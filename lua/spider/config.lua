@@ -3,6 +3,7 @@ local M = {}
 
 ---@class Spider.config
 local defaultOpts = {
+	enabled = true,
 	skipInsignificantPunctuation = true,
 	consistentOperatorPending = false,
 	subwordMovement = true,
