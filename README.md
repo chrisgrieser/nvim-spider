@@ -12,6 +12,7 @@ insignificant punctuation.
     - [Skipping insignificant punctuation](#skipping-insignificant-punctuation)
 - [Installation](#installation)
 - [Configuration](#configuration)
+    - [Basic configuration](#basic-configuration)
     - [Toggle spider motion](#toggle-spider-motion)
     - [Advanced: custom movement patterns](#advanced-custom-movement-patterns)
 - [Extras & special cases](#extras--special-cases)
