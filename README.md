@@ -129,18 +129,18 @@ require("spider").setup {
 }
 ```
 
-You can also pass this configuration table to the `.motion` function:
+You can also pass the configuration table to the `.motion()` function:
 
 ```lua
 require("spider").motion("w", { skipInsignificantPunctuation = false })
 ```
 
-Any options passed to `.motion` take precedence over the options set in
-`.setup`.
+Any options passed to `.motion()` take precedence over the options set in
+`.setup()`.
 
 ### Advanced: custom movement patterns
 You can use the `customPatterns` table to define custom movement patterns.
-- These must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1).
+- They must be [lua patterns](https://www.lua.org/manual/5.4/manual.html#6.4.1).
 - If multiple patterns are given, the motion searches for all of them and stops
   at the closest one. When there is no match, the search continues in the next
   line.
