@@ -1,4 +1,4 @@
-*nvim-spider.txt*           For Neovim           Last change: 2026 February 10
+*nvim-spider.txt*           For Neovim           Last change: 2026 February 26
 
 ==============================================================================
 Table of Contents                              *nvim-spider-table-of-contents*
@@ -147,14 +147,14 @@ The `.setup()` call is optional.
     }
 <
 
-You can also pass this configuration table to the `.motion` function:
+You can also pass the configuration table to the `.motion()` function:
 
 >lua
     require("spider").motion("w", { skipInsignificantPunctuation = false })
 <
 
-Any options passed to `.motion` take precedence over the options set in
-`.setup`.
+Any options passed to `.motion()` take precedence over the options set in
+`.setup()`.
 
 
 ADVANCED: CUSTOM MOVEMENT PATTERNS ~
