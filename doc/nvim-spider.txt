@@ -160,8 +160,8 @@ Any options passed to `.motion()` take precedence over the options set in
 ADVANCED: CUSTOM MOVEMENT PATTERNS ~
 
 You can use the `customPatterns` table to define custom movement patterns. -
-These must be lua patterns <https://www.lua.org/manual/5.4/manual.html#6.4.1>.
-- If multiple patterns are given, the motion searches for all of them and stops
+They must be lua patterns <https://www.lua.org/manual/5.4/manual.html#6.4.1>. -
+If multiple patterns are given, the motion searches for all of them and stops
 at the closest one. When there is no match, the search continues in the next
 line. - The `customPatterns` option overrides `nvim-spider`’s default
 behavior, meaning no subword movement and skipping of punctuation. Pass a
