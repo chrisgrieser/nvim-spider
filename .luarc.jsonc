@@ -1,10 +1,7 @@
 {
 	"runtime.version": "LuaJIT",
 
-	"workspace.library": [
-		"$VIMRUNTIME/lua", // nvim-lua runtime
-		"${3rd}/luv/library" // vim.uv
-	],
+	"workspace.library": ["$VIMRUNTIME/lua"], // nvim-lua runtime
 
 	"diagnostics": {
 		"unusedLocalExclude": ["_*"], // allow `_varname` for unused variables
